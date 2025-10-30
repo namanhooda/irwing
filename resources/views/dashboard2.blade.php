@@ -129,24 +129,24 @@
     </div>
 
     {{-- Charts Row --}}
-    <div class="row g-6 mb-6">
+    <div class="row g-4 mb-4">
         <div class="col-lg-6 col-12">
-            <div class="card">
+            <div class="card h-100">
                 <div class="card-header"><h5 class="card-title mb-0">Month-wise contributions</h5></div>
                 <div class="card-body"><div id="monthWiseContribChart"></div></div>
             </div>
         </div>
 
         <div class="col-lg-6 col-12">
-            <div class="card">
+            <div class="card h-100">
                 <div class="card-header"><h5 class="card-title mb-0">Contribution types</h5></div>
-                <div class="card-body"><div id="typePieChart"></div></div>
+                <div class="card-body d-flex justify-content-center align-items-center"><div id="typePieChart"></div></div>
             </div>
         </div>
     </div>
 
     {{-- Priority bar --}}
-    <div class="row g-6 mb-6">
+    <div class="row g-4 mb-4">
         <div class="col-md-12 col-12">
             <div class="card">
                 <div class="card-header"><h5 class="card-title mb-0">Priority counts</h5></div>
@@ -156,7 +156,7 @@
     </div>
 
     {{-- Contributions Table --}}
-    <div class="row g-6 mb-6">
+    <div class="row g-4 mb-4">
         <div class="col-12">
             <div class="card">
                 <div class="card-header"><h5 class="card-title">Contributions</h5></div>
@@ -313,25 +313,306 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ---------- ApexCharts instances ----------
     const monthChart = new ApexCharts(document.querySelector("#monthWiseContribChart"), {
-        chart: { type: 'bar', height: 340 },
+        chart: { 
+            type: 'bar', 
+            height: 340,
+            toolbar: { show: false },
+            background: 'transparent'
+        },
         series: [{ name: 'Contributions', data: [] }],
-        xaxis: { categories: [] },
-        tooltip: { y: { formatter: function(val){ return val + " contributions"; } } }
+        xaxis: { 
+            categories: [],
+            labels: {
+                style: {
+                    colors: '#64748b',
+                    fontSize: '11px',
+                    fontWeight: 600
+                }
+            },
+            axisBorder: {
+                show: false
+            },
+            axisTicks: {
+                show: false
+            }
+        },
+        yaxis: {
+            labels: {
+                style: {
+                    colors: '#64748b',
+                    fontSize: '11px',
+                    fontWeight: 600
+                }
+            }
+        },
+        colors: ['#10b981'],
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'light',
+                type: 'vertical',
+                shadeIntensity: 0.25,
+                gradientToColors: ['#34d399'],
+                inverseColors: false,
+                opacityFrom: 0.9,
+                opacityTo: 0.7,
+                stops: [0, 100]
+            }
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 8,
+                columnWidth: '60%',
+                borderRadiusApplication: 'end'
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            style: {
+                fontSize: '11px',
+                fontWeight: 700,
+                colors: ['#000000']
+            },
+            dropShadow: {
+                enabled: true,
+                top: 1,
+                left: 1,
+                blur: 1,
+                color: '#ffffff',
+                opacity: 0.8
+            }
+        },
+        grid: {
+            show: true,
+            borderColor: '#e2e8f0',
+            strokeDashArray: 3,
+            position: 'back',
+            xaxis: {
+                lines: {
+                    show: false
+                }
+            },
+            yaxis: {
+                lines: {
+                    show: true
+                }
+            }
+        },
+        tooltip: { 
+            theme: 'light',
+            style: {
+                fontSize: '12px',
+                fontFamily: 'Inter, sans-serif'
+            },
+            y: { formatter: function(val){ return val + " contributions"; } },
+            marker: {
+                show: true
+            }
+        }
     });
     monthChart.render();
 
     const typePie = new ApexCharts(document.querySelector("#typePieChart"), {
-        chart: { type: 'pie', height: 340 },
+        chart: { 
+            type: 'donut', 
+            height: 340,
+            background: 'transparent'
+        },
         series: [],
         labels: [],
-        legend: { position: 'bottom' }
+        colors: ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#ef4444', '#10b981', '#06b6d4', '#84cc16'],
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'light',
+                type: 'radial',
+                shadeIntensity: 0.4,
+                gradientToColors: ['#4f46e5', '#7c3aed', '#db2777', '#d97706', '#dc2626', '#059669', '#0891b2', '#65a30d'],
+                inverseColors: false,
+                opacityFrom: 0.9,
+                opacityTo: 0.6,
+                stops: [0, 100]
+            }
+        },
+        plotOptions: {
+            pie: {
+                donut: {
+                    size: '50%',
+                    background: 'transparent',
+                    labels: {
+                        show: true,
+                        name: {
+                            show: true,
+                            fontSize: '16px',
+                            fontWeight: 600,
+                            color: '#000000'
+                        },
+                        value: {
+                            show: true,
+                            fontSize: '24px',
+                            fontWeight: 700,
+                            color: '#000000'
+                        },
+                        total: {
+                            show: true,
+                            showAlways: true,
+                            label: 'Total',
+                            fontSize: '14px',
+                            fontWeight: 600,
+                            color: '#000000'
+                        }
+                    }
+                }
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            style: {
+                fontSize: '11px',
+                fontWeight: 700,
+                colors: ['#000000']
+            },
+            dropShadow: {
+                enabled: true,
+                top: 1,
+                left: 1,
+                blur: 2,
+                color: '#ffffff',
+                opacity: 0.8
+            }
+        },
+        legend: { 
+            position: 'bottom',
+            fontSize: '12px',
+            fontWeight: 600,
+            labels: {
+                colors: '#4b5563',
+                useSeriesColors: false
+            },
+            markers: {
+                width: 12,
+                height: 12,
+                radius: 6
+            }
+        },
+        tooltip: {
+            theme: 'light',
+            style: {
+                fontSize: '12px',
+                fontFamily: 'Inter, sans-serif'
+            }
+        },
+        stroke: {
+            show: true,
+            curve: 'smooth',
+            lineCap: 'round',
+            colors: ['#ffffff'],
+            width: 3
+        }
     });
     typePie.render();
 
     const priorityBar = new ApexCharts(document.querySelector("#priorityBarChart"), {
-        chart: { type: 'bar', height: 300 },
-        series: [{ name: 'Count', data: [] }],
-        xaxis: { categories: [] }
+        chart: { 
+            type: 'bar', 
+            height: 300,
+            toolbar: { show: false },
+            background: 'transparent'
+        },
+        series: [{ name: 'Priority Count', data: [] }],
+        xaxis: { 
+            categories: [],
+            labels: {
+                style: {
+                    colors: '#64748b',
+                    fontSize: '11px',
+                    fontWeight: 600
+                }
+            },
+            axisBorder: {
+                show: false
+            },
+            axisTicks: {
+                show: false
+            }
+        },
+        yaxis: {
+            labels: {
+                style: {
+                    colors: '#64748b',
+                    fontSize: '11px',
+                    fontWeight: 600
+                }
+            }
+        },
+        colors: ['#f59e0b'],
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'light',
+                type: 'vertical',
+                shadeIntensity: 0.25,
+                gradientToColors: ['#fbbf24'],
+                inverseColors: false,
+                opacityFrom: 0.9,
+                opacityTo: 0.7,
+                stops: [0, 100]
+            }
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 8,
+                columnWidth: '50%',
+                borderRadiusApplication: 'end',
+                distributed: false
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            style: {
+                fontSize: '11px',
+                fontWeight: 700,
+                colors: ['#000000']
+            },
+            dropShadow: {
+                enabled: true,
+                top: 1,
+                left: 1,
+                blur: 1,
+                color: '#ffffff',
+                opacity: 0.8
+            }
+        },
+        grid: {
+            show: true,
+            borderColor: '#e2e8f0',
+            strokeDashArray: 3,
+            position: 'back',
+            xaxis: {
+                lines: {
+                    show: false
+                }
+            },
+            yaxis: {
+                lines: {
+                    show: true
+                }
+            }
+        },
+        tooltip: {
+            theme: 'light',
+            style: {
+                fontSize: '12px',
+                fontFamily: 'Inter, sans-serif'
+            },
+            marker: {
+                show: true
+            }
+        },
+        stroke: {
+            show: true,
+            width: 0
+        }
     });
     priorityBar.render();
 

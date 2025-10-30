@@ -47,6 +47,7 @@ class HomeController extends Controller
             $circulars = \App\Models\Circular::get();
             $engagements = \App\Models\Engagement::where('status', 1)->get();
             $ambition = Ambition::latest()->first();
+            $settings = SiteSetting::first();
         } catch (\Exception $e) {
             dd($e);
             // Handle database connection issues
@@ -54,11 +55,12 @@ class HomeController extends Controller
             $ministerMessages = collect([]);
             $ministers = collect([]);
             $sliders = collect([]);
+            $settings = null;
         }
 
 
         return view('pages.main', compact('events','ministerMessages','sliders','ministers','ambition',
-            'engagements','instagram','facebook','twitter','youtube','linkedin','circulars'));
+            'engagements','instagram','facebook','twitter','youtube','linkedin','circulars','settings'));
     }
 
     public function orms(Request $request)

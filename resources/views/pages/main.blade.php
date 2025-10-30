@@ -402,19 +402,30 @@
             margin: 0;
         }
 
+        .main-layout .container-fluid {
+            padding: 0;
+            margin: 0;
+            max-width: none;
+        }
+
         .content-wrapper {
-            display: flex;
+            display: grid !important;
+            grid-template-columns: 300px 1fr !important;
+            gap: 20px;
             min-height: 600px;
+            width: 100%;
+            padding: 20px;
         }
 
         /* Left Sidebar - Ministers */
         .ministers-sidebar {
-            width: 300px;
             background: white;
             padding: 30px 20px;
-            /* border-right: 1px solid #dee2e6; */
             margin-top: 0px;
             border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            grid-column: 1;
         }
 
         .sidebar-title {
@@ -440,66 +451,180 @@
         }
 
         .minister-card {
-            background: white;
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 40px;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.08),
+                0 4px 15px rgba(0, 0, 0, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
             text-align: center;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .minister-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .minister-card:hover::before {
+            left: 100%;
         }
 
         .minister-card:hover {
-            transform: translateY(-5px);
-            /* box-shadow: 0 8px 25px rgba(0,0,0,0.15); */
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.12),
+                0 8px 25px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.9);
         }
 
         .minister-photo {
-            width: 100px;
-            height: 100px;
-            border-radius: 10px;
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
             overflow: hidden;
-            margin: 0 auto 15px;
-            border: 3px solid #4a90e2;
+            margin: 0 auto 20px;
+            border: 4px solid #4a90e2;
+            box-shadow: 
+                0 8px 20px rgba(74, 144, 226, 0.3),
+                0 4px 10px rgba(0, 0, 0, 0.1),
+                inset 0 2px 4px rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+        }
+
+        .minister-photo::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #4a90e2, #357abd, #4a90e2);
+            border-radius: 50%;
+            z-index: -1;
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .minister-card:hover .minister-photo {
+            transform: scale(1.1);
+            box-shadow: 
+                0 12px 30px rgba(74, 144, 226, 0.4),
+                0 6px 15px rgba(0, 0, 0, 0.15);
         }
 
         .minister-photo img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .minister-card:hover .minister-photo img {
+            transform: scale(1.05);
         }
 
         .minister-name {
-            font-size: 1.3rem;
-            font-weight: 700;
+            font-size: 1.35rem;
+            font-weight: 800;
             color: #2c3e50;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .minister-card:hover .minister-name {
+            color: #1a252f;
+            transform: translateY(-2px);
         }
 
         .minister-title {
-            font-size: 1.25rem;
+            font-size: 1.3rem;
             color: #6c757d;
-            margin-bottom: 15px;
-            line-height: 1.3;
+            margin-bottom: 18px;
+            line-height: 1.4;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .minister-card:hover .minister-title {
+            color: #5a6c7d;
         }
 
         .minister-message {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #e9ecef;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #e9ecef;
+            position: relative;
+        }
+
+        .minister-message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, #4a90e2, #357abd);
+            border-radius: 1px;
         }
 
         .minister-message p {
-            font-size: 1.11rem;
+            font-size: 1.15rem;
             color: #495057;
-            line-height: 1.5;
+            line-height: 1.6;
             margin: 0;
             font-style: italic;
             text-align: left;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .minister-message p::before {
+            content: '"';
+            font-size: 2rem;
+            color: #4a90e2;
+            position: absolute;
+            left: -15px;
+            top: -5px;
+            font-family: serif;
+            opacity: 0.7;
+        }
+
+        .minister-message p::after {
+            content: '"';
+            font-size: 2rem;
+            color: #4a90e2;
+            position: absolute;
+            right: -10px;
+            bottom: -15px;
+            font-family: serif;
+            opacity: 0.7;
         }
 
         .minister-card:hover .minister-message p {
             color: #2c3e50;
+            transform: translateY(-1px);
         }
 
         .minister-social {
@@ -528,8 +653,11 @@
 
         /* Right Content Area */
         .content-area {
-            flex: 1;
             padding: 30px;
+            max-height: 730px;
+            display: flex;
+            flex-direction: column;
+            grid-column: 2;
         }
 
         /* Tabbed Navigation */
@@ -539,6 +667,7 @@
             border-radius: 10px 10px 0 0;
             overflow: hidden;
             margin-bottom: 0;
+            flex-shrink: 0; /* Prevent tabs from shrinking */
         }
 
         .tab-button {
@@ -570,7 +699,9 @@
             border-top: none;
             border-radius: 0 0 10px 10px;
             padding-left: 5px;
-            min-height: 450px;
+            flex: 1; /* This makes the tab content expand to fill available space */
+            display: flex;
+            flex-direction: column;
         }
 
         .tab-pane {
@@ -578,7 +709,10 @@
         }
 
         .tab-pane.active {
-            display: block;
+            display: flex;
+            flex-direction: column;
+            flex: 1; /* Ensure tab pane expands to fill available space */
+            min-height: 100%; /* Ensure minimum height */
         }
 
         .update-item {
@@ -633,12 +767,11 @@
 
         /* Auto-scroll container for updates */
         .updates-scroll-container {
-            height: 461px;
+            flex: 1; /* This makes the container expand to fill available space */
             overflow: hidden;
             position: relative;
             border-radius: 10px;
             background: white;
-            /* border: 1px solid #dee2e6; */
             padding: 20px;
         }
 
@@ -739,16 +872,39 @@
         }
 
         .social-media-item {
-            background: white;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 18px;
+            box-shadow: 
+                0 4px 15px rgba(0, 0, 0, 0.08),
+                0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-media-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .social-media-item:hover::before {
+            left: 100%;
         }
 
         .social-media-item:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.12),
+                0 4px 15px rgba(0, 0, 0, 0.08);
         }
 
         .social-simple-row {
@@ -758,15 +914,39 @@
         }
 
         .social-platform-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             flex-shrink: 0;
+            box-shadow: 
+                0 4px 12px rgba(0, 0, 0, 0.2),
+                0 2px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .social-platform-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+            pointer-events: none;
+        }
+
+        .social-media-item:hover .social-platform-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 
+                0 6px 18px rgba(0, 0, 0, 0.25),
+                0 3px 9px rgba(0, 0, 0, 0.15);
         }
 
         .social-text-content {
@@ -1265,7 +1445,8 @@
             }
 
             .content-wrapper {
-                flex-direction: column;
+                grid-template-columns: 1fr;
+                gap: 20px;
             }
 
             .ministers-sidebar {
@@ -1450,53 +1631,103 @@
         }
 
         .engagement-card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 16px;
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.08),
+                0 4px 12px rgba(0, 0, 0, 0.05);
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .engagement-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(74, 144, 226, 0.05) 0%, rgba(53, 122, 189, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .engagement-card:hover::before {
+            opacity: 1;
         }
 
         .engagement-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.12),
+                0 8px 25px rgba(0, 0, 0, 0.08);
         }
 
         .card-image-wrapper {
-            height: 150px;
-            background: #e9ecef;
-            /* Placeholder color */
+            height: 180px;
+            background: linear-gradient(135deg, #e9ecef 0%, #f8f9fa 100%);
             overflow: hidden;
-            border-bottom: 1px solid #dee2e6;
+            position: relative;
+        }
+
+        .card-image-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.1) 100%);
+            pointer-events: none;
         }
 
         .card-image {
-            /* Ensures the image covers the container without distortion */
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.85;
-            /* Dims the image slightly to match the provided image */
+            transition: all 0.4s ease;
+            filter: brightness(0.9) contrast(1.1);
+        }
+
+        .engagement-card:hover .card-image {
+            transform: scale(1.1);
+            filter: brightness(1) contrast(1.2);
         }
 
         .card-content {
-            padding: 20px;
-            min-height: 110px;
+            padding: 25px;
+            min-height: 130px;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
         .card-content h3 {
-            font-size: 1.25rem;
-            font-weight: 700;
+            font-size: 1.3rem;
+            font-weight: 800;
             color: #2c3e50;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .engagement-card:hover .card-content h3 {
+            color: #1a252f;
+            transform: translateY(-2px);
         }
 
         .card-content p {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             color: #495057;
-            line-height: 1.5;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+            flex-grow: 1;
+        }
+
+        .engagement-card:hover .card-content p {
+            color: #2c3e50;
         }
 
         /* Responsive adjustments for the new section */
@@ -1539,11 +1770,38 @@
         }
 
         .itu-card {
-            padding: 30px;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-            background: #fff;
+            padding: 40px;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.08),
+                0 5px 15px rgba(0, 0, 0, 0.05);
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .itu-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(74, 144, 226, 0.05), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .itu-card:hover::before {
+            left: 100%;
+        }
+
+        .itu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.12),
+                0 10px 25px rgba(0, 0, 0, 0.08);
         }
 
         .itu-content-wrapper {
@@ -1554,18 +1812,39 @@
 
         .itu-image-container {
             flex-shrink: 0;
-            width: 250px;
-            height: 180px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            width: 280px;
+            height: 200px;
+            border: none;
+            border-radius: 15px;
             overflow: hidden;
+            box-shadow: 
+                0 8px 20px rgba(0, 0, 0, 0.1),
+                0 4px 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .itu-image-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(74, 144, 226, 0.1) 0%, rgba(53, 122, 189, 0.1) 100%);
+            pointer-events: none;
         }
 
         .itu-collaboration-image {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.8;
+            transition: all 0.4s ease;
+            filter: brightness(0.95) contrast(1.1);
+        }
+
+        .itu-card:hover .itu-collaboration-image {
+            transform: scale(1.05);
+            filter: brightness(1) contrast(1.2);
         }
 
         .itu-text-content {
@@ -1803,7 +2082,6 @@ document.querySelector('.blue-banner-section').addEventListener('mouseleave', ()
         <section class="main-layout">
             <div class="container-fluid">
                 <div class="content-wrapper">
-                    <br></br>
                     <!-- Left Sidebar - Ministers -->
                     <div class="ministers-sidebar">
                         <!-- <div class="minister-card" onclick="window.location.href='/message/moc'" style="cursor: pointer;">
@@ -1879,7 +2157,7 @@ document.querySelector('.blue-banner-section').addEventListener('mouseleave', ()
 
 <style>
 .updates-scroll-container {
-    height: 400px; /* Set visible height */
+    flex: 1; /* Expand to fill available space */
     overflow-y: auto; /* Allow manual scroll */
     scroll-behavior: smooth; /* Smooth scroll on mouse */
     border: 1px solid #e1e1e1;
@@ -1993,6 +2271,7 @@ document.addEventListener('DOMContentLoaded', () => {
             {{-- Loop entries twice so it never looks empty --}}
             @for($i = 0; $i < 2; $i++)
                 <!-- Instagram -->
+                @if($instagram)
                 <div class="social-media-item">
                     <div class="social-simple-row">
                         <div class="social-platform-icon" style="background: #E4405F;">
@@ -2005,8 +2284,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                     </div>
                 </div>
+                @endif
 
                 <!-- Facebook -->
+                @if($facebook)
                 <div class="social-media-item">
                     <div class="social-simple-row">
                         <div class="social-platform-icon" style="background: #1877F2;">
@@ -2019,8 +2300,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                     </div>
                 </div>
+                @endif
 
                 <!-- YouTube -->
+                @if($youtube)
                 <div class="social-media-item">
                     <div class="social-simple-row">
                         <div class="social-platform-icon" style="background: #FF0000;">
@@ -2033,8 +2316,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                     </div>
                 </div>
+                @endif
 
                 <!-- Twitter -->
+                @if($twitter)
                 <div class="social-media-item">
                     <div class="social-simple-row">
                         <div class="social-platform-icon" style="background: #1DA1F2;">
@@ -2047,8 +2332,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                     </div>
                 </div>
+                @endif
 
                 <!-- LinkedIn -->
+                @if($linkedin)
                 <div class="social-media-item">
                     <div class="social-simple-row">
                         <div class="social-platform-icon" style="background: #0A66C2;">
@@ -2061,6 +2348,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                     </div>
                 </div>
+                @endif
             @endfor
 
         </div>

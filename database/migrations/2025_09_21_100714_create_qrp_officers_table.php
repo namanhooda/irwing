@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('qrp_officers', function (Blueprint $table) {
             $table->id();
     $table->unsignedBigInteger('qrp_id'); // must be unsignedBigInteger
-    $table->foreign('qrp_id')->references('id')->on('qrps')->onDelete('cascade');
+    $table->foreign('qrp_id')->references('id')->on('qrp_forms')->onDelete('cascade');
 
     $table->unsignedBigInteger('profile_id')->nullable();
     $table->string('staff_no')->nullable();

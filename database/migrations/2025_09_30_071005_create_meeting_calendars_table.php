@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('meeting_calendars', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->date('date');
+            $table->date('from_date');
+            $table->date('to_date');
             $table->string('color')->nullable(); // optional for custom event colors
             $table->timestamps();
         });

@@ -281,7 +281,7 @@
                         <p>{{ $settings->address ?? '' }}</p>
                         <p><strong>Email:</strong> 
                         
-                        <a href="mailto:{{ $settings->contact_email }}" style="display: inline;">{{ $settings->contact_email ?? '' }}</a></p>
+                        <a href="mailto:{{ $settings->contact_email ?? '' }}" style="display: inline;">{{ $settings->contact_email ?? '' }}</a></p>
                     </div>
                 </div>
             </div>

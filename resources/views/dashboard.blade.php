@@ -301,6 +301,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const monthChart = new ApexCharts(document.querySelector("#monthWiseVisitsChart"), {
         chart: {
             type: 'bar', height: 380, // INCREASED from 340 to better utilize space
+            toolbar: { show: false },
+            background: 'transparent',
             events: {
                 dataPointSelection: function(event, chartContext, config){
                     const idx = config.dataPointIndex;
@@ -317,7 +319,81 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         },
         series: [{ name: 'Tours', data: [] }],
-        xaxis: { categories: [] }
+        xaxis: { 
+            categories: [],
+            labels: {
+                style: {
+                    colors: '#64748b',
+                    fontSize: '11px',
+                    fontWeight: 600
+                }
+            },
+            axisBorder: {
+                show: false
+            },
+            axisTicks: {
+                show: false
+            }
+        },
+        yaxis: {
+            labels: {
+                style: {
+                    colors: '#64748b',
+                    fontSize: '11px',
+                    fontWeight: 600
+                }
+            }
+        },
+        colors: ['#10b981'],
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'light',
+                type: 'vertical',
+                shadeIntensity: 0.25,
+                gradientToColors: ['#34d399'],
+                inverseColors: false,
+                opacityFrom: 0.9,
+                opacityTo: 0.7,
+                stops: [0, 100]
+            }
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 8,
+                columnWidth: '60%',
+                borderRadiusApplication: 'end'
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        grid: {
+            show: true,
+            borderColor: '#e2e8f0',
+            strokeDashArray: 3,
+            position: 'back',
+            xaxis: {
+                lines: {
+                    show: false
+                }
+            },
+            yaxis: {
+                lines: {
+                    show: true
+                }
+            }
+        },
+        tooltip: {
+            theme: 'light',
+            style: {
+                fontSize: '12px',
+                fontFamily: 'Inter, sans-serif'
+            },
+            marker: {
+                show: true
+            }
+        }
     });
     monthChart.render();
 
@@ -342,13 +418,36 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         },
         series: [{ data: [] }],
-        plotOptions: { treemap: { distributed: true, enableShades: false } }
+        plotOptions: { 
+            treemap: { 
+                distributed: true, 
+                enableShades: false,
+                colorScale: {
+                    ranges: [
+                        { from: 0, to: 5, color: '#F0F9FF' },
+                        { from: 6, to: 15, color: '#BAE6FD' },
+                        { from: 16, to: 30, color: '#7DD3FC' },
+                        { from: 31, to: 50, color: '#38BDF8' },
+                        { from: 51, to: 100, color: '#0EA5E9' }
+                    ]
+                }
+            } 
+        },
+        colors: ['#0EA5E9', '#38BDF8', '#7DD3FC', '#BAE6FD', '#F0F9FF', '#0284C7', '#0369A1'],
+        dataLabels: {
+            style: {
+                fontSize: '12px',
+                fontWeight: 600,
+                colors: ['#1E293B']
+            }
+        }
     });
     meetingsTreemap.render();
 
     const ituPie = new ApexCharts(document.querySelector("#ituSectorsPieChart"), {
         chart: {
-            type: 'pie', height: 400, // INCREASED to fill the height next to the map
+            type: 'donut', height: 400, // INCREASED to fill the height next to the map
+            background: 'transparent',
             events: {
                 dataPointSelection: function(event, chartContext, config){
                     const idx = config.dataPointIndex;
@@ -369,7 +468,96 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         },
         labels: [],
-        series: []
+        series: [],
+        colors: ['#10B981', '#34D399', '#6EE7B7', '#A7F3D0', '#D1FAE5', '#059669', '#047857'],
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'light',
+                type: 'radial',
+                shadeIntensity: 0.4,
+                gradientToColors: ['#059669', '#10b981', '#34d399', '#6ee7b7', '#a7f3d0', '#047857', '#065f46'],
+                inverseColors: false,
+                opacityFrom: 0.9,
+                opacityTo: 0.6,
+                stops: [0, 100]
+            }
+        },
+        plotOptions: {
+            pie: {
+                donut: {
+                    size: '50%',
+                    background: 'transparent',
+                    labels: {
+                        show: true,
+                        name: {
+                            show: true,
+                            fontSize: '16px',
+                            fontWeight: 600,
+                            color: '#000000'
+                        },
+                        value: {
+                            show: true,
+                            fontSize: '24px',
+                            fontWeight: 700,
+                            color: '#000000'
+                        },
+                        total: {
+                            show: true,
+                            showAlways: true,
+                            label: 'Total',
+                            fontSize: '14px',
+                            fontWeight: 600,
+                            color: '#000000'
+                        }
+                    }
+                }
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            style: {
+                fontSize: '11px',
+                fontWeight: 700,
+                colors: ['#000000']
+            },
+            dropShadow: {
+                enabled: true,
+                top: 1,
+                left: 1,
+                blur: 2,
+                color: '#ffffff',
+                opacity: 0.8
+            }
+        },
+        legend: {
+            position: 'bottom',
+            fontSize: '12px',
+            fontWeight: 600,
+            labels: {
+                colors: '#4b5563',
+                useSeriesColors: false
+            },
+            markers: {
+                width: 12,
+                height: 12,
+                radius: 6
+            }
+        },
+        tooltip: {
+            theme: 'light',
+            style: {
+                fontSize: '12px',
+                fontFamily: 'Inter, sans-serif'
+            }
+        },
+        stroke: {
+            show: true,
+            curve: 'smooth',
+            lineCap: 'round',
+            colors: ['#ffffff'],
+            width: 3
+        }
     });
     ituPie.render();
 
@@ -393,13 +581,37 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         },
         series: [{ data: [] }],
-        plotOptions: { treemap: { distributed: true, enableShades: false } }
+        plotOptions: { 
+            treemap: { 
+                distributed: true, 
+                enableShades: false,
+                colorScale: {
+                    ranges: [
+                        { from: 0, to: 3, color: '#FEF3C7' },
+                        { from: 4, to: 8, color: '#FDE68A' },
+                        { from: 9, to: 15, color: '#FCD34D' },
+                        { from: 16, to: 25, color: '#F59E0B' },
+                        { from: 26, to: 100, color: '#D97706' }
+                    ]
+                }
+            } 
+        },
+        colors: ['#F59E0B', '#FBBF24', '#FCD34D', '#FDE68A', '#FEF3C7', '#D97706', '#B45309'],
+        dataLabels: {
+            style: {
+                fontSize: '12px',
+                fontWeight: 600,
+                colors: ['#1E293B']
+            }
+        }
     });
     levelsTreemap.render();
 
     const ageBar = new ApexCharts(document.querySelector("#ageProfileBarChart"), {
         chart: {
             type: 'bar', height: 340,
+            toolbar: { show: false },
+            background: 'transparent',
             events: {
                 dataPointSelection: function(event, chartContext, config){
                     const idx = config.dataPointIndex;
@@ -415,14 +627,102 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         },
-        series: [{ name: 'Count', data: [] }],
-        xaxis: { categories: [] }
+        series: [{ name: 'Age Count', data: [] }],
+        xaxis: { 
+            categories: [],
+            labels: {
+                style: {
+                    colors: '#64748b',
+                    fontSize: '11px',
+                    fontWeight: 600
+                }
+            },
+            axisBorder: {
+                show: false
+            },
+            axisTicks: {
+                show: false
+            }
+        },
+        yaxis: {
+            labels: {
+                style: {
+                    colors: '#64748b',
+                    fontSize: '11px',
+                    fontWeight: 600
+                }
+            }
+        },
+        colors: ['#f59e0b'],
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'light',
+                type: 'vertical',
+                shadeIntensity: 0.25,
+                gradientToColors: ['#fbbf24'],
+                inverseColors: false,
+                opacityFrom: 0.9,
+                opacityTo: 0.7,
+                stops: [0, 100]
+            }
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 8,
+                columnWidth: '60%',
+                borderRadiusApplication: 'end'
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            style: {
+                fontSize: '11px',
+                fontWeight: 700,
+                colors: ['#000000']
+            },
+            dropShadow: {
+                enabled: true,
+                top: 1,
+                left: 1,
+                blur: 1,
+                color: '#ffffff',
+                opacity: 0.8
+            }
+        },
+        grid: {
+            show: true,
+            borderColor: '#e2e8f0',
+            strokeDashArray: 3,
+            position: 'back',
+            xaxis: {
+                lines: {
+                    show: false
+                }
+            },
+            yaxis: {
+                lines: {
+                    show: true
+                }
+            }
+        },
+        tooltip: {
+            theme: 'light',
+            style: {
+                fontSize: '12px',
+                fontFamily: 'Inter, sans-serif'
+            },
+            marker: {
+                show: true
+            }
+        }
     });
     ageBar.render();
 
     const cadrePie = new ApexCharts(document.querySelector("#cadrePieChart"), {
         chart: {
-            type: 'pie', height: 320,
+            type: 'donut', height: 320,
+            background: 'transparent',
             events: {
                 dataPointSelection: function(event, chartContext, config){
                     const idx = config.dataPointIndex;
@@ -437,13 +737,105 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         },
-        labels: [], series: []
+        labels: [], 
+        series: [],
+        colors: ['#EF4444', '#F87171', '#FCA5A5', '#FECACA', '#FEE2E2', '#DC2626', '#B91C1C'],
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'light',
+                type: 'radial',
+                shadeIntensity: 0.4,
+                gradientToColors: ['#DC2626', '#EF4444', '#F87171', '#FCA5A5', '#FECACA', '#B91C1C', '#991B1B'],
+                inverseColors: false,
+                opacityFrom: 0.9,
+                opacityTo: 0.6,
+                stops: [0, 100]
+            }
+        },
+        plotOptions: {
+            pie: {
+                donut: {
+                    size: '50%',
+                    background: 'transparent',
+                    labels: {
+                        show: true,
+                        name: {
+                            show: true,
+                            fontSize: '14px',
+                            fontWeight: 600,
+                            color: '#000000'
+                        },
+                        value: {
+                            show: true,
+                            fontSize: '20px',
+                            fontWeight: 700,
+                            color: '#000000'
+                        },
+                        total: {
+                            show: true,
+                            showAlways: true,
+                            label: 'Total',
+                            fontSize: '12px',
+                            fontWeight: 600,
+                            color: '#000000'
+                        }
+                    }
+                }
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            style: {
+                fontSize: '11px',
+                fontWeight: 700,
+                colors: ['#000000']
+            },
+            dropShadow: {
+                enabled: true,
+                top: 1,
+                left: 1,
+                blur: 2,
+                color: '#ffffff',
+                opacity: 0.8
+            }
+        },
+        legend: {
+            position: 'bottom',
+            fontSize: '11px',
+            fontWeight: 600,
+            labels: {
+                colors: '#4b5563',
+                useSeriesColors: false
+            },
+            markers: {
+                width: 10,
+                height: 10,
+                radius: 5
+            }
+        },
+        tooltip: {
+            theme: 'light',
+            style: {
+                fontSize: '12px',
+                fontFamily: 'Inter, sans-serif'
+            }
+        },
+        stroke: {
+            show: true,
+            curve: 'smooth',
+            lineCap: 'round',
+            colors: ['#ffffff'],
+            width: 3
+        }
     });
     cadrePie.render();
 
     const genderBar = new ApexCharts(document.querySelector("#genderBarChart"), {
         chart: {
             type: 'bar', height: 320,
+            toolbar: { show: false },
+            background: 'transparent',
             events: {
                 dataPointSelection: function(event, chartContext, config){
                     const idx = config.dataPointIndex;
@@ -458,8 +850,95 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         },
-        series: [{ data: [] }],
-        xaxis: { categories: [] }
+        series: [{ name: 'Gender Count', data: [] }],
+        xaxis: { 
+            categories: [],
+            labels: {
+                style: {
+                    colors: '#64748b',
+                    fontSize: '11px',
+                    fontWeight: 600
+                }
+            },
+            axisBorder: {
+                show: false
+            },
+            axisTicks: {
+                show: false
+            }
+        },
+        yaxis: {
+            labels: {
+                style: {
+                    colors: '#64748b',
+                    fontSize: '11px',
+                    fontWeight: 600
+                }
+            }
+        },
+        colors: ['#EC4899'],
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shade: 'light',
+                type: 'vertical',
+                shadeIntensity: 0.25,
+                gradientToColors: ['#F472B6'],
+                inverseColors: false,
+                opacityFrom: 0.9,
+                opacityTo: 0.7,
+                stops: [0, 100]
+            }
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 8,
+                columnWidth: '50%',
+                borderRadiusApplication: 'end'
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            style: {
+                fontSize: '11px',
+                fontWeight: 700,
+                colors: ['#000000']
+            },
+            dropShadow: {
+                enabled: true,
+                top: 1,
+                left: 1,
+                blur: 1,
+                color: '#ffffff',
+                opacity: 0.8
+            }
+        },
+        grid: {
+            show: true,
+            borderColor: '#e2e8f0',
+            strokeDashArray: 3,
+            position: 'back',
+            xaxis: {
+                lines: {
+                    show: false
+                }
+            },
+            yaxis: {
+                lines: {
+                    show: true
+                }
+            }
+        },
+        tooltip: {
+            theme: 'light',
+            style: {
+                fontSize: '12px',
+                fontFamily: 'Inter, sans-serif'
+            },
+            marker: {
+                show: true
+            }
+        }
     });
     genderBar.render();
 
