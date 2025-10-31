@@ -212,11 +212,13 @@
                         <thead class="sticky-top bg-white">
                             <tr>
                                 {{-- Apply width styles to distribute space more evenly --}}
-                                <th style="width: 20%;">Name of the Officer</th>
-                                <th style="width: 30%;">Purpose</th>
+                                <th style="width: 20%;">S.No.</th>
+                                <th style="width: 25%;">Meeting name</th>
                                 <th style="width: 15%;">Country</th>
-                                <th style="width: 25%;">Meeting</th>
-                                <th style="width: 10%;">Equivalent Level</th>
+                                <th style="width: 15%;">Dates</th>
+                                <th style="width: 20%;">Name of the Officer</th>
+                                <!-- <th style="width: 30%;">Purpose</th>
+                                <th style="width: 10%;">Equivalent Level</th> -->
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0"></tbody>
@@ -1077,16 +1079,28 @@ document.addEventListener('DOMContentLoaded', function() {
         // 8) Table
         const tbody = document.querySelector('tbody.table-border-bottom-0');
         tbody.innerHTML = '';
-        records.forEach(r => {
-            const name = (r.name && r.name.trim()) || (r.user && r.user.name && r.user.name.trim()) || r.staff_number || 'Unknown';
+        records.forEach((r, index) => {
+    const name =
+        (r.name && r.name.trim()) ||
+        (r.user && r.user.name && r.user.name.trim()) ||
+        r.staff_number ||
+        'Unknown';
+
             const tr = document.createElement('tr');
-            tr.innerHTML = `<td>${name}</td>
-                            <td>${r.purpose || '-'}</td>
-                            <td>${r.country || '-'}</td>
-                            <td>${r.meeting_name || '-'}</td>
-                            <td>${(r.level || r.equivalent_rank) || '-'}</td>`;
+            tr.innerHTML = `
+                <td>${index + 1}</td> <!-- Sr. No. -->
+                <td>${r.meeting_name || '-'}</td>
+                <td>${r.country || '-'}</td>
+                <td>${r.from_date && r.to_date ? `${r.from_date} - ${r.to_date}` : '-'}</td>
+                <td>${name}</td>
+                    <!-- <td>${r.purpose || '-'}</td> -->
+                    <!-- <td>${r.department || '-'}</td> -->
+                    <!-- <td>${(r.level || r.equivalent_rank) || '-'}</td> -->
+            `;
+
             tbody.appendChild(tr);
         });
+
 
         // 9) Map
         refreshMap(records);
