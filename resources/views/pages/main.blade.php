@@ -2121,7 +2121,7 @@ document.querySelector('.blue-banner-section').addEventListener('mouseleave', ()
                             <div class="minister-name">{{ $minister->postion }}</div>
                             <div class="minister-title">{{ $minister->minister_name }}</div>
                             <div class="minister-message">
-                                <p>{{ Str::limit($minister->message, 35, '...') }}</p>
+                                <p>{{ Str::limit($minister->message, 30, '...') }}</p>
                             </div>
                         </div>
                         @endforeach
