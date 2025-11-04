@@ -2142,13 +2142,26 @@ document.querySelector('.blue-banner-section').addEventListener('mouseleave', ()
                 {{-- Repeat the circulars twice so it never goes blank --}}
                 @for($i = 0; $i < 2; $i++)
                     @foreach($circulars as $circular)
-                        <div class="update-item">
-                            <a href="{{ $circular->url }}" target="_blank">
-                                <div class="update-date">{{ $circular->title }}</div>
-                            </a>
-                            <div class="update-text">{{ $circular->description }}</div>
-                        </div>
-                    @endforeach
+    <div class="update-item">
+        @if($circular->file)
+            {{-- If file exists, open uploaded file in new tab --}}
+            <a href="{{ asset($circular->file) }}" target="_blank">
+                <div class="update-date">{{ $circular->title }}</div>
+            </a>
+        @elseif($circular->url)
+            {{-- Else open the external URL --}}
+            <a href="{{ $circular->url }}" target="_blank">
+                <div class="update-date">{{ $circular->title }}</div>
+            </a>
+        @else
+            {{-- If neither file nor URL exists, show plain title --}}
+            <div class="update-date">{{ $circular->title }}</div>
+        @endif
+
+        <div class="update-text">{{ $circular->description }}</div>
+    </div>
+@endforeach
+
                 @endfor
             </div>
         </div>

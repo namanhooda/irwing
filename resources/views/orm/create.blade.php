@@ -4,7 +4,7 @@
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="col-md-8 mx-auto">
         <div class="card">
-            <h5 class="card-header">Create ORM</h5>
+            <h5 class="card-header">Create OM</h5>
             <div class="card-body">
                 @if ($errors->any())
                     <div class="alert alert-danger">

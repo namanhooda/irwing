@@ -4,7 +4,7 @@
 <div class="container">
     <h2>Edit Circular</h2>
 
-    <form action="{{ route('admin.circulars.update', $circular->id) }}" method="POST">
+    <form action="{{ route('admin.circulars.update', $circular->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -17,6 +17,17 @@
             <label class="form-label">Description</label>
             <textarea name="description" class="form-control" rows="4">{{ old('description', $circular->description) }}</textarea>
         </div>
+
+                    <div class="mb-3">
+                        <label for="file" class="form-label">File (PDF)</label>
+                        <input type="file" name="file" class="form-control" id="file" accept="application/pdf">
+                        @if($circular->file)
+                            <p class="mt-2">
+                                Current file: 
+                                <a href="{{ asset($circular->file) }}" target="_blank">View</a>
+                            </p>
+                        @endif
+                    </div>
 
         <div class="mb-3">
             <label class="form-label">URL</label>

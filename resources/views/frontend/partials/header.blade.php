@@ -461,8 +461,27 @@
                     <a href="mailto:{{ $settings->contact_email }}"><i class="bi bi-envelope"></i></a>
                 @endif
             </div>
-            <div class="utility-right">
-                <a href="#">Language</a>
+            <div class="utility-right"><!-- Language dropdown example -->
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        {{ __('messages.language') }}
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="langDropdown">
+        <li>
+            <a class="dropdown-item @if(app()->getLocale() == 'en') active @endif"
+               href="{{ route('change.language', ['locale' => 'en']) }}">
+               English
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item @if(app()->getLocale() == 'hi') active @endif"
+               href="{{ route('change.language', ['locale' => 'hi']) }}">
+               हिन्दी
+            </a>
+        </li>
+    </ul>
+</li>
+
                 @guest
                     <a href="{{ route('login') }}">Login</a>
                 @else

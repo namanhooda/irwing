@@ -4,7 +4,7 @@
 <div class="container">
     <h2>Add Circular</h2>
 
-    <form action="{{ route('admin.circulars.store') }}" method="POST">
+    <form action="{{ route('admin.circulars.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="mb-3">
@@ -16,11 +16,16 @@
             <label class="form-label">Description</label>
             <textarea name="description" class="form-control" rows="4">{{ old('description') }}</textarea>
         </div>
+                    <div class="mb-3">
+                        <label for="file" class="form-label">File (PDF)</label>
+                        <input type="file" name="file" class="form-control" id="file" accept="application/pdf" required>
+                    </div>
 
         <div class="mb-3">
             <label class="form-label">URL</label>
             <input type="url" name="url" value="{{ old('url') }}" class="form-control">
         </div>
+
 
         <div class="mb-3">
             <label class="form-label">Status *</label>

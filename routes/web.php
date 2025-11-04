@@ -24,6 +24,19 @@ use App\Http\Controllers\CountryController;
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\ITUContributionController;
 use Laravel\Fortify\Features;
+use Illuminate\Http\Request;
+
+
+Route::get('/lang/{locale}', function ($locale, Request $request) {
+    $available = ['en', 'hi'];
+    if (in_array($locale, $available)) {
+        session()->put('locale', $locale);
+        // Optionally store in cookie for persistence across sessions:
+        // cookie()->queue(cookie()->forever('locale', $locale));
+    }
+    // redirect back to previous page
+    return redirect()->back();
+})->name('change.language');
 
 Route::get('/tour-reports/importpview', [TourReportController::class, 'view']);
 Route::post('/tour-reports/import', [TourReportController::class, 'import'])->name('tour-reports.import');

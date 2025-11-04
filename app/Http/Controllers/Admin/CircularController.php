@@ -19,19 +19,37 @@ class CircularController extends Controller
         return view('admin.circulars.create');
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'url' => 'nullable|url',
-            'status' => 'required|in:Active,Inactive',
-        ]);
+   public function store(Request $request)
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'file'  => 'nullable|mimes:pdf|max:10240', // 10MB
+        'url' => 'nullable|url',
+        'status' => 'required|in:Active,Inactive',
+    ]);
 
-        Circular::create($request->all());
+    $data = $request->only(['title', 'description', 'url', 'status']);
 
-        return redirect()->route('admin.circulars.index')->with('success', 'Circular added successfully.');
+    // Handle file upload
+    if ($request->hasFile('file')) {
+        $file = $request->file('file');
+        $filename = time() . '_' . $file->getClientOriginalName();
+
+        // Move file to public/uploads/circulars
+        $file->move(public_path('uploads/circulars'), $filename);
+
+        // Save relative path in database (optional)
+        $data['file'] = 'uploads/circulars/' . $filename;
     }
+
+    // Create circular
+    Circular::create($data);
+
+    return redirect()->route('admin.circulars.index')
+        ->with('success', 'Circular added successfully.');
+}
+
 
     public function edit($id)
     {
@@ -39,21 +57,42 @@ class CircularController extends Controller
         return view('admin.circulars.edit', compact('circular'));
     }
 
-    public function update(Request $request, $id)
-    {
-        $circular = Circular::findOrFail($id);
+public function update(Request $request, $id)
+{
+    $circular = Circular::findOrFail($id);
 
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'url' => 'nullable|url',
-            'status' => 'required|in:Active,Inactive',
-        ]);
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'file'  => 'nullable|mimes:pdf|max:10240', // 10MB
+        'url' => 'nullable|url',
+        'status' => 'required|in:Active,Inactive',
+    ]);
 
-        $circular->update($request->all());
+    $data = $request->only(['title', 'description', 'url', 'status']);
 
-        return redirect()->route('admin.circulars.index')->with('success', 'Circular updated successfully.');
+    // Handle file upload if provided
+    if ($request->hasFile('file')) {
+        $file = $request->file('file');
+        $filename = time() . '_' . $file->getClientOriginalName();
+
+        // Move new file to public/uploads/circulars
+        $file->move(public_path('uploads/circulars'), $filename);
+
+        // Delete old file if exists
+        if (!empty($circular->file) && file_exists(public_path($circular->file))) {
+            unlink(public_path($circular->file));
+        }
+
+        // Save new file path
+        $data['file'] = 'uploads/circulars/' . $filename;
     }
+
+    $circular->update($data);
+
+    return redirect()->route('admin.circulars.index')
+        ->with('success', 'Circular updated successfully.');
+}
 
     public function destroy($id)
     {

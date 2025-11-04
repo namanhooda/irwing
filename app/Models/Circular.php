@@ -10,6 +10,6 @@ class Circular extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'description', 'url', 'status'
+        'title', 'description', 'url', 'status','file'
     ];
 }
