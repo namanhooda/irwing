@@ -12,6 +12,22 @@
                 <div class="card-body">
                     <form id="addNewUserForm" method="POST" action="{{ route('users.store') }}">
                         @csrf
+                        <div class="mb-3" style="position: relative;">
+    <label class="form-label" for="profile-autocomplete">Assign Profile</label>
+    <input type="text" id="profile-autocomplete" name="profile_name" class="form-control @error('profile_id') is-invalid @enderror" placeholder="Type staff no or name..." autocomplete="off" required>
+    <input type="hidden" name="profile_id" id="profile-id">
+
+    <div id="autocomplete-list" class="autocomplete-items" style="position: absolute; z-index: 1000; background: #fff; border: 1px solid #ccc; width: 100%; max-height: 200px; overflow-y: auto;"></div>
+
+    @error('profile_id')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
+
+
+
+                            <input type="text" class="form-control @error('staff_no') is-invalid @enderror" 
+                                   id="add-user-fullstaff_no" name="staff_no" placeholder="staff_no" value="{{ old('staff_no') }}" required />
                         
                         <div class="mb-3 form-control-validation">
                             <label class="form-label" for="add-user-fullname">Full Name</label>
@@ -39,18 +55,6 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="mb-3" style="position: relative;">
-    <label class="form-label" for="profile-autocomplete">Assign Profile</label>
-    <input type="text" id="profile-autocomplete" name="profile_name" class="form-control @error('profile_id') is-invalid @enderror" placeholder="Type staff no or name..." autocomplete="off" required>
-    <input type="hidden" name="profile_id" id="profile-id">
-
-    <div id="autocomplete-list" class="autocomplete-items" style="position: absolute; z-index: 1000; background: #fff; border: 1px solid #ccc; width: 100%; max-height: 200px; overflow-y: auto;"></div>
-
-    @error('profile_id')
-        <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
-</div>
-
                         
                         <div class="mb-3">
                             <label class="form-label" for="user-role">User Roles</label>

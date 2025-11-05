@@ -39,7 +39,8 @@
                         —
                     @endif
                 </td>
-                <td>{{ $info->description }}</td>
+                <td>{{ \Illuminate\Support\Str::words(strip_tags($info->description), 20, '...') }}
+</td>
                 <td>
                     <a href="{{ route('admin.informations.edit', $info->id) }}" class="btn btn-sm btn-warning">Edit</a>
                     <form action="{{ route('admin.informations.destroy', $info->id) }}" method="POST" style="display:inline;">

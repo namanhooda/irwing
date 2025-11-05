@@ -27,7 +27,7 @@
 
         <div class="mb-3">
             <label>Description</label>
-            <textarea name="description" class="form-control" rows="3">{{ $information->description }}</textarea>
+            <textarea name="description" class="form-control text-editor" rows="3">{{ $information->description }}</textarea>
         </div>
 
         <button class="btn btn-success">Update</button>
