@@ -185,6 +185,12 @@ class HomeController extends Controller
         
         return view('pages.information-detail', compact('information'));
     }
+    public function custPages(Request $request, $id)
+    {
+        $frontPages = \App\Models\FrontPage::where('status', 1)->latest()->get();
+        
+        return view('pages.custPages', compact('frontPages'));
+    }
     public function sliderPage(Request $request, $id)
     {
         try {

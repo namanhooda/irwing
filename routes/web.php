@@ -86,6 +86,7 @@ Route::PUT('/profiles/update', [App\Http\Controllers\ProfileController::class, '
  Route::get('slider-page/{id}', [HomeController::class, 'sliderPage'])->name('sliderPage');
  Route::get('message/{id}', [HomeController::class, 'message'])->name('message');
  Route::get('enagement/{id}', [HomeController::class, 'engagement'])->name('engagement');
+ Route::get('custom-pages/{id}', [HomeController::class, 'custPages'])->name('custPages');
  Route::get('media/{type}', [HomeController::class, 'media'])->name('media');
  Route::get('role-ir', [HomeController::class, 'roleir'])->name('role-ir');
  Route::get('structure', [HomeController::class, 'structure'])->name('structure');
@@ -195,6 +196,8 @@ Route::middleware(['web', 'auth'])->group(function () {
             Route::resource('informations', \App\Http\Controllers\Admin\InformationController::class);
 
             Route::resource('om_types', \App\Http\Controllers\Admin\OmTypeController::class);
+
+            Route::resource('front_pages', App\Http\Controllers\Admin\FrontPageController::class);
 
 
             Route::resource('social_media', App\Http\Controllers\Admin\SocialMediaController::class);

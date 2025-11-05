@@ -487,6 +487,13 @@
                 @endroleCan 
                 @roleCan('roles.view')
                 <li class="menu-item">
+                    <a href="{{route('admin.front_pages.index')}}" class="menu-link">
+                        <div data-i18n="Custom Pages">Custom Pages</div>
+                    </a>
+                </li>
+                @endroleCan
+                @roleCan('roles.view')
+                <li class="menu-item">
                     <a href="{{route('admin.site_settings.index')}}" class="menu-link">
                         <div data-i18n="Site Settings">Site Settings</div>
                     </a>
