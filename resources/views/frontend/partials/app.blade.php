@@ -77,6 +77,7 @@
 
 .updates-scroll-container {
     min-height: 461px;
+    max-height: 567px;
     height: auto !important;
 }
 
