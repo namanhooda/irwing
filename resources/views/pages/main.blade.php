@@ -2276,97 +2276,97 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     <!-- Right Column - Social Media Feed -->
                     <div class="calendar-right-column">
-    <div class="social-media-header">Social Media Feed</div>
+                    <div class="social-media-header">Social Media Feed</div>
 
-    <div class="social-media-scroll-container" style="max-height: 400px; overflow-y: auto; scroll-behavior: smooth;">
-        <div class="social-media-scroll-content" id="socialScrollContent">
+                    <div class="social-media-scroll-container" style="max-height: 400px; overflow-y: auto; scroll-behavior: smooth;">
+                        <div class="social-media-scroll-content" id="socialScrollContent">
 
-            {{-- Loop entries twice so it never looks empty --}}
-            @for($i = 0; $i < 2; $i++)
-                <!-- Instagram -->
-                @if($instagram)
-                <div class="social-media-item">
-                    <div class="social-simple-row">
-                        <div class="social-platform-icon" style="background: #E4405F;">
-                            <i class="bi bi-instagram"></i>
-                        </div>
-                        <div class="social-text-content">
-                            <a href="{{ $instagram->url }}" target="_blank" class="social-link">
-                                {{ $instagram->description }}
-                            </a>
+                            {{-- Loop entries twice so it never looks empty --}}
+                            @for($i = 0; $i < 2; $i++)
+                                <!-- Instagram -->
+                                @if($instagram)
+                                <div class="social-media-item">
+                                    <div class="social-simple-row">
+                                        <div class="social-platform-icon" style="background: #E4405F;">
+                                            <i class="bi bi-instagram"></i>
+                                        </div>
+                                        <div class="social-text-content">
+                                            <a href="{{ $instagram->url }}" target="_blank" class="social-link">
+                                                {{ $instagram->description }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+
+                                <!-- Facebook -->
+                                @if($facebook)
+                                <div class="social-media-item">
+                                    <div class="social-simple-row">
+                                        <div class="social-platform-icon" style="background: #1877F2;">
+                                            <i class="bi bi-facebook"></i>
+                                        </div>
+                                        <div class="social-text-content">
+                                            <a href="{{ $facebook->url }}" target="_blank" class="social-link">
+                                                {{ $facebook->description }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+
+                                <!-- YouTube -->
+                                @if($youtube)
+                                <div class="social-media-item">
+                                    <div class="social-simple-row">
+                                        <div class="social-platform-icon" style="background: #FF0000;">
+                                            <i class="bi bi-youtube"></i>
+                                        </div>
+                                        <div class="social-text-content">
+                                            <a href="{{ $youtube->url }}" target="_blank" class="social-link">
+                                                {{ $youtube->description }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+
+                                <!-- Twitter -->
+                                @if($twitter)
+                                <div class="social-media-item">
+                                    <div class="social-simple-row">
+                                        <div class="social-platform-icon" style="background: #1DA1F2;">
+                                            <i class="bi bi-twitter"></i>
+                                        </div>
+                                        <div class="social-text-content">
+                                            <a href="{{ $twitter->url }}" target="_blank" class="social-link">
+                                                {{ $twitter->description }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+
+                                <!-- LinkedIn -->
+                                @if($linkedin)
+                                <div class="social-media-item">
+                                    <div class="social-simple-row">
+                                        <div class="social-platform-icon" style="background: #0A66C2;">
+                                            <i class="bi bi-linkedin"></i>
+                                        </div>
+                                        <div class="social-text-content">
+                                            <a href="{{ $linkedin->url }}" target="_blank" class="social-link">
+                                                {{ $linkedin->description }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+                            @endfor
+
                         </div>
                     </div>
                 </div>
-                @endif
-
-                <!-- Facebook -->
-                @if($facebook)
-                <div class="social-media-item">
-                    <div class="social-simple-row">
-                        <div class="social-platform-icon" style="background: #1877F2;">
-                            <i class="bi bi-facebook"></i>
-                        </div>
-                        <div class="social-text-content">
-                            <a href="{{ $facebook->url }}" target="_blank" class="social-link">
-                                {{ $facebook->description }}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                @endif
-
-                <!-- YouTube -->
-                @if($youtube)
-                <div class="social-media-item">
-                    <div class="social-simple-row">
-                        <div class="social-platform-icon" style="background: #FF0000;">
-                            <i class="bi bi-youtube"></i>
-                        </div>
-                        <div class="social-text-content">
-                            <a href="{{ $youtube->url }}" target="_blank" class="social-link">
-                                {{ $youtube->description }}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                @endif
-
-                <!-- Twitter -->
-                @if($twitter)
-                <div class="social-media-item">
-                    <div class="social-simple-row">
-                        <div class="social-platform-icon" style="background: #1DA1F2;">
-                            <i class="bi bi-twitter"></i>
-                        </div>
-                        <div class="social-text-content">
-                            <a href="{{ $twitter->url }}" target="_blank" class="social-link">
-                                {{ $twitter->description }}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                @endif
-
-                <!-- LinkedIn -->
-                @if($linkedin)
-                <div class="social-media-item">
-                    <div class="social-simple-row">
-                        <div class="social-platform-icon" style="background: #0A66C2;">
-                            <i class="bi bi-linkedin"></i>
-                        </div>
-                        <div class="social-text-content">
-                            <a href="{{ $linkedin->url }}" target="_blank" class="social-link">
-                                {{ $linkedin->description }}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                @endif
-            @endfor
-
-        </div>
-    </div>
-</div>
 
                 </div>
             </div>
