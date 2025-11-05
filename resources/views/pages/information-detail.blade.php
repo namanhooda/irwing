@@ -134,18 +134,18 @@
             @endif
 
             <div class="info-meta">
-                @if($information->file)
                     <p>
-                        <a href="{{ asset('uploads/informations/' . $information->file) }}" target="_blank" class="file-link">
+                        @if($information->file)
+                        <a href="{{ asset('uploads/informations/' . $information->file) }}" target="_blank" class="file-link" style="color: white !important;">
                             <i class="fas fa-file-pdf"></i> View PDF File
                         </a>
-                    </p>
-                    @else
-                    <p>External Link:
-                        <a href="{{ $information->url }}" target="_blank">{{ $information->url }}</a>
+                        @else
+                        <a href="{{ $information->url }}" target="_blank" class="file-link" style="color: white !important;">
+                            <i class="fas fa-file-pdf"></i> View Link
+                        </a>
+                        @endif
                     </p>
 
-                @endif
 
                 <p><strong>Published on:</strong> {{ $information->created_at->format('d M, Y') }}</p>
             </div>

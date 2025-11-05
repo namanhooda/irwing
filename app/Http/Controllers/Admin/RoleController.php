@@ -73,14 +73,14 @@ public function switchRole(Request $request)
     $user = auth()->user();
     $role = $request->role;
 
-    if ($user->hasRole($role)) {
-        session()->put('active_role', $role);
-        session()->save(); // Ensures it’s written before redirect
+if ($user->hasRole($role)) {
+    session()->put('active_role', $role);
+    session()->save(); // Ensures it's stored before redirecting
 
-        return redirect()->back()->with('success', 'Switched to role: ' . $role);
-    }
+    return redirect()->route('dashboard')->with('success', 'Switched to role: ' . $role);
+}
 
-    return redirect()->back()->with('error', 'You do not have this role.');
+return redirect()->route('dashboard')->with('error', 'You do not have this role.');
 }
 
 
