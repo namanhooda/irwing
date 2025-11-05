@@ -104,14 +104,29 @@
                                 <td>N/A</td>
 
                                 @foreach(['adminidtrative_appr', 'financial_appr', 'poltical_clear', 'scos_appr', 'vigl_clear', 'pmo_appr', 'fcra_clear', 'sanction_vetting'] as $field)
-                                <td>
-                                    <select name="{{ $field }}[{{ $qrp->id }}]" class="form-select status-dropdown">
-                                        @foreach($options as $opt)
-                                        <option value="{{ $opt }}" {{ $qrp->$field == $opt ? 'selected' : '' }}>{{ $opt }}</option>
-                                        @endforeach
-                                    </select>
-                                </td>
-                                @endforeach
+    <td>
+        <select name="{{ $field }}[{{ $qrp->id }}]" class="form-select status-dropdown">
+            @foreach($options as $opt)
+                <option value="{{ $opt }}" {{ $qrp->$field == $opt ? 'selected' : '' }}>{{ $opt }}</option>
+            @endforeach
+        </select>
+    </td>
+@endforeach
+
+{{-- ✅ Check if all approvals are "Approved" --}}
+@php
+    $fields = ['adminidtrative_appr', 'financial_appr', 'poltical_clear', 'scos_appr', 'vigl_clear', 'pmo_appr', 'fcra_clear', 'sanction_vetting'];
+    $allApproved = collect($fields)->every(fn($f) => $qrp->$f === 'Approved');
+@endphp
+
+<td>
+    @if($allApproved)
+        <a href="{{ route('sanction-memo.generate', $qrp->id) }}" class="btn btn-primary btn-sm">
+            Generate Sanction Memo
+        </a>
+    @endif
+</td>
+
                             </tr>
                             @endforeach
                         </tbody>

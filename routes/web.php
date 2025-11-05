@@ -124,6 +124,9 @@ Route::middleware([
         Route::resource('permissions', \App\Http\Controllers\Admin\PermissionController::class)->except(['create', 'show']);
         Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->except(['show']);
 
+Route::post('/personal-performa/update-status/{id}', [\App\Http\Controllers\PersonalPerformaController::class, 'updateStatus'])
+    ->name('personal-performa.updateStatus');
+    Route::get('/sanction-memo/generate/{id}', [App\Http\Controllers\SanctionMemosController::class, 'generate'])->name('sanction-memo.generate');
 
 
 

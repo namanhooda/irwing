@@ -69,13 +69,25 @@
                             @endif
                         </td>
                             <td>
-                                <a href="{{ route('personal-performa-generation.show', $performa) }}" class="btn btn-info btn-sm">
-                                    View
-                                </a>
+    <a href="{{ route('personal-performa-generation.show', $performa) }}" class="btn btn-info btn-sm">
+        View
+    </a>
     <a href="{{ route('personal-performa.download', $performa->id) }}" class="btn btn-success btn-sm">
         Download PDF
     </a>
-                            </td>
+
+    @if(is_null($performa->status) || $performa->status === 'Pending')
+        <button class="btn btn-success btn-sm" 
+                onclick="updateStatus('{{ $performa->id }}', 'Approved')">
+            Approve
+        </button>
+
+        <button class="btn btn-danger btn-sm" 
+                onclick="updateStatus('{{ $performa->id }}', 'Rejected')">
+            Reject
+        </button>
+    @endif
+</td>
                         </tr>
                         @empty
                         <tr>
@@ -90,5 +102,28 @@
         <!-- Offcanvas to add new user -->
 
     </div>
-</div>
+</div><script>
+function updateStatus(id, status) {
+    if(!confirm('Are you sure you want to ' + status + ' this performa?')) return;
+
+    fetch(`/personal-performa/update-status/${id}`, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ status: status })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Performa status updated to ' + status);
+            location.reload();
+        } else {
+            alert('Failed to update status.');
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+</script>
 @endsection

@@ -162,4 +162,12 @@ public function exportExcel()
 {
     return Excel::download(new PersonalPerformaExport, 'personal_performas.xlsx');
 }
+public function updateStatus(Request $request, $id)
+{
+    $performa = PersonalPerforma::findOrFail($id);
+    $performa->status = $request->status;
+    $performa->save();
+
+    return response()->json(['success' => true]);
+}
 }

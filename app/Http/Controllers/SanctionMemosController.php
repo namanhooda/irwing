@@ -33,5 +33,25 @@ class SanctionMemosController extends Controller
         }
 
         return view('sanctionmemo.index', compact('reports'));
+    } 
+    public function generatepublic()
+    {
+        $user = Auth::user();
+        $profile = Profile::where('user_id', $user->id)->first();
+
+        $activeRole = session('active_role') ?? auth()->user()->getRoleNames()->first();
+
+        if ($activeRole == 'admin') {
+            // Admin sees all reports
+            $reports = TourReport::with('user')->latest()->get();
+        } else {
+            // Non-admin users see only their own reports
+            $reports = TourReport::with('user')
+                ->where('staff_number', $profile->staff_no)
+                ->latest()
+                ->get();
+        }
+
+        return view('sanctionmemo.index', compact('reports'));
     }
 }
