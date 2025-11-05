@@ -114,7 +114,7 @@
                 <div class="info-content">
                     @if($frontPages->description)
                         <div class="info-description">
-                            {!! Str::limit(strip_tags($frontPages->description), 250) !!}
+                            {!! $frontPages->description !!}
                         </div>
                     @else
                         <p class="no-content">No description available.</p>
