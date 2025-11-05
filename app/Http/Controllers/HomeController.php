@@ -10,6 +10,7 @@ use App\Models\Orm;
 use App\Models\Brochure;
 use App\Models\IrRole;
 use App\Models\Ambition;
+use App\Models\Information;
 use App\Models\Faq;
 use App\Models\AccessibilityStatement;
 use App\Models\PrivacyPolicy;
@@ -177,6 +178,12 @@ class HomeController extends Controller
         $section = $request->get('section');
         $sub = $request->get('sub');
         return view('pages.internationForums', compact('InternationalForm', 'section', 'sub'));
+    }
+    public function circular(Request $request, $id)
+    {
+            $information = Information::find($id); // fetch all records
+        
+        return view('pages.information-detail', compact('information'));
     }
     public function sliderPage(Request $request, $id)
     {

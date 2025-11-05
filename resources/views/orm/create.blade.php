@@ -26,13 +26,12 @@
                     @csrf
 
                     <div class="mb-3">
-                        <label for="type" class="form-label">Type</label>
-                        <select name="type" id="type" class="form-control" required>
-                            <option value="" disabled {{ old('type') ? '' : 'selected' }}>Select Type</option>
-                            <option value="SOP/Guideline" {{ old('type') == 'SOP/Guideline' ? 'selected' : '' }}>SOP/Guideline</option>
-                            <option value="Information" {{ old('type') == 'Information' ? 'selected' : '' }}>Information</option>
-                            <option value="InterDepartmental" {{ old('type') == 'InterDepartmental' ? 'selected' : '' }}>InterDepartmental</option>
-                            <!-- Add more options as needed -->
+                        <label for="om_type_id" class="form-label">OM Type <span class="text-danger">*</span></label>
+                        <select name="type" id="type" class="form-select" required>
+                            <option value="">Select Type</option>
+                            @foreach($omTypes as $type)
+                                <option value="{{ $type->id }}">{{ $type->name }}</option>
+                            @endforeach
                         </select>
                     </div>
 

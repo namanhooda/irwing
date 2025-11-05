@@ -445,6 +445,13 @@
                 @endroleCan 
                 @roleCan('roles.view')
                 <li class="menu-item">
+                    <a href="{{route('admin.informations.index')}}" class="menu-link">
+                        <div data-i18n="Information">Information</div>
+                    </a>
+                </li>
+                @endroleCan 
+                @roleCan('roles.view')
+                <li class="menu-item">
                     <a href="{{route('faqs.index')}}" class="menu-link">
                         <div data-i18n="Faq's">Faq's</div>
                     </a>
@@ -488,6 +495,13 @@
                 <div data-i18n="Backend Pages">Backend Pages</div>
             </a>
             <ul class="menu-sub">
+                @roleCan('roles.view')
+                <li class="menu-item">
+                    <a href="{{route('admin.om_types.index')}}" class="menu-link">
+                        <div data-i18n="OM Types">OM Types</div>
+                    </a>
+                </li>
+                @endroleCan
                 @roleCan('roles.view')
                 <li class="menu-item">
                     <a href="{{route('countries.index')}}" class="menu-link">

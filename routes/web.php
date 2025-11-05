@@ -82,6 +82,7 @@ Route::PUT('/profiles/update', [App\Http\Controllers\ProfileController::class, '
  Route::get('orms', [HomeController::class, 'orms'])->name('orms');
  Route::get('achivements', [HomeController::class, 'achivements'])->name('achivements');
  Route::get('internation-forums/{id}', [HomeController::class, 'internationForums'])->name('internationForums');
+ Route::get('circular/{id}', [HomeController::class, 'circular'])->name('circular');
  Route::get('slider-page/{id}', [HomeController::class, 'sliderPage'])->name('sliderPage');
  Route::get('message/{id}', [HomeController::class, 'message'])->name('message');
  Route::get('enagement/{id}', [HomeController::class, 'engagement'])->name('engagement');
@@ -102,12 +103,13 @@ Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.ind
 Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
 
 ////  BACKEND ////
-
+Route::middleware(['web', 'auth'])->group(function () {
+    Route::post('/switch-role', [RoleController::class, 'switchRole'])->name('switch.role');
+});
 // Route::middleware(['role:admin'])->group(function () {
     Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])->group(function () {
         // ROLE //
         Route::resource('roles', RoleController::class);
-        Route::post('/switch-role', [RoleController::class, 'switchRole'])->name('switch.role')->middleware('auth');
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/dashboard2', [DashboardController::class, 'index2'])->name('dashboard2');
         Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -189,6 +191,10 @@ Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.ind
             Route::resource('privacy_policies', App\Http\Controllers\Admin\PrivacyPolicyController::class);
             Route::resource('terms_of_use', App\Http\Controllers\Admin\TermsOfUseController::class);
             Route::resource('accessibility_statements', App\Http\Controllers\Admin\AccessibilityStatementController::class);
+
+            Route::resource('informations', \App\Http\Controllers\Admin\InformationController::class);
+
+            Route::resource('om_types', \App\Http\Controllers\Admin\OmTypeController::class);
 
 
             Route::resource('social_media', App\Http\Controllers\Admin\SocialMediaController::class);

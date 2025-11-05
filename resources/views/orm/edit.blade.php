@@ -30,16 +30,19 @@
                         <label for="title" class="form-label">Title</label>
                         <input type="text" name="title" class="form-control" id="title"
                                value="{{ old('title', $orm->title) }}" required>
-                    </div><div class="mb-3">
-    <label for="type" class="form-label">Type</label>
-    <select name="type" id="type" class="form-control" required>
-        <option value="" disabled {{ old('type', $orm->type) ? '' : 'selected' }}>Select Type</option>
-        <option value="SOP/Guideline" {{ old('type', $orm->type) == 'SOP/Guideline' ? 'selected' : '' }}>SOP/Guideline</option>
-        <option value="Type1" {{ old('Information', $orm->type) == 'Information' ? 'selected' : '' }}>Information</option>
-        <option value="InterDepartmental" {{ old('type', $orm->type) == 'InterDepartmental' ? 'selected' : '' }}>InterDepartmental</option>
-        <!-- Add more options as needed -->
+                    </div>
+                    <div class="mb-3">
+    <label for="om_type_id" class="form-label">OM Type <span class="text-danger">*</span></label>
+    <select name="type" id="type" class="form-select" required>
+        <option value="">Select Type</option>
+        @foreach($omTypes as $type)
+            <option value="{{ $type->id }}" {{ $orm->om_type_id == $type->id ? 'selected' : '' }}>
+                {{ $type->name }}
+            </option>
+        @endforeach
     </select>
 </div>
+
 
                     <div class="mb-3">
                         <label for="date" class="form-label">Date</label>

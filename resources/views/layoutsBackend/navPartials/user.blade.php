@@ -18,7 +18,7 @@
                         <h6 class="mb-0">{{ Auth::user()->name }}</h6>
                         <small class="text-body-secondary">
                             @php
-                            $activeRole = session('active_role') ?? auth()->user()->getRoleNames()->first();
+                                $activeRole = session('active_role') ?? auth()->user()->getRoleNames()->first();
                             @endphp
                             {{ $activeRole ? 'Active Role: ' . ucfirst($activeRole) : 'No role assigned' }}
                         </small>

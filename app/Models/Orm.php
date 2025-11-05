@@ -13,4 +13,9 @@ class Orm extends Model
         'type',
         'file',
     ];
+    public function omType()
+{
+    return $this->belongsTo(OmType::class, 'type', 'id');
+}
+
 }

@@ -64,20 +64,27 @@ class RoleController extends Controller
     }
 
 
-    public function switchRole(Request $request)
-    {
-        $request->validate([
-            'role' => 'required|string'
-        ]);
+public function switchRole(Request $request)
+{
+    $request->validate([
+        'role' => 'required|string',
+    ]);
 
-        $user = auth()->user();
+    $user = auth()->user();
+    $role = $request->role;
 
-        // Check if the user actually has this role
-        if ($user->hasRole($request->role)) {
-            session(['active_role' => $request->role]);
-            return back()->with('success', 'Switched to role: '.$request->role);
-        }
+    if ($user->hasRole($role)) {
+        session()->put('active_role', $role);
+        session()->save(); // Ensures it’s written before redirect
 
-        return back()->with('error', 'You do not have this role.');
+        return redirect()->back()->with('success', 'Switched to role: ' . $role);
     }
+
+    return redirect()->back()->with('error', 'You do not have this role.');
+}
+
+
+
+
+
 }

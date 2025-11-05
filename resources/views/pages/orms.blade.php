@@ -437,7 +437,7 @@
                         @foreach($orms as $index => $orm)
                         <tr>
                             <td>{{ $index + 1 }}</td>
-                            <td>Ir wing Portal
+                            <td>{{ $orm->omType->name ?? '-' }}
                             </td>
                             <td>
                                 <a href="{{ asset($orm->file) }}" target="_blank">

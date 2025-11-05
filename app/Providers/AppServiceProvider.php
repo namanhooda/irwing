@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      */
     public function boot(): void
-    {
+{
     Blade::if('roleCan', function ($permission) {
         $activeRole = session('active_role');
         if (!$activeRole) {
@@ -33,7 +33,9 @@ class AppServiceProvider extends ServiceProvider
         }
 
         return $role->hasPermissionTo($permission);
-    });Blade::if('roleCanAny', function ($permissions) {
+    });
+
+    Blade::if('roleCanAny', function ($permissions) {
         $user = auth()->user();
         $activeRole = session('active_role') ?? $user?->getRoleNames()->first();
 
@@ -51,7 +53,9 @@ class AppServiceProvider extends ServiceProvider
                 return true;
             }
         }
+
         return false;
     });
-    }
+}
+
 }

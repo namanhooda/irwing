@@ -30,7 +30,7 @@
                         @forelse($orm as $performa)
                         <tr>
                             <td>{{ $performa->id }}</td>
-                            <td>{{ $performa->type }}</td>
+                            <td>{{ $performa->omType->name ?? '-' }}</td>
                             <td>{{ $performa->title }}</td>
                             <td><a href="{{ asset($performa->file) }}" target="_blank">Download File</a></td>
                             <td>{{ $performa->date }}</td>

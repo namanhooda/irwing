@@ -463,7 +463,7 @@
             </div>
             <div class="utility-right"><!-- Language dropdown example -->
 <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class=" dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="    /* color: #007bff !important;">
         {{ __('messages.language') }}
     </a>
     <ul class="dropdown-menu" aria-labelledby="langDropdown">
@@ -552,6 +552,15 @@
 
 
                             <a href="{{url('orms')}}">IR Wing OMs</a>
+
+                            @php
+                            $Information = App\Models\Information::get();
+                            @endphp
+                            @foreach($Information as $info)
+                            <a href="{{ url('circular/'.$info->id) }}">{{$info->title}}</a>
+                            @endforeach
+
+
                             {{-- <a href="{{url('achivements')}}">Achievements</a> --}}
                             <!-- <div class="nav-sub-item">
                                 <a href="#" class="nav-sub-link">International Forums <i class="bi bi-chevron-right"></i></a>

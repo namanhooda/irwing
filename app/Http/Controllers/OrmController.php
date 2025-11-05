@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Orm;
+use App\Models\OmType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -20,12 +21,14 @@ class OrmController extends Controller
 
     public function create()
     {
-        return view('orm.create');
+        $omTypes = OmType::where('status', 1)->get();
+        return view('orm.create', compact('omTypes'));
     }
 
 public function store(Request $request)
 {
     $request->validate([
+        'type' => 'required|exists:om_types,id',
         'title' => 'required|string|max:255',
         'date'  => 'required|date',
         'file'  => 'required|mimes:pdf|max:10240', // 10MB
@@ -47,6 +50,7 @@ public function store(Request $request)
     $filePath = 'file/' . $fileName;
 
     Orm::create([
+        'type' => $request->om_type_id,
         'title' => $request->title,
         'date'  => $request->date,
         'file'  => $filePath,
@@ -64,7 +68,8 @@ public function store(Request $request)
     public function edit(Orm $orm, $id)
     {
         $orm = Orm::find($id);
-        return view('orm.edit', compact('orm'));
+        $omTypes = OmType::where('status', 1)->get();
+        return view('orm.edit', compact('orm','omTypes'));
     }
 
 public function update(Request $request, $id)
@@ -72,6 +77,7 @@ public function update(Request $request, $id)
     $orm = Orm::findOrFail($id);
 
     $request->validate([
+        'type' => 'required|exists:om_types,id',
         'title' => 'required|string|max:255',
         'date'  => 'required|date',
         'file'  => 'nullable|mimes:pdf|max:10240', // optional on update
@@ -80,6 +86,7 @@ public function update(Request $request, $id)
     // Update title and date
     $orm->title = $request->title;
     $orm->date  = $request->date;
+    $orm->type  = $request->type;
 
     // Handle file if uploaded
     if ($request->hasFile('file')) {
