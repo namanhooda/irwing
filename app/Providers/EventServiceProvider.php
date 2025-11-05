@@ -9,8 +9,8 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 class EventServiceProvider extends ServiceProvider
 {
     protected $listen = [
-        Login::class => [
-            SetDefaultRoleOnLogin::class,
-        ],
-    ];
+    \Illuminate\Auth\Events\Login::class => [
+        \App\Listeners\SetDefaultRoleOnLogin::class,
+    ],
+];
 }

@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
-use Illuminate\Auth\Events\Authenticated;
+use Illuminate\Auth\Events\Login;
 
 class SetDefaultRoleOnLogin
 {
-    public function handle(Authenticated $event): void
+    public function handle(Login $event): void
     {
         $user = $event->user;
         $roles = $user->getRoleNames();

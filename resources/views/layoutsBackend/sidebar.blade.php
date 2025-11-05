@@ -34,12 +34,19 @@
                 <div data-i18n="Dashboard">Dashboard</div>
             </a>
         </li>
+
+    @php
+    $activeRole = session('active_role') ?? auth()->user()->getRoleNames()->first();
+    @endphp
+    @if($activeRole == 'admin')
         <li class="menu-item ">
             <a href="{{route('dashboard2')}}" class="menu-link">
                 <i class="menu-icon icon-base ti tabler-layout-dashboard"></i>
                 <div data-i18n="Dashboard 2">Dashboard 2</div>
             </a>
         </li>
+        @endif
+
         
 
         <!-- Apps & Pages Header -->

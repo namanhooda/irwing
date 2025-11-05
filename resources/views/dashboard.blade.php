@@ -78,6 +78,7 @@
 
     @php
     $activeRole = session('active_role') ?? auth()->user()->getRoleNames()->first();
+    
     @endphp
     @if($activeRole == 'admin')
 <div class="container-xxl flex-grow-1 container-p-y">
@@ -229,8 +230,34 @@
         </div>
     </div>
 
-</div>
+</div>>
+
 @endif
+
+    @if($activeRole == 'Officer')
+
+<div class="container-xxl flex-grow-1 container-p-y">
+
+    {{-- Header --}}
+    <div class="row g-4 mb-2">
+        <div class="col-12">
+            <h3 class="mb-0">Officer Dashboard</h3>
+        </div>
+    </div>
+</div>
+    @endif
+      @if($activeRole == 'nodal')
+
+<div class="container-xxl flex-grow-1 container-p-y">
+
+    {{-- Header --}}
+    <div class="row g-4 mb-2">
+        <div class="col-12">
+            <h3 class="mb-0">Nodal Dashboard</h3>
+        </div>
+    </div>
+</div>
+    @endif
 @endsection
 
 @push('scripts')
