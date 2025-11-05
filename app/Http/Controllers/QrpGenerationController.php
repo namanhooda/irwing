@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\QrpForm;
 use App\Models\Agency;
 use App\Models\User;
+use App\Models\Profile;
 use App\Models\Notification;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -20,6 +21,7 @@ class QrpGenerationController extends Controller
 
 public function index(Request $request)
 {
+    
     $agencies = Agency::all(); // for dropdown
 
     $nodalUsers = User::role('nodal')->get(); 
@@ -114,7 +116,6 @@ public function index(Request $request)
     public function destroy(QrpForm $QrpForm)
     {
         //
-        dd('nmn');
     }
 public function bulkUpdateStatus(Request $request)
 {
@@ -139,6 +140,17 @@ public function bulkUpdateStatus(Request $request)
             ]);
         }
     }
+        $adminIds = User::role('admin')->pluck('id'); // uses Spatie's role helper
+        $adminProfileIds = Profile::whereIn('user_id', $adminIds)->pluck('id');
+        // 2. Create notification for each admin
+            foreach ($adminProfileIds as $adminId) {
+                Notification::create([
+                    'message' => 'A QRP form has been submitted. Please check the details - '.$qrp->meeting_id,
+                    'user_id' => $adminId,
+                    'url' => url('qrp-generation'),
+                    'status' => 'unread',
+                ]);
+            }
 
     return redirect()->back()->with('success', 'Status updated and notifications sent.');
 }

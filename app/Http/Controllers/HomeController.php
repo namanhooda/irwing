@@ -187,7 +187,7 @@ class HomeController extends Controller
     }
     public function custPages(Request $request, $id)
     {
-        $frontPages = \App\Models\FrontPage::where('status', 1)->latest()->get();
+        $frontPages = \App\Models\FrontPage::find($id);
         
         return view('pages.custPages', compact('frontPages'));
     }

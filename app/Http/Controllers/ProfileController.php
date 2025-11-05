@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Profile;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use App\Models\Designation;
 use Auth;
 
 class ProfileController extends Controller
@@ -25,8 +27,9 @@ class ProfileController extends Controller
     public function profileForm(Request $request)
     {
         $checkprofile = Profile::where('user_id', Auth::user()->id)->first();
+    $designations = Designation::orderBy('name')->get();
         $profile = $checkprofile;
-        return view('profile.form', compact('checkprofile'));
+        return view('profile.form', compact('checkprofile', 'designations'));
     }
     public function index()
     {
@@ -83,12 +86,16 @@ class ProfileController extends Controller
 
 public function updateForm(Request $request)
 {
-    // Validate request
+    // ✅ Validate request
     $request->validate([
+        'cadre' => 'nullable|string|max:255',
+        'designation' => 'nullable|string|max:255',
         'year_of_allotment' => 'nullable|string|max:255',
-        'date_of_entry_in_service' => 'nullable|date_format:Y',
+        'date_of_entry_in_service' => 'nullable|string|max:4',
         'staff_no' => 'nullable|string|max:255',
+        'title' => 'nullable|string|max:255',
         'officer_name' => 'nullable|string|max:255',
+        'gender' => 'nullable|string|max:20',
         'present_posting' => 'nullable|string|max:255',
         'office_address' => 'nullable|string|max:255',
         'date_of_joining_office' => 'nullable|date',
@@ -102,6 +109,7 @@ public function updateForm(Request $request)
         'languages_known' => 'nullable|string|max:255',
         'date_of_entry_in_present_grade' => 'nullable|date',
         'grade' => 'nullable|string|max:255',
+        'rank' => 'nullable|string|max:255',
         'level_in_pay_matrix' => 'nullable|string|max:255',
         'mobile_no' => 'nullable|numeric',
         'email_id' => 'nullable|email|max:255',
@@ -109,38 +117,55 @@ public function updateForm(Request $request)
         'serving_status' => 'nullable|string|max:255',
     ]);
 
-    // Fetch the profile by ID
+    // ✅ Fetch the profile
     $profile = Profile::findOrFail($request->id);
 
-    // Update fields
+    // ✅ Format and assign values safely
+    $profile->cadre = $request->cadre;
+    $profile->designation = $request->designation;
     $profile->year_of_allotment = $request->year_of_allotment;
     $profile->date_of_entry_in_service = $request->date_of_entry_in_service;
     $profile->staff_no = $request->staff_no;
+    $profile->title = $request->title;
     $profile->officer_name = $request->officer_name;
+    $profile->gender = $request->gender;
     $profile->present_posting = $request->present_posting;
     $profile->office_address = $request->office_address;
-    $profile->date_of_joining_office = $request->date_of_joining_office;
+
+    // ✅ Convert date fields properly
+    $profile->date_of_joining_office = $this->formatDate($request->date_of_joining_office);
+    $profile->date_of_birth = $this->formatDate($request->date_of_birth);
+    $profile->date_of_entry_in_present_grade = $this->formatDate($request->date_of_entry_in_present_grade);
+
     $profile->office_phone = $request->office_phone;
     $profile->office_fax = $request->office_fax;
     $profile->office_email = $request->office_email;
-    $profile->date_of_birth = $request->date_of_birth;
     $profile->native_district = $request->native_district;
     $profile->state = $request->state;
     $profile->educational_qualifications = $request->educational_qualifications;
     $profile->languages_known = $request->languages_known;
-    $profile->date_of_entry_in_present_grade = $request->date_of_entry_in_present_grade;
     $profile->grade = $request->grade;
+    $profile->rank = $request->rank;
     $profile->level_in_pay_matrix = $request->level_in_pay_matrix;
     $profile->mobile_no = $request->mobile_no;
     $profile->email_id = $request->email_id;
     $profile->language = $request->language;
     $profile->serving_status = $request->serving_status;
+
     $profile->profile_completed = 'yes';
 
-    // Save changes
+    // ✅ Save the record
     $profile->save();
 
     return redirect()->back()->with('success', 'Profile updated successfully.');
+}
+
+/**
+ * ✅ Helper function to safely format dates (handles "1988-08-17 00:00:00" issue)
+ */
+private function formatDate($value)
+{
+    return $value ? Carbon::parse($value)->format('Y-m-d') : null;
 }
 
 }

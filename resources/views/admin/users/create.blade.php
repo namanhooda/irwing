@@ -13,64 +13,75 @@
                     <form id="addNewUserForm" method="POST" action="{{ route('users.store') }}">
                         @csrf
                         <div class="mb-3" style="position: relative;">
-    <label class="form-label" for="profile-autocomplete">Assign Profile</label>
-    <input type="text" id="profile-autocomplete" name="profile_name" class="form-control @error('profile_id') is-invalid @enderror" placeholder="Type staff no or name..." autocomplete="off" required>
-    <input type="hidden" name="profile_id" id="profile-id">
+                            <label class="form-label" for="profile-autocomplete">Assign Profile</label>
+                            <input type="text" id="profile-autocomplete" name="profile_name"
+                                class="form-control @error('profile_id') is-invalid @enderror"
+                                placeholder="Type staff no or name..." autocomplete="off" required>
+                            <input type="hidden" name="profile_id" id="profile-id">
 
-    <div id="autocomplete-list" class="autocomplete-items" style="position: absolute; z-index: 1000; background: #fff; border: 1px solid #ccc; width: 100%; max-height: 200px; overflow-y: auto;"></div>
+                            <div id="autocomplete-list" class="autocomplete-items"
+                                style="position: absolute; z-index: 1000; background: #fff; border: 1px solid #ccc; width: 100%; max-height: 200px; overflow-y: auto;">
+                            </div>
 
-    @error('profile_id')
-        <div class="invalid-feedback">{{ $message }}</div>
-    @enderror
-</div>
-
-
-
-                            <input type="text" class="form-control @error('staff_no') is-invalid @enderror" 
-                                   id="add-user-fullstaff_no" name="staff_no" placeholder="staff_no" value="{{ old('staff_no') }}" required />
-                        
-                        <div class="mb-3 form-control-validation">
-                            <label class="form-label" for="add-user-fullname">Full Name</label>
-                            <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                                   id="add-user-fullname" name="name" placeholder="John Doe" value="{{ old('name') }}" required />
-                            @error('name')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                            @error('profile_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        
+
+
+
+                        <input type="hidden" class="form-control @error('staff_no') is-invalid @enderror"
+                            id="add-user-fullstaff_no" name="staff_no" placeholder="staff_no"
+                            value="{{ old('staff_no') }}" required />
+
+                        <div class="mb-3 form-control-validation">
+                            <label class="form-label" for="add-user-fullname">Full Name</label>
+                            <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                id="add-user-fullname" name="name" placeholder="John Doe" value="{{ old('name') }}"
+                                required />
+                            @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <div class="mb-3 form-control-validation">
                             <label class="form-label" for="add-user-email">Email</label>
                             <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                   id="add-user-email" name="email" placeholder="john.doe@example.com" value="{{ old('email') }}" required />
+                                id="add-user-email" name="email" placeholder="john.doe@example.com"
+                                value="{{ old('email') }}" required />
                             @error('email')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        
+
                         <div class="mb-3 form-control-validation">
                             <label class="form-label" for="add-user-contact">Contact</label>
                             <input type="text" class="form-control @error('mobile') is-invalid @enderror"
-                                   id="add-user-contact" name="mobile" placeholder="9999999999" value="{{ old('mobile') }}" required />
+                                id="add-user-contact" name="mobile" placeholder="9999999999" value="{{ old('mobile') }}"
+                                required />
                             @error('mobile')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        
+
                         <div class="mb-3">
                             <label class="form-label" for="user-role">User Roles</label>
-                            <select id="user-role" name="roles[]" class="form-select @error('roles') is-invalid @enderror" multiple required>
+                            <select id="user-role" name="roles[]"
+                                class="form-select @error('roles') is-invalid @enderror" multiple required>
                                 @foreach($roles as $role)
-                                    <option value="{{ $role->id }}" {{ (collect(old('roles'))->contains($role->id)) ? 'selected' : '' }}>
-                                        {{ $role->name }}
-                                    </option>
+                                <option value="{{ $role->id }}"
+                                    {{ (collect(old('roles'))->contains($role->id)) ? 'selected' : '' }}>
+                                    {{ $role->name }}
+                                </option>
                                 @endforeach
                             </select>
-                            <small class="text-muted">Hold Ctrl (Windows) / Command (Mac) to select multiple roles</small>
+                            <small class="text-muted">Hold Ctrl (Windows) / Command (Mac) to select multiple
+                                roles</small>
                             @error('roles')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        
+
                         <div class="mt-4">
                             <button type="submit" class="btn btn-primary me-2">Submit</button>
                             <a href="{{ route('users.index') }}" class="btn btn-outline-secondary">Cancel</a>
@@ -83,12 +94,16 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // 1. Get DOM elements
     const profiles = @json($profiles); // Laravel passes profiles array
     const input = document.getElementById('profile-autocomplete');
     const hiddenInput = document.getElementById('profile-id');
     const listContainer = document.getElementById('autocomplete-list');
+    const nameField = document.getElementById('add-user-fullname');
+    const emailField = document.getElementById('add-user-email');
+    const mobileField = document.getElementById('add-user-contact');
+    const staffNoField = document.getElementById('add-user-fullstaff_no');
     let currentFocus = -1;
 
     // 2. Close the autocomplete list
@@ -97,14 +112,14 @@ document.addEventListener('DOMContentLoaded', function() {
         currentFocus = -1;
     }
 
-    // 3. Highlight matched text (optional)
+    // 3. Highlight matched text
     function highlightMatch(text, query) {
         const regex = new RegExp(`(${query})`, 'ig');
         return text.replace(regex, "<strong>$1</strong>");
     }
 
-    // 4. Input event
-    input.addEventListener('input', function() {
+    // 4. Input event for search
+    input.addEventListener('input', function () {
         const val = input.value.trim().toLowerCase();
         closeList();
         hiddenInput.value = ''; // reset selection
@@ -125,9 +140,17 @@ document.addEventListener('DOMContentLoaded', function() {
             item.style.padding = "5px 10px";
             item.style.cursor = "pointer";
 
-            item.addEventListener('click', function() {
+            // On selecting an item
+            item.addEventListener('click', function () {
                 input.value = `${staff_no} - ${officer_name}`;
                 hiddenInput.value = p.id;
+
+                // ✅ Prefill related fields
+                staffNoField.value = p.staff_no || '';
+                nameField.value = p.officer_name || '';
+                emailField.value = p.email_id || '';
+                mobileField.value = p.mobile_no || '';
+
                 closeList();
             });
 
@@ -136,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // 5. Keyboard navigation
-    input.addEventListener('keydown', function(e) {
+    input.addEventListener('keydown', function (e) {
         const items = listContainer.getElementsByTagName('div');
         if (!items) return;
 
@@ -171,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // 6. Close list if clicked outside
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
         if (e.target !== input) closeList();
     });
 });
@@ -180,6 +203,3 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 @endsection
-
-
-

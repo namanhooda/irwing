@@ -24,4 +24,20 @@ if (!function_exists('getUserNotifications')) {
             ->take($limit)
             ->get();
     }
+
+    function getUnreadNotificationCount()
+    {
+        if (!Auth::check()) {
+            return 0;
+        }
+
+        $profile = Profile::where('user_id', Auth::id())->first();
+        if (!$profile) {
+            return 0;
+        }
+
+        return Notification::where('user_id', $profile->id)
+            ->where('status', 'unread') // assuming you have a read_at column
+            ->count();
+    }
 }

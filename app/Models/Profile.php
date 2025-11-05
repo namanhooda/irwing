@@ -11,6 +11,7 @@ class Profile extends Model
     'year_of_allotment',
     'date_of_entry_in_service',
     'staff_no',
+    'user_id',
     'officer_name',
     'present_posting',
     'office_address',

@@ -109,38 +109,32 @@
     </div>
 
     <!-- Front Pages List -->
-    @if($frontPages->count() > 0)
-        @foreach($frontPages as $page)
             <div class="info-container">
-                <h2 class="info-header">{{ $page->title }}</h2>
+                <h2 class="info-header">{{ $frontPages->title }}</h2>
                 <div class="info-content">
-                    @if($page->description)
+                    @if($frontPages->description)
                         <div class="info-description">
-                            {!! Str::limit(strip_tags($page->description), 250) !!}
+                            {!! Str::limit(strip_tags($frontPages->description), 250) !!}
                         </div>
                     @else
                         <p class="no-content">No description available.</p>
                     @endif
 
-                    @if($page->file)
-                        <a href="{{ asset('storage/' . $page->file) }}" target="_blank" class="file-link">
+                    @if($frontPages->file)
+                        <a href="{{ asset('storage/' . $frontPages->file) }}" target="_blank" class="file-link">
                             <i class="fas fa-file-pdf"></i> View PDF File
                         </a>
-                    @elseif($page->url)
-                        <a href="{{ $page->url }}" target="_blank" class="file-link">
+                    @elseif($frontPages->url)
+                        <a href="{{ $frontPages->url }}" target="_blank" class="file-link">
                             <i class="fas fa-link"></i> Visit Link
                         </a>
                     @endif
 
                     <div class="mt-3 text-muted small">
-                        <strong>Published on:</strong> {{ $page->created_at->format('d M, Y') }}
+                        <strong>Published on:</strong> {{ $frontPages->created_at->format('d M, Y') }}
                     </div>
                 </div>
             </div>
-        @endforeach
-    @else
-        <p class="no-content">No pages available at the moment.</p>
-    @endif
 </div>
 
 @endsection

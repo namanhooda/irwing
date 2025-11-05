@@ -108,7 +108,13 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::post('/switch-role', [RoleController::class, 'switchRole'])->name('switch.role');
 });
 // Route::middleware(['role:admin'])->group(function () {
-    Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])->group(function () {
+    // Route::middleware(['auth:sanctum',config('jetstream.auth_session'),'verified',])->group(function () {
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+    'check.profile', // 👈 must match the alias in bootstrap/app.php
+])->group(function () {
         // ROLE //
         Route::resource('roles', RoleController::class);
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -117,6 +123,14 @@ Route::middleware(['web', 'auth'])->group(function () {
 
         Route::resource('permissions', \App\Http\Controllers\Admin\PermissionController::class)->except(['create', 'show']);
         Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->except(['show']);
+
+
+
+
+        Route::get('/presentation', [App\Http\Controllers\PresentationController::class, 'index'])
+            ->name('presentation.index');
+        Route::get('/presentation/create', [App\Http\Controllers\PresentationController::class, 'create'])
+            ->name('presentation.create');
 
 
         Route::get('/tour-reports', [TourReportController::class, 'index'])
@@ -142,9 +156,13 @@ Route::middleware(['web', 'auth'])->group(function () {
 
 
 
+        ////////  TourTrackerController
+        Route::get('/tour-tracker', [\App\Http\Controllers\TourTrackerController::class, 'index'])->name('tourTracker.index');
         Route::get('/tour-tracker', [\App\Http\Controllers\TourTrackerController::class, 'index'])->name('tourTracker.index');
         Route::post('/qrp-generation/update-field', [App\Http\Controllers\TourTrackerController::class, 'updateField'])
             ->name('qrp-generation.update-field');
+        ////////  SanctionMemosController
+        Route::get('/sanction-memos', [\App\Http\Controllers\SanctionMemosController::class, 'index'])->name('sanctionMemos.index');
 
 
         Route::get('/master-sheet', [\App\Http\Controllers\MasterSheetController::class, 'index'])->name('masterSheet.index');

@@ -84,7 +84,15 @@
                 @roleCan('submission.tour_reports.view')
                 <li class="menu-item">
                     <a href="{{route('tour-reports.index')}}" class="menu-link">
-                        <div>Tour Reports and Presentations</div>
+                        <div>Tour Reports</div>
+                    </a>
+                </li>
+                @endroleCan
+
+                @roleCan('submission.tour_reports.view')
+                <li class="menu-item">
+                    <a href="{{route('presentation.index')}}" class="menu-link">
+                        <div>Presentations</div>
                     </a>
                 </li>
                 @endroleCan
@@ -126,7 +134,7 @@
                 @endroleCan
 
                 @roleCan('generation.sanction_memos.view')
-                <li class="menu-item"><a href="#" class="menu-link">
+                <li class="menu-item"><a href="{{ route('sanctionMemos.index') }}" class="menu-link">
                         <div>Sanction Memos</div>
                     </a></li>
                 @endroleCan
@@ -159,10 +167,14 @@
             </a>
             <ul class="menu-sub">
                 @roleCan('repository.tour_reports.view')
-                <li class="menu-item"><a href="#" class="menu-link">
+                
+                <li class="menu-item">
+                    <a href="{{route('tour-reports.index')}}" class="menu-link">
                         <div>Tour Reports</div>
-                    </a></li>
+                    </a>
+                </li>
                 @endroleCan
+
 
                 @roleCan('repository.presentations.view')
                 <li class="menu-item"><a href="#" class="menu-link">

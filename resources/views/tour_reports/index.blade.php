@@ -5,10 +5,18 @@
     <div class="card">
         <h5 class="card-header d-flex justify-content-between align-items-center">
             <span>Tour Reports</span>
+
+            @php
+            $activeRole = session('active_role') ?? auth()->user()->getRoleNames()->first();
+            
+            @endphp
+            @if($activeRole == 'admin')
+            @else
             <a href="{{ route('tour-reports.create') }}" class="add-new btn btn-primary">
                 <i class="icon-base ti tabler-plus icon-xs me-0 me-sm-2"></i>
                 <span class="d-none d-sm-inline-block">Add New Details</span>
             </a>
+            @endif
         </h5>
 
         <div class="card-datatable table-responsive">
@@ -60,15 +68,14 @@
                                 <td>{{ $qrp->key_contributions ?? 'N/A' }}</td>
                                 <td>{{ $qrp->followup_actions ?? 'N/A' }}</td>
                                 <td>
-                                    <a href="{{ route('qrp.show', $qrp->id) }}" class="btn btn-info btn-sm">View</a>
-                                    @if(is_null($qrp->nodal_status) || $qrp->nodal_status === 'Saved')
+                                    <!-- @if(is_null($qrp->nodal_status) || $qrp->nodal_status === 'Saved')
                                         <a href="{{ route('qrp.edit', $qrp->id) }}" class="btn btn-warning btn-sm">Edit</a>
                                         <form action="{{ route('qrp.destroy', $qrp->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
                                         </form>
-                                    @endif
+                                    @endif -->
                                 </td>
                             </tr>
                         @empty

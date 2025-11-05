@@ -18,7 +18,9 @@ class PersonalPerformaController extends Controller
      */
     public function index()
     {
-        $performas = PersonalPerforma::get();
+
+        $checkprofile = Profile::where('user_id', Auth::user()->id)->first();
+        $performas = PersonalPerforma::where('staff_no', $checkprofile->staff_no)->get();
         return view('personalperforma.index', compact('performas'));
     }
 

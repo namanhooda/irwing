@@ -16,6 +16,8 @@ use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Validation\ValidationException;
 use Carbon\Carbon;
+use App\Models\Notification;
+use App\Models\User;
 use Auth;
 
 class QrpFormController extends Controller
@@ -164,6 +166,7 @@ public function store(Request $request)
             ]);
         }
         DB::commit();
+
 
         return redirect()->route('qrp.index')->with('success', 'Form saved successfully.');
 
