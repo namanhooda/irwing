@@ -26,6 +26,11 @@
                     @csrf
 
                     <div class="mb-3">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" name="title" class="form-control" id="title"
+                                required>
+                    </div>
+                    <div class="mb-3">
                         <label for="om_type_id" class="form-label">OM Type <span class="text-danger">*</span></label>
                         <select name="type" id="type" class="form-select" required>
                             <option value="">Select Type</option>
