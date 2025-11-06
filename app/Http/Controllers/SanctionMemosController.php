@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TourReport;
 use App\Models\QrpForm;
+use App\Models\QrpOfficer;
+use App\Models\User;
 use App\Models\Profile;
 use Illuminate\Support\Facades\Auth;
 use DB;
@@ -34,7 +36,7 @@ class SanctionMemosController extends Controller
 
         return view('sanctionmemo.index', compact('reports'));
     } 
-public function generatepublic($id)
+public function generate($id)
 {
     // 1️⃣ Get the QRP form
     $qrp = QrpForm::findOrFail($id);
@@ -94,7 +96,7 @@ public function generatepublic($id)
 
         // 4️⃣ You can either store or collect the record
         // Example: Save to your `sanction_memos` table
-        SanctionMemo::create($data);
+        TourReport::create($data);
 
         // Or store temporarily in array
         $records[] = $data;

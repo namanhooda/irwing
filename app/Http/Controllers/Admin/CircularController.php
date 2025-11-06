@@ -99,4 +99,12 @@ public function update(Request $request, $id)
         Circular::findOrFail($id)->delete();
         return redirect()->route('admin.circulars.index')->with('success', 'Circular deleted successfully.');
     }
+    public function updateOrder(Request $request)
+    {
+        foreach ($request->positions as $id => $position) {
+            Circular::where('id', $id)->update(['position' => $position]);
+        }
+
+        return back()->with('success', 'Order updated successfully.');
+    }
 }

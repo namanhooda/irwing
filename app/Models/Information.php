@@ -15,6 +15,7 @@ class Information extends Model
         'file',
         'url',
         'description',
+        'position',
     ];
 }
 

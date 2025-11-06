@@ -45,7 +45,7 @@ class HomeController extends Controller
             
             $ministers = MinisterMessage::all();
             $sliders = \App\Models\Slider::where('status', true)->get();
-            $circulars = \App\Models\Circular::get();
+            $circulars = \App\Models\Circular::orderBy('position', 'asc')->get();
             $engagements = \App\Models\Engagement::where('status', 1)->get();
             $ambition = Ambition::latest()->first();
             $settings = SiteSetting::first();

@@ -71,7 +71,8 @@ Route::get('/api/division-designations', [UnitController::class, 'getDesignation
 Route::get('/profiles/search', [App\Http\Controllers\ProfileController::class, 'search'])->name('profiles.search');
 Route::get('/profiles/complete', [App\Http\Controllers\ProfileController::class, 'profileForm'])->name('profile.complete');
 Route::PUT('/profiles/update', [App\Http\Controllers\ProfileController::class, 'updateForm'])->name('profile.update');
-
+Route::post('informations/update-order', [App\Http\Controllers\Admin\InformationController::class, 'updateOrder'])
+    ->name('admin.informations.updateOrder');
 
 ////  FRONTEND ////
  Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -226,6 +227,7 @@ Route::post('/personal-performa/update-status/{id}', [\App\Http\Controllers\Pers
             Route::resource('itu-sectors', App\Http\Controllers\Admin\ITUSectorController::class);
             Route::resource('itu-sector-groups', App\Http\Controllers\Admin\ITUSectorGroupController::class);
             Route::resource('circulars', App\Http\Controllers\Admin\CircularController::class);
+    Route::post('circulars/update-order', [App\Http\Controllers\Admin\CircularController::class, 'updateOrder'])->name('circulars.updateOrder');
             Route::resource('ir_roles', App\Http\Controllers\Admin\IrRoleController::class);
         });
 

@@ -554,7 +554,7 @@
                             <a href="{{url('orms')}}">IR Wing OMs</a>
 
                             @php
-                            $Information = App\Models\Information::get();
+                            $Information = App\Models\Information::orderBy('position', 'asc')->get();
                             @endphp
                             @foreach($Information as $info)
                             <a href="{{ url('circular/'.$info->id) }}">{{$info->title}}</a>

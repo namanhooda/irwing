@@ -9,10 +9,19 @@ use Illuminate\Http\Request;
 class InformationController extends Controller
 {
     public function index()
-    {
-        $informations = Information::latest()->paginate(10);
+    { $informations = \App\Models\Information::orderBy('position', 'asc')->paginate(10);
         return view('admin.informations.index', compact('informations'));
     }
+public function updateOrder(Request $request)
+{
+    $positions = $request->input('positions', []);
+
+    foreach ($positions as $id => $pos) {
+        \App\Models\Information::where('id', $id)->update(['position' => (int)$pos]);
+    }
+
+    return back()->with('success', 'Order updated successfully.');
+}
 
     public function create()
     {
