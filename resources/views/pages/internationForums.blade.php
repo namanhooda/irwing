@@ -169,7 +169,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{{ url('internation-forums') }}">International Forums</a></li>
+                    <li class="breadcrumb-item"><a href="#">International Forums</a></li>
                     @if($section)
                         <li class="breadcrumb-item">
                             @if($section == 'itu-r')
@@ -200,7 +200,7 @@
                             </li>
                         @endif
                     @else
-                        <li class="breadcrumb-item active" aria-current="page">Overview</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{$InternationalForm->title}}</li>
                     @endif
                 </ol>
             </nav>

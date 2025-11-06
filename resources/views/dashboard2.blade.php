@@ -321,21 +321,23 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         series: [{ name: 'Contributions', data: [] }],
         xaxis: { 
-            categories: [],
-            labels: {
-                style: {
-                    colors: '#64748b',
-                    fontSize: '11px',
-                    fontWeight: 600
-                }
-            },
-            axisBorder: {
-                show: false
-            },
-            axisTicks: {
-                show: false
-            }
+    categories: [],
+    labels: {
+        style: {
+            colors: '#64748b',
+            fontSize: '11px',
+            fontWeight: 600
         },
+        formatter: function(value) {
+            // Example: if your month data is for 2024 or current year
+            const year = new Date().getFullYear(); 
+            return value + '\n' + year; // show month + newline + year
+        }
+    },
+    axisBorder: { show: false },
+    axisTicks: { show: false }
+},
+
         yaxis: {
             labels: {
                 style: {
