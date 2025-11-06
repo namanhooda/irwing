@@ -160,7 +160,7 @@
 
                 <!-- Bulk status update section -->
                 <div class="d-flex mt-3">
-                    <select name="status" class="form-select w-auto me-2">
+                    <select name="status" class="form-select w-auto me-2" required>
                         <option value="">-- Select Status --</option>
                         <option value="Pending">Pending</option>
                         <option value="Approved">Approved</option>

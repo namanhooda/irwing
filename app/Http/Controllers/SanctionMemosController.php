@@ -8,6 +8,7 @@ use App\Models\QrpForm;
 use App\Models\QrpOfficer;
 use App\Models\User;
 use App\Models\Profile;
+use App\Models\ITUSector;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use App\Models\Country; 
@@ -73,14 +74,15 @@ public function generate($id)
             }
         }
         $countryname = Country::find($firstLocation['country']);
+        $itusector = ITUSector::find($qrp->itu_sector);
 
         // Build data array
         $data = [
             'tour_id'        => $qrp->meeting_id,
             'user_id'        => $user ? $user->id : null,
+            'purpose'        => "Multilateral",
             'staff_number'   => $officer->staff_no,
             'meeting_name'   => $qrp->meeting_name,
-            'purpose'        => $qrp->justification,
             'service'        => $profile->service,
             'title'          => $profile->title,
             'name'           => $profile->officer_name,
@@ -88,17 +90,17 @@ public function generate($id)
             'gender'         => $profile->gender,
             'designation'    => $profile->designation,
             'grade'          => $profile->grade,
-            'level'          => $profile->level,
+            'level'          => $profile->level_in_pay_matrix,
             'mobile_no'      => $profile->mobile_no,
             'email'          => $profile->email_id ?? $profile->email,
-            'equivalent_rank'=> $profile->equivalent_rank,
+            'equivalent_rank'=> $profile->rank,
             'country'        => $countryname->name ?? null,
             'city'           => $firstLocation['city'] ?? null,
             'from_date'      => $firstLocation['meeting_from'] ?? null,
             'to_date'        => $firstLocation['meeting_to'] ?? null,
             'cadre'          => $profile->cadre,
             'rank'           => $profile->rank,
-            'sector'         => $profile->sector,
+            'sector'         => $itusector->name ?? null,
         ];
 
         // 4️⃣ You can either store or collect the record
