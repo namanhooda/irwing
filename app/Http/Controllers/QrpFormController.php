@@ -8,6 +8,7 @@ use App\Models\Unit;
 use App\Models\Profile;
 use App\Models\Agency;
 use App\Models\ITUSector;
+use App\Models\Designation;
 use App\Models\ITUSectorGroup;
 use App\Models\Country;
 use Illuminate\Support\Facades\Log;
@@ -47,7 +48,8 @@ class QrpFormController extends Controller
         
         $units = Unit::all();
         $profiles = Profile::select('id', 'officer_name')->get();
-        return view('qrp.create', compact('profiles','agencies', 'sectors', 'sectorGroups','country','units'));
+        $designations = Designation::latest()->get();
+        return view('qrp.create', compact('profiles','agencies', 'sectors', 'sectorGroups','country','units','designations'));
     }
 
     /**

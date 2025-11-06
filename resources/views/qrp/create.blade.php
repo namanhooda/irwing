@@ -218,6 +218,9 @@
                                     <label class="form-label">Designation</label>
                                     <select name="officers[0][designation]" class="form-control designation-select">
                                         <option value="">-- Select Designation --</option>
+                                        @foreach($designations as $designation)
+                                            <option value="{{ $designation->id }}">{{ $designation->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
 

@@ -134,13 +134,22 @@
     </div>
 </div>
     {{-- Charts - Row 1 --}}
-    <div class="row g-4 mb-4">
-        <div class="col-lg-7 col-12">
-            <div class="card h-100"> {{-- Added h-100 --}}
-                <div class="card-header"><h5 class="card-title mb-0">Month wise visits</h5></div>
-                <div class="card-body"><div id="monthWiseVisitsChart"></div></div>
+    <div class="row g-4 mb-4"><div class="col-lg-7 col-12">
+    <div class="card h-100">
+        <div class="card-header">
+            <h5 class="card-title mb-0">Month wise visits</h5>
+        </div>
+
+        <div class="card-body">
+            <div id="monthWiseVisitsChart"></div>
+
+            <div class="text-muted mt-2 mb-3" style="font-size: 0.9rem; text-align: right;">
+                Year: {{ $selectedYear ?? now()->year }}
             </div>
         </div>
+    </div>
+</div>
+
 
         <div class="col-lg-5 col-12">
             <div class="card h-100"> {{-- Added h-100 --}}
