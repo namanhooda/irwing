@@ -1,9 +1,24 @@
 @extends('layoutsBackend.app')
 
-@section('content')
+@section('content')<!-- Select2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 
     {{-- Readability: force high-contrast, black text and muted backgrounds for dashboard elements --}}
     <style>
+        .select2-container .select2-selection--single {
+    height: 38px;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    display: flex;
+    align-items: center;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 36px;
+}
+
     /* Dashboard readability improvements */
     .container-xxl, .card, .table, .form-select, .btn, .card-title, h4 {
         color: #000 !important;
@@ -275,6 +290,15 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 
 <script>
+    $(document).ready(function() {
+    // Make all form-select dropdowns searchable
+    $('.form-select').select2({
+        placeholder: 'Select an option',
+        allowClear: true,
+        width: 'resolve' // matches Bootstrap styling
+    });
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     // ---------- Raw data ----------
     let rawData = @json($tourReport ?? []);

@@ -31,7 +31,7 @@ class TourTrackerController extends Controller
 
     $qrp = QrpForm::find($request->id);
 
-    // Prevent updating unwanted fields
+    // ✅ Only allow updates to these fields
     $allowed = [
         'adminidtrative_appr', 'financial_appr', 'poltical_clear',
         'scos_appr', 'vigl_clear', 'pmo_appr',
@@ -42,10 +42,29 @@ class TourTrackerController extends Controller
         return response()->json(['success' => false, 'message' => 'Invalid field']);
     }
 
+    // ✅ Update field
     $qrp->{$request->field} = $request->value;
     $qrp->save();
 
-    return response()->json(['success' => true]);
+    // ✅ Check if all are approved
+    $allApproved = collect($allowed)->every(function ($field) use ($qrp) {
+        return strtolower($qrp->{$field}) === 'approved';
+    });
+
+    if ($allApproved) {
+        return response()->json([
+            'success' => true,
+            'refresh' => true,
+            'message' => 'All approvals done — refreshing...'
+        ]);
+    }
+
+    return response()->json([
+        'success' => true,
+        'refresh' => false,
+        'message' => 'Field updated successfully'
+    ]);
 }
+
 
 }

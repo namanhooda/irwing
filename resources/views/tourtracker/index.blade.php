@@ -170,10 +170,11 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(data => {
                 this.disabled = false;
                 if (data.success) {
-                    if (window.toastr) {
-                        toastr.success(`${field.replace('_', ' ')} updated successfully`);
+                    if (data.refresh) {
+                        toastr?.success('All approvals done — refreshing page...');
+                        setTimeout(() => location.reload(), 1500);
                     } else {
-                        alert(`${field.replace('_', ' ')} updated successfully`);
+                        toastr?.success(`${field.replace('_', ' ')} updated successfully`);
                     }
                 } else {
                     toastr?.error('Update failed') ?? alert('Update failed');

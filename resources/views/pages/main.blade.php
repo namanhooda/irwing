@@ -2384,7 +2384,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     <div class="card-content">
                         <h3>{{ $engagement->title }}</h3>
-                        <p>{!! nl2br(e($engagement->description)) !!}</p>
+                        <p>{!! \Illuminate\Support\Str::words(strip_tags($engagement->description), 13, '...') !!}
+</p>
                     </div></a>
                 </div>
             @empty

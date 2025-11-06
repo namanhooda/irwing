@@ -38,9 +38,15 @@ class SanctionMemosController extends Controller
     } 
 public function generate($id)
 {
+    
     // 1️⃣ Get the QRP form
     $qrp = QrpForm::findOrFail($id);
 
+    $alreadyExists = TourReport::where('tour_id', $qrp->meeting_id)->exists();
+
+    if ($alreadyExists) {
+        return redirect()->back()->with('error', 'Sanction memo for this tour is already generated.');
+    }
     // 2️⃣ Get related officers
     $officers = QrpOfficer::where('qrp_id', $qrp->id)->get();
 
@@ -66,6 +72,7 @@ public function generate($id)
                 $firstLocation = $locations[0];
             }
         }
+        $countryname = Country::find($firstLocation['country']);
 
         // Build data array
         $data = [
@@ -85,7 +92,7 @@ public function generate($id)
             'mobile_no'      => $profile->mobile_no,
             'email'          => $profile->email_id ?? $profile->email,
             'equivalent_rank'=> $profile->equivalent_rank,
-            'country'        => $firstLocation['country'] ?? null,
+            'country'        => $countryname->name ?? null,
             'city'           => $firstLocation['city'] ?? null,
             'from_date'      => $firstLocation['meeting_from'] ?? null,
             'to_date'        => $firstLocation['meeting_to'] ?? null,
@@ -103,11 +110,8 @@ public function generate($id)
     }
 
     // 5️⃣ Return success or view
-    return response()->json([
-        'status' => 'success',
-        'message' => 'Sanction memo data generated successfully.',
-        'data' => $records
-    ]);
+  
+        return redirect()->route('tourTracker.index')->with('success', 'Slider created successfully');
 }
 
 }
