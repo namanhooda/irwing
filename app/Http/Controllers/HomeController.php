@@ -21,6 +21,7 @@ use App\Models\SocialMedia;
 use App\Models\PromotionalVideo;
 use App\Models\Slider;
 use Illuminate\Http\Request;
+use App\Models\Vacancy;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -72,6 +73,16 @@ class HomeController extends Controller
             $orms = collect([]);
         }
         return view('pages.orms', compact('orms'));
+    }
+
+    public function vacancies(Request $request)
+    {
+        try {
+            $orms = Vacancy::all(); // fetch all records
+        } catch (\Exception $e) {
+            $orms = collect([]);
+        }
+        return view('pages.vacancies', compact('orms'));
     }
     public function videos(Request $request)
     {

@@ -76,8 +76,8 @@
 }
 
 .updates-scroll-container {
-    min-height: 461px;
-    max-height: 567px;
+    min-height: 410px;
+    max-height: 410px;
     height: auto !important;
 }
 

@@ -120,7 +120,7 @@
                         <p class="no-content">No description available.</p>
                     @endif
 
-                    @if($frontPages->file)
+                    <!-- @if($frontPages->file)
                         <a href="{{ asset('storage/' . $frontPages->file) }}" target="_blank" class="file-link">
                             <i class="fas fa-file-pdf"></i> View PDF File
                         </a>
@@ -132,7 +132,7 @@
 
                     <div class="mt-3 text-muted small">
                         <strong>Published on:</strong> {{ $frontPages->created_at->format('d M, Y') }}
-                    </div>
+                    </div> -->
                 </div>
             </div>
 </div>

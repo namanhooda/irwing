@@ -29,6 +29,17 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     transition: opacity 0.1s ease-in-out;
 }
+@media screen and (min-width: 1600px) {
+    .container-fluid {
+        padding-left: 90px !important;
+        padding-right: 90px !important;
+    }
+}
+.container-fluid-section-padding{
+    padding-left: 127px !important;
+    padding-right: 127px !important;
+
+}
 
         /* Government Website Design - Matching Reference */
         * {
@@ -52,7 +63,7 @@
 
         /* Blue Banner Section - Split Layout Design */
         .blue-banner-section {
-            background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
+            background: #4a90e2;
             color: white;
             padding: 0;
             position: relative;
@@ -91,7 +102,7 @@
         /* Left side - Image */
         .banner-image-side {
             height: 300px;
-            background: #4a90e2;
+            background: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
             position: relative;
             overflow: hidden;
             display: flex;
@@ -113,7 +124,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            background: #4a90e2;
+            background: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
         }
 
         .banner-date {
@@ -391,7 +402,7 @@
 
         .access-button:hover {
             background: white;
-            color: #4a90e2;
+            color: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
             border-color: white;
         }
 
@@ -429,7 +440,7 @@
         }
 
         .sidebar-title {
-            background: #4a90e2;
+            background: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
             color: white;
             padding: 20px 20px;
             margin: -30px -20px 25px -20px;
@@ -440,7 +451,7 @@
         }
 
         .card-title {
-            background: #4a90e2;
+            background: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
             color: white;
             padding: 15px 15px;
             margin: -15px -15px 15px -15px;
@@ -454,7 +465,7 @@
             background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
             border-radius: 20px;
             padding: 20px;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             box-shadow: 
                 0 10px 30px rgba(0, 0, 0, 0.08),
                 0 4px 15px rgba(0, 0, 0, 0.05),
@@ -495,7 +506,7 @@
             border-radius: 50%;
             overflow: hidden;
             margin: 0 auto 20px;
-            border: 4px solid #4a90e2;
+            border: 4px solid rgb(37 99 235 / var(--tw-bg-opacity, 1));;
             box-shadow: 
                 0 8px 20px rgba(74, 144, 226, 0.3),
                 0 4px 10px rgba(0, 0, 0, 0.1),
@@ -560,7 +571,6 @@
         .minister-title {
             font-size: 1.3rem;
             color: #6c757d;
-            margin-bottom: 18px;
             line-height: 1.4;
             font-weight: 600;
             transition: all 0.3s ease;
@@ -603,7 +613,7 @@
         .minister-message p::before {
             content: '"';
             font-size: 2rem;
-            color: #4a90e2;
+            color: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
             position: absolute;
             left: -15px;
             top: -5px;
@@ -614,7 +624,7 @@
         .minister-message p::after {
             content: '"';
             font-size: 2rem;
-            color: #4a90e2;
+            color: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
             position: absolute;
             right: -10px;
             bottom: -15px;
@@ -636,7 +646,7 @@
         .social-icon {
             width: 35px;
             height: 35px;
-            background: #4a90e2;
+            background: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
             color: white;
             border-radius: 8px;
             display: flex;
@@ -663,7 +673,7 @@
         /* Tabbed Navigation */
         .content-tabs {
             display: flex;
-            background: #4a90e2;
+            background: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
             border-radius: 10px 10px 0 0;
             overflow: hidden;
             margin-bottom: 0;
@@ -673,7 +683,7 @@
         .tab-button {
             flex: 1;
             padding: 18px 20px;
-            background: #4a90e2;
+            background: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
             color: white;
             border: none;
             font-size: 1.7rem;
@@ -689,7 +699,7 @@
 
         .tab-button.active,
         .tab-button:hover {
-            background: #4a90e2;
+            background: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
         }
 
         /* Tab Content */
@@ -734,7 +744,7 @@
         }
 
         .update-date {
-            color: #4a90e2;
+            color: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
             font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 8px;
@@ -748,7 +758,7 @@
         }
 
         .read-more-btn {
-            background: #4a90e2;
+            background: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
             color: white;
             border: none;
             padding: 12px 30px;
@@ -845,7 +855,7 @@
         }
 
         .social-media-header {
-            background: #4a90e2;
+            background: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
             color: white;
             padding: 20px;
             font-size: 1.4rem;
@@ -963,7 +973,7 @@
         }
 
         .social-text-content .social-link:hover {
-            color: #4a90e2;
+            color: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
             text-decoration: underline;
         }
 
@@ -1038,7 +1048,7 @@
         }
 
         .social-follow-btn {
-            background: #4a90e2;
+            background: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
             color: white !important;
             border: none;
             padding: 10px 20px;
@@ -1068,7 +1078,7 @@
         }
 
         .calendar-header {
-            background: #4a90e2;
+            background: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
             color: white;
             padding: 13px;
             display: flex;
@@ -1131,7 +1141,7 @@
         }
 
         .calendar-dropdown option {
-            background: #4a90e2;
+            background: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
             color: white;
             padding: 8px;
         }
@@ -1149,6 +1159,7 @@
         }
 
         .calendar-day-header {
+            font-size: 1.5rem;
             background: #f8f9fa;
             padding: 15px;
             text-align: center;
@@ -1190,7 +1201,7 @@
         }
 
         .calendar-day-number {
-            font-size: 1.2rem;
+            font-size: 1.8rem;
             font-weight: 600;
             color: #2c3e50;
             margin-bottom: 5px;
@@ -1201,12 +1212,12 @@
         }
 
         .calendar-day.today .calendar-day-number {
-            color: #4a90e2;
+            color: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
             font-weight: 700;
         }
 
         .event-item {
-            background: #4a90e2;
+            background: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
             color: white;
             padding: 2px 4px;
             border-radius: 3px;
@@ -1372,7 +1383,7 @@
         }
 
         .social-follow-btn {
-            background: #4a90e2;
+            background: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
             color: white !important;
             border: none;
             padding: 12px 25px;
@@ -1399,7 +1410,7 @@
         }
 
         .social-link:hover {
-            color: #4a90e2;
+            color: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
             text-decoration: underline;
         }
 
@@ -1877,7 +1888,7 @@
         .itu-text-content li::before {
             content: '\2022';
             /* Bullet point character */
-            color: #4a90e2;
+            color: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
             /* Blue color for bullet */
             font-weight: bold;
             display: inline-block;
@@ -1887,7 +1898,7 @@
         }
 
         .itu-more-link {
-            color: #4a90e2;
+            color: rgb(37 99 235 / var(--tw-bg-opacity, 1));;
             text-decoration: none;
             font-weight: 600;
             display: block;
@@ -1926,7 +1937,7 @@
     <main class="main government-home" style="padding-top: 0;">
         <!-- Blue Banner Section - Split Layout -->
         <section class="blue-banner-section">
-    <div class="container-fluid p-0">
+    <div class="container-fluid p-0" style="padding-left: 0px !important;padding-right: 0px !important;">
         <div class="banner-container">
             <!-- Left side - Image -->
             <div class="banner-image-side" onclick="goToSlideUrl(currentSlide)" style="cursor:pointer;">
@@ -2120,9 +2131,9 @@ document.querySelector('.blue-banner-section').addEventListener('mouseleave', ()
                             </div>
                             <div class="minister-name">{{ $minister->postion }}</div>
                             <div class="minister-title">{{ $minister->minister_name }}</div>
-                            <div class="minister-message">
+                            <!-- <div class="minister-message">
                                 <p>{{ Str::limit($minister->message, 30, '...') }}</p>
-                            </div>
+                            </div> -->
                         </div>
                         @endforeach
                     </div>
@@ -2135,100 +2146,192 @@ document.querySelector('.blue-banner-section').addEventListener('mouseleave', ()
                         </div>
 
                         <!-- Single Tab Content -->
-                       <div class="tab-content">
-    <div id="all-updates" class="tab-pane active">
-        <div class="updates-scroll-container">
-            <div class="updates-scroll-content" id="scrollContent">
-                {{-- Repeat the circulars twice so it never goes blank --}}
-                @for($i = 0; $i < 2; $i++)
-                    @foreach($circulars as $circular)
-    <div class="update-item">
-        @if($circular->file)
-            {{-- If file exists, open uploaded file in new tab --}}
-            <a href="{{ asset($circular->file) }}" target="_blank">
-                <div class="update-date">{{ $circular->title }}</div>
-            </a>
-        @elseif($circular->url)
-            {{-- Else open the external URL --}}
-            <a href="{{ $circular->url }}" target="_blank">
-                <div class="update-date">{{ $circular->title }}</div>
-            </a>
-        @else
-            {{-- If neither file nor URL exists, show plain title --}}
-            <div class="update-date">{{ $circular->title }}</div>
-        @endif
+                       <div class="tab-content" style="max-height: 439px;min-height: 439px;">
+                        <div id="all-updates" class="tab-pane active">
+                            <div class="updates-scroll-container">
+                                <div class="updates-scroll-content" id="scrollContent">
+                                    {{-- Repeat the circulars twice so it never goes blank --}}
+                                    @for($i = 0; $i < 2; $i++)
+                                        @foreach($circulars as $circular)
+                                        <div class="update-item">
+                                            @if($circular->file)
+                                                {{-- If file exists, open uploaded file in new tab --}}
+                                                <a href="{{ asset($circular->file) }}" target="_blank">
+                                                    <div class="update-date">{{ $circular->title }}</div>
+                                                </a>
+                                            @elseif($circular->url)
+                                                {{-- Else open the external URL --}}
+                                                <a href="{{ $circular->url }}" target="_blank">
+                                                    <div class="update-date">{{ $circular->title }}</div>
+                                                </a>
+                                            @else
+                                                {{-- If neither file nor URL exists, show plain title --}}
+                                                <div class="update-date">{{ $circular->title }}</div>
+                                            @endif
 
-        <div class="update-text">{{ $circular->description }}</div>
-    </div>
-@endforeach
+                                            <div class="update-text">{{ $circular->description }}</div>
+                                        </div>
+                                    @endforeach
 
-                @endfor
-            </div>
-        </div>
-    </div>
-</div>
+                                    @endfor
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-<style>
-.updates-scroll-container {
-    flex: 1; /* Expand to fill available space */
-    overflow-y: auto; /* Allow manual scroll */
-    scroll-behavior: smooth; /* Smooth scroll on mouse */
-    border: 1px solid #e1e1e1;
-    border-radius: 8px;
-    padding-right: 10px;
-}
+                    <style>
+                    .updates-scroll-container {
+                        flex: 1; /* Expand to fill available space */
+                        overflow-y: auto; /* Allow manual scroll */
+                        scroll-behavior: smooth; /* Smooth scroll on mouse */
+                        border: 1px solid #e1e1e1;
+                        border-radius: 8px;
+                        padding-right: 10px;
+                    }
 
-.updates-scroll-content {
-    display: flex;
-    flex-direction: column;
-}
+                    .updates-scroll-content {
+                        display: flex;
+                        flex-direction: column;
+                    }
 
-.update-item {
-    padding: 10px 15px;
-    border-bottom: 1px solid #ddd;
-    transition: background-color 0.2s ease;
-}
+                    .update-item {
+                        padding: 10px 15px;
+                        border-bottom: 1px solid #ddd;
+                        transition: background-color 0.2s ease;
+                    }
 
-.update-item:hover {
-    background-color: #f8f9fa;
-}
+                    .update-item:hover {
+                        background-color: #f8f9fa;
+                    }
 
-.update-date {
-    font-weight: 600;
-    color: #0d6efd;
-    margin-bottom: 5px;
-}
+                    .update-date {
+                        font-weight: 600;
+                        color: #0d6efd;
+                        margin-bottom: 5px;
+                    }
 
-.update-text {
-    color: #495057;
-    font-size: 14px;
-}
-</style>
+                    .update-text {
+                        color: #495057;
+                        font-size: 14px;
+                    }
+                    </style>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const scrollContainer = document.querySelector('.updates-scroll-container');
+                    <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const scrollContainer = document.querySelector('.updates-scroll-container');
 
-    // Optional smooth scroll on mouse wheel
-    scrollContainer.addEventListener('wheel', (e) => {
-        e.preventDefault();
-        scrollContainer.scrollBy({
-            top: e.deltaY,
-            behavior: 'smooth'
-        });
-    });
-});
-</script>
+                        // Optional smooth scroll on mouse wheel
+                        scrollContainer.addEventListener('wheel', (e) => {
+                            e.preventDefault();
+                            scrollContainer.scrollBy({
+                                top: e.deltaY,
+                                behavior: 'smooth'
+                            });
+                        });
+                    });
+                    </script>
 
 
                     </div>
                 </div>
             </div>
         </section>
+        
+        <!-- ✅ Mini Dashboard Section -->
+<section class="mini-dashboard-section">
+    <div class="container-fluid container-fluid-section-padding">
+        <h1 class="priority-areas-header">Mini Dashboard</h1>
+
+        <div class="mini-dashboard">
+            <!-- Card 1 -->
+            <div class="dashboard-card">
+                <h4 class="card-heading">Pending Submissions</h4>
+                <p>QRP: {{ $qrpCount ?? 5 }}</p>
+                <p>Tour Reports: {{ $tourReportCount ?? 12 }}</p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="dashboard-card">
+                <h4 class="card-heading">Upcoming Events</h4>
+                <p>Meetings: {{ $meetingCount ?? 3 }}</p>
+                <p>Bilaterals: {{ $bilateralCount ?? 2 }}</p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="dashboard-card">
+                <h4 class="card-heading">Recent Contributions</h4>
+                <p>ITU Submissions: {{ $ituSubmissionCount ?? 8 }}</p>
+                <p>Presentations: {{ $presentationCount ?? 4 }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ✅ Styling -->
+<style>
+/* Mini Dashboard Layout */
+.mini-dashboard-section {
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    padding: 25px 0px;
+    margin-bottom: 30px;
+}
+
+.dashboard-title {
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 20px;
+}
+
+.mini-dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.dashboard-card {
+    flex: 1;
+    min-width: 250px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+}
+
+.card-heading {
+    font-weight: 700;
+    font-size: 15px;
+    color: #000;
+    margin-bottom: 8px;
+}
+
+.dashboard-card p {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .mini-dashboard {
+        flex-direction: column;
+    }
+    .dashboard-card {
+        width: 100%;
+    }
+}
+</style>
+
 
         <!-- EVENTS CALENDAR -->
         <section class="calendar-section">
-            <div class="container">
+    <div class="container-fluid container-fluid-section-padding">
                 <div class="section-header">
                     <h2 class="section-title">EVENTS CALENDAR & SOCIAL MEDIA FEED</h2>
                 </div>
@@ -2372,7 +2475,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         </section>
         <section class="priority-areas-section">
-    <div class="container">
+    <div class="container-fluid container-fluid-section-padding">
         <h1 class="priority-areas-header">Priority Areas for Engagements</h1>
         <div class="engagement-grid">
             @forelse ($engagements as $engagement)
@@ -2383,7 +2486,7 @@ document.addEventListener('DOMContentLoaded', () => {
                              alt="{{ $engagement->title }}" class="card-image">
                     </div>
                     <div class="card-content">
-                        <h3>{{ $engagement->title }}</h3>
+                        <h2>{{ $engagement->title }}</h2>
                         <p>{!! \Illuminate\Support\Str::words(strip_tags($engagement->description), 13, '...') !!}
 </p>
                     </div></a>
@@ -2396,7 +2499,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </section>
 
         <section class="itu-ambitions-section">
-            <div class="container">
+    <div class="container-fluid">
                 <h1 class="itu-section-header">India's Ambitions in ITU</h1>
 
                 @if($ambition)

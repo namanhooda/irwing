@@ -81,6 +81,7 @@ Route::post('informations/update-order', [App\Http\Controllers\Admin\Information
  Route::get('pressrelease', [HomeController::class, 'pressrelease'])->name('pressrelease');
  Route::get('social-media', [HomeController::class, 'tweets'])->name('tweets');
  Route::get('orms', [HomeController::class, 'orms'])->name('orms');
+ Route::get('vacancies', [HomeController::class, 'vacancies'])->name('vacancies');
  Route::get('achivements', [HomeController::class, 'achivements'])->name('achivements');
  Route::get('internation-forums/{id}', [HomeController::class, 'internationForums'])->name('internationForums');
  Route::get('circular/{id}', [HomeController::class, 'circular'])->name('circular');
@@ -220,6 +221,7 @@ Route::post('/personal-performa/update-status/{id}', [\App\Http\Controllers\Pers
             Route::resource('om_types', \App\Http\Controllers\Admin\OmTypeController::class);
 
             Route::resource('front_pages', App\Http\Controllers\Admin\FrontPageController::class);
+            Route::resource('vacancies', App\Http\Controllers\Admin\VacancyController::class);
 
 
             Route::resource('social_media', App\Http\Controllers\Admin\SocialMediaController::class);

@@ -121,7 +121,7 @@
 
         /* Navigation Bar - Orange Theme Matching Reference */
         .header-nav {
-            background: #4a90e2;
+            background: rgb(37 99 235 / var(--tw-bg-opacity, 1));
             position: relative;
         }
 
@@ -552,6 +552,7 @@
 
 
                             <a href="{{url('orms')}}">IR Wing OMs</a>
+                            <a href="{{url('vacancies')}}">Vacancies</a>
 
                             @php
                             $Information = App\Models\Information::orderBy('position', 'asc')->get();

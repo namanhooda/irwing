@@ -84,7 +84,7 @@
     <div class="page-content ir-section">
 
         <div class="ir-header">
-            <h4>{{$roleir->title}}</h4>
+            <h1>{{$roleir->title}}</h1>
         </div>
 
         <!-- Tabs -->

@@ -133,7 +133,7 @@
                 <p class="no-content">No description available.</p>
             @endif
 
-            <div class="info-meta">
+            <!-- <div class="info-meta">
                     <p>
                         @if($information->file)
                         <a href="{{ asset('uploads/informations/' . $information->file) }}" target="_blank" class="file-link" style="color: white !important;">
@@ -148,7 +148,7 @@
 
 
                 <p><strong>Published on:</strong> {{ $information->created_at->format('d M, Y') }}</p>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
