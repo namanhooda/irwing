@@ -20,7 +20,6 @@
             <tr>
                 <th>#</th>
                 <th>Title</th>
-                <th>Description</th>
                 <th>URL</th>
                 <th>Actions</th>
             </tr>
@@ -30,7 +29,6 @@
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $form->title }}</td>
-                <td>{{ $form->description }}</td>
                 <td>
                     @if($form->url)
                         <a href="{{ $form->url }}" target="_blank">Open</a>
