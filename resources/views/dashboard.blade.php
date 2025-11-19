@@ -1,104 +1,48 @@
 @extends('layoutsBackend.app')
 
-@section('content')<!-- Select2 CSS -->
+@section('content')
+<!-- Select2 CSS -->
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <!-- Select2 JS -->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-
-    {{-- Readability: force high-contrast, black text and muted backgrounds for dashboard elements --}}
+    {{-- Readability & layout styles (kept from your original, lightly trimmed) --}}
     <style>
         .select2-container .select2-selection--single {
-    height: 38px;
-    border: 1px solid #ced4da;
-    border-radius: 0.375rem;
-    display: flex;
-    align-items: center;
-}
-.select2-container--default .select2-selection--single .select2-selection__arrow {
-    height: 36px;
-}
-
-    /* Dashboard readability improvements */
-    .container-xxl, .card, .table, .form-select, .btn, .card-title, h4 {
-        color: #000 !important;
-        font-size: 0.95rem;
-        line-height: 1.45;
-    }
-    .card {
-        background: #ffffff !important;
-        border: 1px solid #e6e9ee !important;
-        box-shadow: 0 1px 3px rgba(16,24,40,0.05);
-    }
-    .card-header, .card-title {
-        background: #f5f7fa;
-        color: #000 !important;
-        font-weight: 600;
-        border-bottom: 1px solid #e6e9ee;
-    }
-    .table thead th {
-        background: #f8fafc !important;
-        color: #000 !important;
-        border-bottom: 2px solid #e9eef3 !important;
-    }
-    .table tbody tr td {
-        color: #000 !important;
-    }
-    .table-hover tbody tr:hover {
-        background: #fbfdff;
-    }
-    .form-select {
-        background: #fff;
-        color: #000 !important;
-        border: 1px solid #ced4da;
-        /* remove native arrow and add custom SVG caret to the right */
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath d='M6 8l4 4 4-4' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 0.75rem center;
-        background-size: 0.85rem;
-        padding-right: 2.2rem; /* room for the arrow */
-    }
-    .btn, .btn-outline-secondary {
-        color: #000 !important;
-        background: #e9eef3;
-        border-color: #d0d7df;
-    }
-    .btn.btn-primary {
-        background: #2563eb; /* clearer blue */
-        border-color: #1d4ed8;
-        color: #fff !important;
-    }
-    .sticky-top.bg-white { background: #fff !important; }
-    .leaflet-container { background: #fff; }
-    </style>
-    <style>
-    /* make all select boxes same width */
-    .filter-row .form-select {
-        width: 180px; /* adjust width as you like */
-        min-width: 180px;
-    }
-
-    /* ensure select boxes stay consistent on smaller screens */
-    @media (max-width: 768px) {
-        .filter-row .form-select {
-            width: 100%;
-            min-width: 100%;
+            height: 38px;
+            border: 1px solid #ced4da;
+            border-radius: 0.375rem;
+            display: flex;
+            align-items: center;
         }
-    }
-    
-</style>
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 36px;
+        }
+        .container-xxl, .card, .table, .form-select, .btn, .card-title, h4 {
+            color: #000 !important;
+            font-size: 0.95rem;
+            line-height: 1.45;
+        }
+        .card { background: #fff !important; border: 1px solid #e6e9ee !important; box-shadow: 0 1px 3px rgba(16,24,40,0.05); }
+        .card-header, .card-title { background: #f5f7fa; color: #000 !important; font-weight: 600; border-bottom: 1px solid #e6e9ee; }
+        .table thead th { background: #f8fafc !important; color: #000 !important; border-bottom: 2px solid #e9eef3 !important; }
+        .form-select { background: #fff; color: #000 !important; border: 1px solid #ced4da; padding-right: 2.2rem; }
+        .btn, .btn-outline-secondary { color: #000 !important; background: #e9eef3; border-color: #d0d7df; }
+        .btn.btn-primary { background: #2563eb; border-color: #1d4ed8; color: #fff !important; }
+        .sticky-top.bg-white { background: #fff !important; }
+        .filter-row .form-select { width: 180px; min-width: 180px; }
+        @media (max-width: 768px) {
+            .filter-row .form-select { width: 100%; min-width: 100%; }
+        }
+    </style>
 
     @php
-    $activeRole = session('active_role') ?? auth()->user()->getRoleNames()->first();
-    
+        $activeRole = session('active_role') ?? auth()->user()->getRoleNames()->first();
     @endphp
+
     @if($activeRole == 'admin')
 <div class="container-xxl flex-grow-1 container-p-y">
 
-    {{-- Header --}}
     <div class="row g-4 mb-2">
         <div class="col-12">
             <h4 class="mb-0">Dashboard</h4>
@@ -106,121 +50,389 @@
     </div>
 
     {{-- FILTER ROW --}}
-   <div class="d-flex flex-wrap gap-2 mb-3 filter-row">
-    <div class="mb-2">
-        <select id="officerFilter" class="form-select">
-            <option value="">All officers</option>
-            @if(isset($officers))
-                @foreach($officers as $officer)
-                    @if(!empty($officer))
-                        <option value="{{ $officer }}">{{ $officer }}</option>
-                    @endif
-                @endforeach
-            @endif
-        </select>
+    <div class="d-flex flex-wrap gap-2 mb-3 filter-row align-items-end">
+       <!-- Officer dropdown - Replace previous officer block with this -->
+<div class="mb-2" id="officerFilterWrapper" style="position:relative; min-width:170px;">
+    <label class="form-label small mb-1">Officer</label>
+
+    <!-- Hidden original select (keeps same id for existing code) -->
+    <select id="officerFilter" style="display:none;">
+        <option value="">All officers</option>
+        @if(isset($officers))
+            @foreach($officers as $officer)
+                @if(!empty($officer))
+                    <option value="{{ $officer }}">{{ $officer }}</option>
+                @endif
+            @endforeach
+        @endif
+    </select>
+
+    <!-- Visible custom dropdown (looks like select) -->
+    <div class="custom-select" tabindex="0"
+         style="border:1px solid #ced4da;border-radius:.375rem;padding:.45rem .6rem;display:flex;align-items:center;justify-content:space-between;cursor:pointer;background:#fff;">
+        <span id="officerSelectedText" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">All officers</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" style="opacity:.7">
+            <path d="M7 10l5 5 5-5z" fill="currentColor"/>
+        </svg>
     </div>
-    <div class="mb-2">
-        <select id="filterMonth" class="form-select filter-select">
-            <option value="">All Months</option>
-        </select>
-    </div>
-    <div class="mb-2">
-        <select id="filterMeeting" class="form-select filter-select">
-            <option value="">All Purposes</option>
-        </select>
-    </div>
-    <div class="mb-2">
-        <select id="filterCountry" class="form-select filter-select">
-            <option value="">All Countries</option>
-        </select>
-    </div>
-    <div class="mb-2">
-        <select id="filterCadre" class="form-select filter-select">
-            <option value="">All Cadres</option>
-        </select>
-    </div>
-    <div class="mb-2">
-        <select id="filterGender" class="form-select filter-select">
-            <option value="">All Genders</option>
-        </select>
-    </div>
-    <div class="mb-2 ms-auto">
-        <button id="clearFilters" class="btn btn-outline-secondary">Clear</button>
+
+    <!-- Dropdown panel -->
+    <div id="officerPanel" aria-hidden="true"
+         style="position:absolute;z-index:2200;left:0;right:0;margin-top:.35rem;border:1px solid #e6e9ee;border-radius:.375rem;background:#fff;box-shadow:0 8px 20px rgba(2,6,23,.08);max-height:280px;overflow:hidden;display:none;">
+        <!-- internal search box inside the dropdown (appears like part of select) -->
+        <div style="padding:.4rem;">
+            <input id="officerInlineSearch" type="text" placeholder="Search officer..." autocomplete="off"
+                   style="width:100%;padding:.45rem .5rem;border:1px solid #e6e9ee;border-radius:.35rem;"/>
+        </div>
+        <div id="officerList" role="listbox" tabindex="-1" style="max-height:210px;overflow:auto;padding:.25rem;">
+            <!-- options will be rendered here -->
+        </div>
     </div>
 </div>
-    {{-- Charts - Row 1 --}}
-    <div class="row g-4 mb-4"><div class="col-lg-7 col-12">
-    <div class="card h-100">
-        <div class="card-header">
-            <h5 class="card-title mb-0">Month wise visits</h5>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Elements
+    const realSelect = document.getElementById('officerFilter'); // hidden real select (kept for existing code)
+    const wrapper = document.getElementById('officerFilterWrapper');
+    const visible = wrapper.querySelector('.custom-select');
+    const panel = document.getElementById('officerPanel');
+    const search = document.getElementById('officerInlineSearch');
+    const listContainer = document.getElementById('officerList');
+    const selectedText = document.getElementById('officerSelectedText');
+    const clearBtn = document.getElementById('clearFilters'); // existing clear button
+
+    if(!realSelect) return;
+
+    // Build array of options from the real select
+    const optionsArr = [];
+    for(let i=0;i<realSelect.options.length;i++){
+        const o = realSelect.options[i];
+        optionsArr.push({ value: o.value, text: o.text });
+    }
+
+    // Keep placeholder (value === '') on top, others sorted alphabetically by text
+    function sortedOptions(arr){
+        const copy = arr.slice();
+        // find placeholder
+        const phIndex = copy.findIndex(x => String(x.value).trim() === '');
+        let placeholder = null;
+        if(phIndex > -1) placeholder = copy.splice(phIndex,1)[0];
+        copy.sort((a,b)=>{
+            const A=a.text.toLowerCase(), B=b.text.toLowerCase();
+            if(A < B) return -1;
+            if(A > B) return 1;
+            return 0;
+        });
+        if(placeholder) copy.unshift(placeholder);
+        return copy;
+    }
+
+    const sorted = sortedOptions(optionsArr);
+
+    // Render the list into panel
+    function renderList(list){
+        listContainer.innerHTML = '';
+        if(!list.length){
+            const empty = document.createElement('div');
+            empty.textContent = 'No matches';
+            empty.style.padding = '.5rem';
+            empty.style.color = '#6b7280';
+            listContainer.appendChild(empty);
+            return;
+        }
+        list.forEach((it, idx) => {
+            const row = document.createElement('div');
+            row.setAttribute('role','option');
+            row.setAttribute('data-value', it.value);
+            row.className = 'officer-row';
+            row.style.padding = '.45rem .6rem';
+            row.style.cursor = 'pointer';
+            row.style.borderRadius = '.25rem';
+            row.style.whiteSpace = 'nowrap';
+            row.style.overflow = 'hidden';
+            row.style.textOverflow = 'ellipsis';
+            row.textContent = it.text;
+            row.addEventListener('mouseenter', ()=> row.style.background = '#f8fafc');
+            row.addEventListener('mouseleave', ()=> row.style.background = 'transparent');
+            row.addEventListener('click', () => {
+                selectValue(it.value, it.text);
+                hidePanel();
+            });
+            listContainer.appendChild(row);
+        });
+    }
+
+    // Initialize
+    renderList(sorted);
+
+    // Current highlighted index for keyboard nav
+    let highlightedIndex = -1;
+    function clearHighlight(){
+        highlightedIndex = -1;
+        const rows = listContainer.querySelectorAll('.officer-row');
+        rows.forEach(r => r.style.background = 'transparent');
+    }
+    function highlightAt(i){
+        const rows = listContainer.querySelectorAll('.officer-row');
+        if(!rows.length) return;
+        // clamp
+        if(i < 0) i = 0;
+        if(i >= rows.length) i = rows.length - 1;
+        clearHighlight();
+        highlightedIndex = i;
+        rows[i].style.background = '#eef2ff'; // light highlight
+        // scroll into view
+        rows[i].scrollIntoView({ block: 'nearest' });
+    }
+
+    // Select value: set hidden select and update visible text and dispatch change
+    function selectValue(val, text){
+        // set real select value (if option exists)
+        const exists = Array.from(realSelect.options).some(o => o.value === val);
+        if(!exists){
+            // if value is not present, try fallback by text
+            const match = Array.from(realSelect.options).find(o => o.text === text);
+            if(match) realSelect.value = match.value;
+            else realSelect.value = '';
+        } else {
+            realSelect.value = val;
+        }
+        // update visible
+        selectedText.textContent = text || 'All officers';
+        // dispatch change on real select so existing listeners run
+        const ev = new Event('change', { bubbles: true });
+        realSelect.dispatchEvent(ev);
+    }
+
+    // Show / hide panel
+    function showPanel(){
+        panel.style.display = 'block';
+        panel.setAttribute('aria-hidden','false');
+        search.focus();
+        // select existing value text into view
+        const cur = realSelect.value;
+        // filter to show current selection near top
+        if(cur){
+            search.value = '';
+            filterList(''); // reset filter
+            // find index and scroll
+            const rows = Array.from(listContainer.querySelectorAll('.officer-row'));
+            const idx = rows.findIndex(r => r.getAttribute('data-value') === cur);
+            if(idx >= 0) highlightAt(idx);
+        } else {
+            search.value = '';
+            filterList('');
+        }
+    }
+    function hidePanel(){
+        panel.style.display = 'none';
+        panel.setAttribute('aria-hidden','true');
+        clearHighlight();
+        visible.focus();
+    }
+
+    // Toggle panel on visible click
+    visible.addEventListener('click', function(e){
+        if(panel.style.display === 'block') hidePanel(); else showPanel();
+    });
+
+    // Close if click outside
+    document.addEventListener('click', function(e){
+        if(!wrapper.contains(e.target)) hidePanel();
+    });
+
+    // Keyboard support on visible
+    visible.addEventListener('keydown', function(e){
+        if(e.key === 'ArrowDown'){ e.preventDefault(); showPanel(); highlightAt(0); }
+        if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showPanel(); }
+    });
+
+    // Filter function (contains match, case-insensitive)
+    function filterList(q){
+        q = (q || '').trim().toLowerCase();
+        if(q === ''){
+            renderList(sorted);
+            return;
+        }
+        const filtered = sorted.filter(it => it.text.toLowerCase().indexOf(q) !== -1);
+        renderList(filtered);
+    }
+
+    // Hook search input
+    let searchTimeout = null;
+    search.addEventListener('input', function(e){
+        const q = e.target.value || '';
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(()=> {
+            filterList(q);
+            highlightedIndex = -1;
+        }, 80);
+    });
+
+    // Keyboard navigation inside panel
+    panel.addEventListener('keydown', function(e){
+        const rows = listContainer.querySelectorAll('.officer-row');
+        if(e.key === 'ArrowDown'){
+            e.preventDefault();
+            if(highlightedIndex < rows.length - 1) highlightAt(highlightedIndex + 1);
+        } else if(e.key === 'ArrowUp'){
+            e.preventDefault();
+            if(highlightedIndex > 0) highlightAt(highlightedIndex - 1);
+        } else if(e.key === 'Enter'){
+            e.preventDefault();
+            if(highlightedIndex >= 0 && rows[highlightedIndex]){
+                const val = rows[highlightedIndex].getAttribute('data-value');
+                const txt = rows[highlightedIndex].textContent;
+                selectValue(val, txt);
+                hidePanel();
+            }
+        } else if(e.key === 'Escape'){
+            e.preventDefault();
+            hidePanel();
+        }
+    });
+
+    // When the original hidden select changes externally, sync visible text
+    realSelect.addEventListener('change', function(){
+        const selOpt = realSelect.options[realSelect.selectedIndex];
+        selectedText.textContent = selOpt ? selOpt.text : 'All officers';
+    });
+
+    // Initialize visible text from current select value
+    (function initSelectedText(){
+        const selOpt = realSelect.options[realSelect.selectedIndex];
+        selectedText.textContent = selOpt ? selOpt.text : 'All officers';
+    })();
+
+    // Clear button behavior: reset the visible control and hidden select
+    if(clearBtn){
+        clearBtn.addEventListener('click', function(){
+            // reset hidden select to placeholder
+            const placeholder = Array.from(realSelect.options).find(o => String(o.value).trim() === '');
+            if(placeholder) {
+                realSelect.value = placeholder.value;
+                realSelect.dispatchEvent(new Event('change', { bubbles:true }));
+                selectedText.textContent = placeholder.text || 'All officers';
+            } else {
+                realSelect.value = '';
+                realSelect.dispatchEvent(new Event('change', { bubbles:true }));
+                selectedText.textContent = 'All officers';
+            }
+            // close & reset panel
+            search.value = '';
+            renderList(sorted);
+            hidePanel();
+        });
+    }
+});
+</script>
+
+
+        <div class="mb-2">
+            <label class="form-label small mb-1">From</label>
+            <input type="date" id="startDate" class="form-control" />
         </div>
 
-        <div class="card-body">
-            <div id="monthWiseVisitsChart"></div>
+        <div class="mb-2">
+            <label class="form-label small mb-1">To</label>
+            <input type="date" id="endDate" class="form-control" />
+        </div>
 
-            <div class="text-muted mt-2 mb-3" style="font-size: 0.9rem; text-align: right;">
-                Year: {{ $selectedYear ?? now()->year }}
+        <div class="mb-2">
+            <label class="form-label small mb-1">Purpose</label>
+            <select id="filterMeeting" class="form-select filter-select">
+                <option value="">All Purposes</option>
+            </select>
+        </div>
+
+        <div class="mb-2">
+            <label class="form-label small mb-1">Country</label>
+            <select id="filterCountry" class="form-select filter-select">
+                <option value="">All Countries</option>
+            </select>
+        </div>
+
+        <div class="mb-2">
+            <label class="form-label small mb-1">Cadre</label>
+            <select id="filterCadre" class="form-select filter-select">
+                <option value="">All Cadres</option>
+            </select>
+        </div>
+
+        <div class="mb-2">
+            <label class="form-label small mb-1">Gender</label>
+            <select id="filterGender" class="form-select filter-select">
+                <option value="">All Genders</option>
+            </select>
+        </div>
+
+        <div class="mb-2 ms-auto">
+            <button id="clearFilters" class="btn btn-outline-secondary">Clear</button>
+        </div>
+    </div>
+
+    {{-- Charts / Layout (same structure as yours) --}}
+    <div class="row g-4 mb-4">
+        <div class="col-lg-7 col-12">
+            <div class="card h-100">
+                <div class="card-header"><h5 class="card-title mb-0">Month wise visits</h5></div>
+                <div class="card-body">
+                    <div id="monthWiseVisitsChart"></div>
+                    <div class="text-muted mt-2 mb-3" style="font-size: 0.9rem; text-align: right;">Date range applied</div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-
 
         <div class="col-lg-5 col-12">
-            <div class="card h-100"> {{-- Added h-100 --}}
+            <div class="card h-100">
                 <div class="card-header"><h5 class="card-title mb-0">Types of meetings</h5></div>
                 <div class="card-body"><div id="meetingsTreemapChart"></div></div>
             </div>
         </div>
     </div>
 
-    {{-- Charts - Row 2: Map and ITU Pie --}}
     <div class="row g-4 mb-4">
         <div class="col-lg-8 col-12">
-            <div class="card h-100"> {{-- Added h-100 --}}
+            <div class="card h-100">
                 <div class="card-header"><h5 class="card-title mb-0">Country and city wise visits (map)</h5></div>
-                {{-- Map height increased slightly for better fit with the taller pie chart --}}
                 <div class="card-body"><div id="visitsMap" style="height: 450px;"></div></div>
             </div>
         </div>
 
         <div class="col-lg-4 col-12">
-            <div class="card h-100"> {{-- Added h-100 --}}
+            <div class="card h-100">
                 <div class="card-header"><h5 class="card-title mb-0">ITU sectors (only for ITU related visits)</h5></div>
-                {{-- Added flex utilities to ensure the pie chart centers vertically --}}
                 <div class="card-body d-flex justify-content-center align-items-center"><div id="ituSectorsPieChart"></div></div>
             </div>
         </div>
     </div>
 
-    {{-- Officer Profile Charts - Row 3 --}}
     <div class="row g-4 mb-4">
         <div class="col-md-6 col-12">
-            <div class="card h-100"> {{-- Added h-100 --}}
+            <div class="card h-100">
                 <div class="card-header"><h5 class="card-title mb-0">Levels of officers</h5></div>
                 <div class="card-body"><div id="officerLevelsTreemap"></div></div>
             </div>
         </div>
 
         <div class="col-md-6 col-12">
-            <div class="card h-100"> {{-- Added h-100 --}}
+            <div class="card h-100">
                 <div class="card-header"><h5 class="card-title mb-0">Age profile</h5></div>
                 <div class="card-body"><div id="ageProfileBarChart"></div></div>
             </div>
         </div>
     </div>
 
-    {{-- Officer Profile Charts - Row 4 --}}
     <div class="row g-4 mb-4">
         <div class="col-md-4 col-12">
-            <div class="card h-100"> {{-- Added h-100 --}}
+            <div class="card h-100">
                 <div class="card-header"><h5 class="card-title mb-0">Cadre of officers</h5></div>
                 <div class="card-body d-flex justify-content-center align-items-center"><div id="cadrePieChart"></div></div>
             </div>
         </div>
 
         <div class="col-md-8 col-12">
-            <div class="card h-100"> {{-- Added h-100 --}}
+            <div class="card h-100">
                 <div class="card-header"><h5 class="card-title mb-0">Gender</h5></div>
                 <div class="card-body"><div id="genderBarChart"></div></div>
             </div>
@@ -228,23 +440,19 @@
     </div>
 
     {{-- Officer Details Table --}}
-<div class="row g-4 mb-4">
+    <div class="row g-4 mb-4">
         <div class="col-12">
             <div class="card">
                 <div class="card-header"><h5 class="card-title">Officer details</h5></div>
-                {{-- Removed 'text-nowrap' in the previous step, which is correct for responsiveness --}}
                 <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-                    <table class="table table-hover"> {{-- Added table-hover for better UX --}}
+                    <table class="table table-hover">
                         <thead class="sticky-top bg-white">
                             <tr>
-                                {{-- Apply width styles to distribute space more evenly --}}
-                                <th style="width: 20%;">S.No.</th>
-                                <th style="width: 25%;">Meeting name</th>
-                                <th style="width: 15%;">Country</th>
-                                <th style="width: 15%;">Dates</th>
-                                <th style="width: 20%;">Name of the Officer</th>
-                                <!-- <th style="width: 30%;">Purpose</th>
-                                <th style="width: 10%;">Equivalent Level</th> -->
+                                <th style="width: 6%;">S.No.</th>
+                                <th style="width: 28%;">Meeting name</th>
+                                <th style="width: 16%;">Country</th>
+                                <th style="width: 20%;">Dates</th>
+                                <th style="width: 30%;">Name of the Officer</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0"></tbody>
@@ -254,32 +462,18 @@
         </div>
     </div>
 
-</div>>
-
-@endif
+</div> {{-- container end --}}
+    @endif
 
     @if($activeRole == 'Officer')
-
 <div class="container-xxl flex-grow-1 container-p-y">
-
-    {{-- Header --}}
-    <div class="row g-4 mb-2">
-        <div class="col-12">
-            <h3 class="mb-0">Officer Dashboard</h3>
-        </div>
-    </div>
+    <div class="row g-4 mb-2"><div class="col-12"><h3 class="mb-0">Officer Dashboard</h3></div></div>
 </div>
     @endif
-      @if($activeRole == 'nodal')
 
+    @if($activeRole == 'nodal')
 <div class="container-xxl flex-grow-1 container-p-y">
-
-    {{-- Header --}}
-    <div class="row g-4 mb-2">
-        <div class="col-12">
-            <h3 class="mb-0">Nodal Dashboard</h3>
-        </div>
-    </div>
+    <div class="row g-4 mb-2"><div class="col-12"><h3 class="mb-0">Nodal Dashboard</h3></div></div>
 </div>
     @endif
 @endsection
@@ -290,742 +484,206 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 
 <script>
-    $(document).ready(function() {
-    // Make all form-select dropdowns searchable
-    $('.form-select').select2({
-        placeholder: 'Select an option',
-        allowClear: true,
-        width: 'resolve' // matches Bootstrap styling
-    });
-});
-
 document.addEventListener('DOMContentLoaded', function() {
     // ---------- Raw data ----------
     let rawData = @json($tourReport ?? []);
-    if (!Array.isArray(rawData)) rawData = [];
+    if(!Array.isArray(rawData)) rawData = [];
     let filteredData = rawData.slice();
 
-    // ---------- Utilities ----------
-    const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    // ---------- Utility helpers ----------
+    const monthNamesFull = ['January','February','March','April','May','June','July','August','September','October','November','December'];
     function normalizeString(v){ return v ? String(v).trim() : ''; }
-    function monthFromDate(dstr){ if(!dstr) return null; const d=new Date(dstr); return isNaN(d.getTime()) ? null : monthNames[d.getMonth()]; }
+
+    // Robust parseDate: try Date.parse first; fallback to YYYY-MM-DD parsing
+    function parseDate(d){
+        if(!d && d !== 0) return null;
+        // Already a Date
+        if(d instanceof Date) return isNaN(d.getTime()) ? null : d;
+        // Try automatic parse
+        const try1 = new Date(d);
+        if(!isNaN(try1.getTime())) return try1;
+        // Try common ISO 'YYYY-MM-DD' or 'YYYY/MM/DD'
+        const s = String(d).trim();
+        const m = s.match(/^(\d{4})[-\/](\d{1,2})[-\/](\d{1,2})/);
+        if(m){
+            const y = parseInt(m[1],10), mo = parseInt(m[2],10)-1, day = parseInt(m[3],10);
+            const dd = new Date(y, mo, day);
+            return isNaN(dd.getTime()) ? null : dd;
+        }
+        return null;
+    }
+
+    // Overlap logic (Option C): record overlaps selection range
+    function overlapsRange(record, selStart, selEnd){
+        // If both dates missing, exclude
+        const rFrom = parseDate(record.from_date);
+        const rTo = parseDate(record.to_date) || rFrom;
+        if(!rFrom && !rTo) return false;
+
+        // If user did not set start or end, treat missing as unbounded
+        // Convert selStart/selEnd to Date or null
+        const start = selStart ? selStart : null;
+        const end = selEnd ? selEnd : null;
+
+        // If both start and end are null -> include all
+        if(!start && !end) return true;
+
+        // Overlap condition: rFrom <= end AND rTo >= start
+        if(start && end){
+            return (rFrom <= end) && (rTo >= start);
+        } else if(start && !end){
+            // range is start..infty -> include if rTo >= start
+            return rTo >= start;
+        } else if(!start && end){
+            // range is -infty..end -> include if rFrom <= end
+            return rFrom <= end;
+        }
+        return false;
+    }
+
+    // count by helper
     function countBy(records, keyFn){
         const m = {};
         records.forEach(r => {
             const k = normalizeString(keyFn(r));
             if(!k) return;
-            m[k] = (m[k]||0) + 1;
+            m[k] = (m[k] || 0) + 1;
         });
         return m;
     }
-    function mapToTreemapData(obj){ return Object.keys(obj).map(k=>({ x: k, y: obj[k] })); }
+    function mapToTreemapData(obj){ return Object.keys(obj).map(k => ({ x: k, y: obj[k] })); }
 
     // ---------- DOM elements ----------
-    const filterMonthEl = document.getElementById('filterMonth');
-    const filterMeetingEl = document.getElementById('filterMeeting'); // purpose
+    const startDateEl = document.getElementById('startDate');
+    const endDateEl = document.getElementById('endDate');
+    const filterMeetingEl = document.getElementById('filterMeeting');
     const filterCountryEl = document.getElementById('filterCountry');
     const filterCadreEl = document.getElementById('filterCadre');
     const filterGenderEl = document.getElementById('filterGender');
     const officerFilterEl = document.getElementById('officerFilter');
     const clearFiltersBtn = document.getElementById('clearFilters');
 
-    // Selected filters from chart clicks (these are additional to selects)
+    // chart click state
     let selectedLevelFilter = null;
     let selectedSectorFilter = null;
     let activeAgeBucket = null;
 
-    // ---------- Populate selects with distinct values ----------
+    // ---------- populate selects (purpose, country, cadre, gender) ----------
     function populateSelects(){
-        const months = new Set();
         const purposes = new Set();
         const countries = new Set();
         const cadres = new Set();
         const genders = new Set();
 
-        rawData.forEach(r=>{
-            const m = monthFromDate(r.from_date || r.created_at);
-            if(m) months.add(m);
+        rawData.forEach(r => {
             if(r.purpose) purposes.add(r.purpose);
             if(r.country) countries.add(r.country);
             if(r.cadre) cadres.add(r.cadre);
             if(r.gender) genders.add(r.gender);
         });
 
-        // months sorted by monthNames index
-        Array.from(months).sort((a,b)=>monthNames.indexOf(a)-monthNames.indexOf(b)).forEach(m=> filterMonthEl.appendChild(new Option(m, m)));
-        Array.from(purposes).sort().forEach(p=> filterMeetingEl.appendChild(new Option(p, p)));
-        Array.from(countries).sort().forEach(c=> filterCountryEl.appendChild(new Option(c, c)));
-        Array.from(cadres).sort().forEach(ca=> filterCadreEl.appendChild(new Option(ca, ca)));
-        Array.from(genders).sort().forEach(g=> filterGenderEl.appendChild(new Option(g, g)));
+        Array.from(purposes).sort().forEach(p => filterMeetingEl.appendChild(new Option(p, p)));
+        Array.from(countries).sort().forEach(c => filterCountryEl.appendChild(new Option(c, c)));
+        Array.from(cadres).sort().forEach(ca => filterCadreEl.appendChild(new Option(ca, ca)));
+        Array.from(genders).sort().forEach(g => filterGenderEl.appendChild(new Option(g, g)));
     }
     populateSelects();
 
-    // ---------- ApexCharts instances (HEIGHTS ADJUSTED) ----------
+    // Initialize Select2 on selects (make them searchable)
+    $(document).ready(function(){
+        $('.form-select').select2({ placeholder: 'Select an option', allowClear: true, width: 'resolve' });
+        // Ensure date inputs are not turned into select2
+        $('#startDate').removeClass('form-select');
+        $('#endDate').removeClass('form-select');
+    });
+
+    // ---------- ApexCharts setup (use similar options to your prior code) ----------
     const monthChart = new ApexCharts(document.querySelector("#monthWiseVisitsChart"), {
-        chart: {
-            type: 'bar', height: 380, // INCREASED from 340 to better utilize space
-            toolbar: { show: false },
-            background: 'transparent',
-            events: {
-                dataPointSelection: function(event, chartContext, config){
-                    const idx = config.dataPointIndex;
-                    if(idx !== undefined){
-                        const label = chartContext.w.config.xaxis.categories[idx] || chartContext.w.globals.labels[idx];
-                        if(label){
-                            // set select and apply
-                            filterMonthEl.value = label;
-                            selectedLevelFilter = null; selectedSectorFilter = null; activeAgeBucket = null;
-                            applyFilters();
-                        }
-                    }
-                }
-            }
-        },
+        chart: { type: 'bar', height: 380, toolbar: { show: false }, background: 'transparent' },
         series: [{ name: 'Tours', data: [] }],
-        xaxis: { 
-            categories: [],
-            labels: {
-                style: {
-                    colors: '#64748b',
-                    fontSize: '11px',
-                    fontWeight: 600
-                }
-            },
-            axisBorder: {
-                show: false
-            },
-            axisTicks: {
-                show: false
-            }
-        },
-        yaxis: {
-            labels: {
-                style: {
-                    colors: '#64748b',
-                    fontSize: '11px',
-                    fontWeight: 600
-                }
-            }
-        },
+        xaxis: { categories: [], labels: { style: { colors: '#64748b', fontSize: '11px', fontWeight: 600 } } },
         colors: ['#10b981'],
-        fill: {
-            type: 'gradient',
-            gradient: {
-                shade: 'light',
-                type: 'vertical',
-                shadeIntensity: 0.25,
-                gradientToColors: ['#34d399'],
-                inverseColors: false,
-                opacityFrom: 0.9,
-                opacityTo: 0.7,
-                stops: [0, 100]
-            }
-        },
-        plotOptions: {
-            bar: {
-                borderRadius: 8,
-                columnWidth: '60%',
-                borderRadiusApplication: 'end'
-            }
-        },
-        dataLabels: {
-            enabled: false
-        },
-        grid: {
-            show: true,
-            borderColor: '#e2e8f0',
-            strokeDashArray: 3,
-            position: 'back',
-            xaxis: {
-                lines: {
-                    show: false
-                }
-            },
-            yaxis: {
-                lines: {
-                    show: true
-                }
-            }
-        },
-        tooltip: {
-            theme: 'light',
-            style: {
-                fontSize: '12px',
-                fontFamily: 'Inter, sans-serif'
-            },
-            marker: {
-                show: true
-            }
-        }
+        plotOptions: { bar: { borderRadius: 8, columnWidth: '60%' } },
+        dataLabels: { enabled: false },
+        grid: { borderColor: '#e2e8f0' },
+        tooltip: { theme: 'light' }
     });
     monthChart.render();
 
     const meetingsTreemap = new ApexCharts(document.querySelector("#meetingsTreemapChart"), {
-        chart: {
-            type: 'treemap', height: 380, // INCREASED from 340 to match monthChart
-            events: {
-                dataPointSelection: function(event, chartContext, config){
-                    // treemap stores data in series[0].data
-                    const idx = config.dataPointIndex;
-                    if(idx !== undefined){
-                        const dataPoint = chartContext.w.config.series[0].data[idx];
-                        const label = dataPoint?.x ?? chartContext.w.globals.labels[idx];
-                        if(label){
-                            filterMeetingEl.value = label;
-                            // clear other chart-click filters to behave like "set this filter"
-                            selectedLevelFilter = null; selectedSectorFilter = null; activeAgeBucket = null;
-                            applyFilters();
-                        }
-                    }
-                }
-            }
-        },
+        chart: { type: 'treemap', height: 380 },
         series: [{ data: [] }],
-        plotOptions: { 
-            treemap: { 
-                distributed: true, 
-                enableShades: false,
-                colorScale: {
-                    ranges: [
-                        { from: 0, to: 5, color: '#F0F9FF' },
-                        { from: 6, to: 15, color: '#BAE6FD' },
-                        { from: 16, to: 30, color: '#7DD3FC' },
-                        { from: 31, to: 50, color: '#38BDF8' },
-                        { from: 51, to: 100, color: '#0EA5E9' }
-                    ]
-                }
-            } 
-        },
-        colors: ['#0EA5E9', '#38BDF8', '#7DD3FC', '#BAE6FD', '#F0F9FF', '#0284C7', '#0369A1'],
-        dataLabels: {
-            style: {
-                fontSize: '12px',
-                fontWeight: 600,
-                colors: ['#1E293B']
-            }
-        }
+        plotOptions: { treemap: { distributed: true, enableShades: false } },
+        dataLabels: { style: { fontSize: '12px', fontWeight: 600, colors: ['#1E293B'] } }
     });
     meetingsTreemap.render();
 
     const ituPie = new ApexCharts(document.querySelector("#ituSectorsPieChart"), {
-        chart: {
-            type: 'donut', height: 400, // INCREASED to fill the height next to the map
-            background: 'transparent',
-            events: {
-                dataPointSelection: function(event, chartContext, config){
-                    const idx = config.dataPointIndex;
-                    if(idx !== undefined){
-                        const label = chartContext.w.config.labels[idx];
-                        if(label){
-                            // set selected sector filter (not a select)
-                            selectedSectorFilter = label;
-                            // clear select-level stuff to avoid confusion
-                            filterMeetingEl.value = '';
-                            filterMonthEl.value = '';
-                            selectedLevelFilter = null;
-                            activeAgeBucket = null;
-                            applyFilters();
-                        }
-                    }
-                }
-            }
-        },
+        chart: { type: 'donut', height: 400 },
         labels: [],
         series: [],
-        colors: ['#10B981', '#34D399', '#6EE7B7', '#A7F3D0', '#D1FAE5', '#059669', '#047857'],
-        fill: {
-            type: 'gradient',
-            gradient: {
-                shade: 'light',
-                type: 'radial',
-                shadeIntensity: 0.4,
-                gradientToColors: ['#059669', '#10b981', '#34d399', '#6ee7b7', '#a7f3d0', '#047857', '#065f46'],
-                inverseColors: false,
-                opacityFrom: 0.9,
-                opacityTo: 0.6,
-                stops: [0, 100]
-            }
-        },
-        plotOptions: {
-            pie: {
-                donut: {
-                    size: '50%',
-                    background: 'transparent',
-                    labels: {
-                        show: true,
-                        name: {
-                            show: true,
-                            fontSize: '16px',
-                            fontWeight: 600,
-                            color: '#000000'
-                        },
-                        value: {
-                            show: true,
-                            fontSize: '24px',
-                            fontWeight: 700,
-                            color: '#000000'
-                        },
-                        total: {
-                            show: true,
-                            showAlways: true,
-                            label: 'Total',
-                            fontSize: '14px',
-                            fontWeight: 600,
-                            color: '#000000'
-                        }
-                    }
-                }
-            }
-        },
-        dataLabels: {
-            enabled: true,
-            style: {
-                fontSize: '11px',
-                fontWeight: 700,
-                colors: ['#000000']
-            },
-            dropShadow: {
-                enabled: true,
-                top: 1,
-                left: 1,
-                blur: 2,
-                color: '#ffffff',
-                opacity: 0.8
-            }
-        },
-        legend: {
-            position: 'bottom',
-            fontSize: '12px',
-            fontWeight: 600,
-            labels: {
-                colors: '#4b5563',
-                useSeriesColors: false
-            },
-            markers: {
-                width: 12,
-                height: 12,
-                radius: 6
-            }
-        },
-        tooltip: {
-            theme: 'light',
-            style: {
-                fontSize: '12px',
-                fontFamily: 'Inter, sans-serif'
-            }
-        },
-        stroke: {
-            show: true,
-            curve: 'smooth',
-            lineCap: 'round',
-            colors: ['#ffffff'],
-            width: 3
-        }
+        plotOptions: { pie: { donut: { size: '50%' } } },
+        legend: { position: 'bottom' },
+        dataLabels: { enabled: true }
     });
     ituPie.render();
 
     const levelsTreemap = new ApexCharts(document.querySelector("#officerLevelsTreemap"), {
-        chart: {
-            type: 'treemap', height: 340,
-            events: {
-                dataPointSelection: function(event, chartContext, config){
-                    const idx = config.dataPointIndex;
-                    if(idx !== undefined){
-                        const label = chartContext.w.config.series[0].data[idx]?.x || chartContext.w.globals.labels[idx];
-                        if(label){
-                            selectedLevelFilter = label;
-                            // clear other chart-clicks if desired
-                            selectedSectorFilter = null;
-                            activeAgeBucket = null;
-                            applyFilters();
-                        }
-                    }
-                }
-            }
-        },
+        chart: { type: 'treemap', height: 340 },
         series: [{ data: [] }],
-        plotOptions: { 
-            treemap: { 
-                distributed: true, 
-                enableShades: false,
-                colorScale: {
-                    ranges: [
-                        { from: 0, to: 3, color: '#FEF3C7' },
-                        { from: 4, to: 8, color: '#FDE68A' },
-                        { from: 9, to: 15, color: '#FCD34D' },
-                        { from: 16, to: 25, color: '#F59E0B' },
-                        { from: 26, to: 100, color: '#D97706' }
-                    ]
-                }
-            } 
-        },
-        colors: ['#F59E0B', '#FBBF24', '#FCD34D', '#FDE68A', '#FEF3C7', '#D97706', '#B45309'],
-        dataLabels: {
-            style: {
-                fontSize: '12px',
-                fontWeight: 600,
-                colors: ['#1E293B']
-            }
-        }
+        plotOptions: { treemap: { distributed: true } },
+        dataLabels: { style: { fontSize: '12px', fontWeight: 600 } }
     });
     levelsTreemap.render();
 
     const ageBar = new ApexCharts(document.querySelector("#ageProfileBarChart"), {
-        chart: {
-            type: 'bar', height: 340,
-            toolbar: { show: false },
-            background: 'transparent',
-            events: {
-                dataPointSelection: function(event, chartContext, config){
-                    const idx = config.dataPointIndex;
-                    if(idx !== undefined){
-                        const bucket = chartContext.w.config.xaxis.categories[idx];
-                        if(bucket){
-                            activeAgeBucket = bucket;
-                            // clear other click filters
-                            selectedLevelFilter = null; selectedSectorFilter = null;
-                            applyFilters();
-                        }
-                    }
-                }
-            }
-        },
+        chart: { type: 'bar', height: 340, toolbar: { show: false }, background: 'transparent' },
         series: [{ name: 'Age Count', data: [] }],
-        xaxis: { 
-            categories: [],
-            labels: {
-                style: {
-                    colors: '#64748b',
-                    fontSize: '11px',
-                    fontWeight: 600
-                }
-            },
-            axisBorder: {
-                show: false
-            },
-            axisTicks: {
-                show: false
-            }
-        },
-        yaxis: {
-            labels: {
-                style: {
-                    colors: '#64748b',
-                    fontSize: '11px',
-                    fontWeight: 600
-                }
-            }
-        },
+        xaxis: { categories: [] },
         colors: ['#f59e0b'],
-        fill: {
-            type: 'gradient',
-            gradient: {
-                shade: 'light',
-                type: 'vertical',
-                shadeIntensity: 0.25,
-                gradientToColors: ['#fbbf24'],
-                inverseColors: false,
-                opacityFrom: 0.9,
-                opacityTo: 0.7,
-                stops: [0, 100]
-            }
-        },
-        plotOptions: {
-            bar: {
-                borderRadius: 8,
-                columnWidth: '60%',
-                borderRadiusApplication: 'end'
-            }
-        },
-        dataLabels: {
-            enabled: true,
-            style: {
-                fontSize: '11px',
-                fontWeight: 700,
-                colors: ['#000000']
-            },
-            dropShadow: {
-                enabled: true,
-                top: 1,
-                left: 1,
-                blur: 1,
-                color: '#ffffff',
-                opacity: 0.8
-            }
-        },
-        grid: {
-            show: true,
-            borderColor: '#e2e8f0',
-            strokeDashArray: 3,
-            position: 'back',
-            xaxis: {
-                lines: {
-                    show: false
-                }
-            },
-            yaxis: {
-                lines: {
-                    show: true
-                }
-            }
-        },
-        tooltip: {
-            theme: 'light',
-            style: {
-                fontSize: '12px',
-                fontFamily: 'Inter, sans-serif'
-            },
-            marker: {
-                show: true
-            }
-        }
+        plotOptions: { bar: { borderRadius: 8, columnWidth: '60%' } },
+        dataLabels: { enabled: true }
     });
     ageBar.render();
 
     const cadrePie = new ApexCharts(document.querySelector("#cadrePieChart"), {
-        chart: {
-            type: 'donut', height: 320,
-            background: 'transparent',
-            events: {
-                dataPointSelection: function(event, chartContext, config){
-                    const idx = config.dataPointIndex;
-                    if(idx !== undefined){
-                        const label = chartContext.w.config.labels[idx];
-                        if(label){
-                            filterCadreEl.value = label;
-                            selectedLevelFilter = null; selectedSectorFilter = null; activeAgeBucket = null;
-                            applyFilters();
-                        }
-                    }
-                }
-            }
-        },
-        labels: [], 
+        chart: { type: 'donut', height: 320 },
+        labels: [],
         series: [],
-        colors: ['#EF4444', '#F87171', '#FCA5A5', '#FECACA', '#FEE2E2', '#DC2626', '#B91C1C'],
-        fill: {
-            type: 'gradient',
-            gradient: {
-                shade: 'light',
-                type: 'radial',
-                shadeIntensity: 0.4,
-                gradientToColors: ['#DC2626', '#EF4444', '#F87171', '#FCA5A5', '#FECACA', '#B91C1C', '#991B1B'],
-                inverseColors: false,
-                opacityFrom: 0.9,
-                opacityTo: 0.6,
-                stops: [0, 100]
-            }
-        },
-        plotOptions: {
-            pie: {
-                donut: {
-                    size: '50%',
-                    background: 'transparent',
-                    labels: {
-                        show: true,
-                        name: {
-                            show: true,
-                            fontSize: '14px',
-                            fontWeight: 600,
-                            color: '#000000'
-                        },
-                        value: {
-                            show: true,
-                            fontSize: '20px',
-                            fontWeight: 700,
-                            color: '#000000'
-                        },
-                        total: {
-                            show: true,
-                            showAlways: true,
-                            label: 'Total',
-                            fontSize: '12px',
-                            fontWeight: 600,
-                            color: '#000000'
-                        }
-                    }
-                }
-            }
-        },
-        dataLabels: {
-            enabled: true,
-            style: {
-                fontSize: '11px',
-                fontWeight: 700,
-                colors: ['#000000']
-            },
-            dropShadow: {
-                enabled: true,
-                top: 1,
-                left: 1,
-                blur: 2,
-                color: '#ffffff',
-                opacity: 0.8
-            }
-        },
-        legend: {
-            position: 'bottom',
-            fontSize: '11px',
-            fontWeight: 600,
-            labels: {
-                colors: '#4b5563',
-                useSeriesColors: false
-            },
-            markers: {
-                width: 10,
-                height: 10,
-                radius: 5
-            }
-        },
-        tooltip: {
-            theme: 'light',
-            style: {
-                fontSize: '12px',
-                fontFamily: 'Inter, sans-serif'
-            }
-        },
-        stroke: {
-            show: true,
-            curve: 'smooth',
-            lineCap: 'round',
-            colors: ['#ffffff'],
-            width: 3
-        }
+        dataLabels: { enabled: true },
+        legend: { position: 'bottom' }
     });
     cadrePie.render();
 
     const genderBar = new ApexCharts(document.querySelector("#genderBarChart"), {
-        chart: {
-            type: 'bar', height: 320,
-            toolbar: { show: false },
-            background: 'transparent',
-            events: {
-                dataPointSelection: function(event, chartContext, config){
-                    const idx = config.dataPointIndex;
-                    if(idx !== undefined){
-                        const g = chartContext.w.config.xaxis.categories[idx];
-                        if(g){
-                            filterGenderEl.value = g;
-                            selectedLevelFilter = null; selectedSectorFilter = null; activeAgeBucket = null;
-                            applyFilters();
-                        }
-                    }
-                }
-            }
-        },
+        chart: { type: 'bar', height: 320, toolbar: { show: false }, background: 'transparent' },
         series: [{ name: 'Gender Count', data: [] }],
-        xaxis: { 
-            categories: [],
-            labels: {
-                style: {
-                    colors: '#64748b',
-                    fontSize: '11px',
-                    fontWeight: 600
-                }
-            },
-            axisBorder: {
-                show: false
-            },
-            axisTicks: {
-                show: false
-            }
-        },
-        yaxis: {
-            labels: {
-                style: {
-                    colors: '#64748b',
-                    fontSize: '11px',
-                    fontWeight: 600
-                }
-            }
-        },
+        xaxis: { categories: [] },
         colors: ['#EC4899'],
-        fill: {
-            type: 'gradient',
-            gradient: {
-                shade: 'light',
-                type: 'vertical',
-                shadeIntensity: 0.25,
-                gradientToColors: ['#F472B6'],
-                inverseColors: false,
-                opacityFrom: 0.9,
-                opacityTo: 0.7,
-                stops: [0, 100]
-            }
-        },
-        plotOptions: {
-            bar: {
-                borderRadius: 8,
-                columnWidth: '50%',
-                borderRadiusApplication: 'end'
-            }
-        },
-        dataLabels: {
-            enabled: true,
-            style: {
-                fontSize: '11px',
-                fontWeight: 700,
-                colors: ['#000000']
-            },
-            dropShadow: {
-                enabled: true,
-                top: 1,
-                left: 1,
-                blur: 1,
-                color: '#ffffff',
-                opacity: 0.8
-            }
-        },
-        grid: {
-            show: true,
-            borderColor: '#e2e8f0',
-            strokeDashArray: 3,
-            position: 'back',
-            xaxis: {
-                lines: {
-                    show: false
-                }
-            },
-            yaxis: {
-                lines: {
-                    show: true
-                }
-            }
-        },
-        tooltip: {
-            theme: 'light',
-            style: {
-                fontSize: '12px',
-                fontFamily: 'Inter, sans-serif'
-            },
-            marker: {
-                show: true
-            }
-        }
+        plotOptions: { bar: { borderRadius: 8, columnWidth: '50%' } },
+        dataLabels: { enabled: true }
     });
     genderBar.render();
 
-    // ---------- Map (Leaflet) ----------
+    // ---------- Leaflet map ----------
     const map = L.map('visitsMap').setView([20,0],2);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{ attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
     let _markers = [], _geocodeCache = {};
-    function clearMarkers(){ _markers.forEach(m=>map.removeLayer(m)); _markers = []; }
+    function clearMarkers(){ _markers.forEach(m => map.removeLayer(m)); _markers = []; }
     function addMarker(lat, lon, popupHtml, record){
         try{
             const mk = L.marker([lat,lon]).addTo(map).bindPopup(popupHtml);
             mk.on('mouseover', ()=> mk.openPopup());
             mk.on('mouseout', ()=> mk.closePopup());
             mk.on('click', ()=> {
-                // clicking marker filters by country
                 if(record && record.country){
-                    filterCountryEl.value = record.country;
+                    $('#filterCountry').val(record.country).trigger('change');
                     selectedLevelFilter = null; selectedSectorFilter = null; activeAgeBucket = null;
                     applyFilters();
                 }
             });
             _markers.push(mk);
-            return mk;
-        }catch(e){ return null; }
+        }catch(e){}
     }
     function buildPopupHtml(r, loc){
         const lines = [];
@@ -1079,97 +737,108 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ---------- Data -> update all charts & table ----------
-    function updateAll(records){
-        // 1) Month chart: unique officers (or tours) per month
-        const monthMap = {};
-        records.forEach(r => {
-            const m = monthFromDate(r.from_date || r.created_at) || 'Unknown';
-            const officerId = r.user_id || r.staff_number || r.name || JSON.stringify(r);
-            if(!monthMap[m]) monthMap[m] = new Set();
-            monthMap[m].add(officerId);
+    // ---------- Update functions for all charts ----------
+    function updateMonthChart(){
+        // group by month-year strings and count unique tours (or records)
+        const counts = {};
+        filteredData.forEach(r => {
+            const d = parseDate(r.from_date);
+            if(!d) return;
+            const key = monthNamesFull[d.getMonth()] + ' ' + d.getFullYear();
+            counts[key] = (counts[key] || 0) + 1;
         });
-        const monthKeys = Object.keys(monthMap).sort((a,b)=> monthNames.indexOf(a) - monthNames.indexOf(b));
-        monthChart.updateOptions({ xaxis: { categories: monthKeys } });
-        monthChart.updateSeries([{ data: monthKeys.map(k => monthMap[k].size) }]);
+        const keys = Object.keys(counts).sort((a,b)=>{
+            // custom sort: parse month-year to date
+            const pa = a.split(' '), pb = b.split(' ');
+            const da = new Date(parseInt(pa[1],10), monthNamesFull.indexOf(pa[0]), 1);
+            const db = new Date(parseInt(pb[1],10), monthNamesFull.indexOf(pb[0]), 1);
+            return da - db;
+        });
+        const vals = keys.map(k => counts[k]);
+        monthChart.updateOptions({ xaxis: { categories: keys } }, false, true);
+        monthChart.updateSeries([{ data: vals }]);
+    }
 
-        // 2) Meetings treemap (purpose)
-        const meetingCounts = countBy(records, r => r.purpose || '');
-        meetingsTreemap.updateOptions({ series: [{ data: mapToTreemapData(meetingCounts) }] });
+    function updateMeetingsTreemap(){
+        const meetingCounts = countBy(filteredData, r => r.purpose || r.meeting_name || '');
+        meetingsTreemap.updateOptions({ series: [{ data: mapToTreemapData(meetingCounts) }] }, false, true);
+    }
 
-        // 3) ITU sectors (only for records with sector)
-        const ituCounts = countBy(records.filter(r => r.sector), r => r.sector || '');
-        ituPie.updateOptions({ labels: Object.keys(ituCounts) });
-        ituPie.updateSeries(Object.values(ituCounts));
+    function updateITUChart(){
+        const ituCounts = countBy(filteredData.filter(r => r.sector), r => r.sector || '');
+        ituPie.updateOptions({ labels: Object.keys(ituCounts) || [] });
+        ituPie.updateSeries(Object.values(ituCounts) || []);
+    }
 
-        // 4) Levels treemap
-        const levelCounts = countBy(records, r => r.level || r.equivalent_rank || '');
+    function updateOfficerLevels(){
+        const levelCounts = countBy(filteredData, r => r.level || r.equivalent_rank || '');
         levelsTreemap.updateOptions({ series: [{ data: mapToTreemapData(levelCounts) }] });
+    }
 
-        // 5) Age buckets
+    function updateAgeProfile(){
         const buckets = ['≤30','31-40','41-50','51-60','>60'];
         const ageCounts = { '≤30':0,'31-40':0,'41-50':0,'51-60':0,'>60':0 };
-        const thisYear = new Date().getFullYear();
-        records.forEach(r => {
-            if(r.date_of_birth){
-                const by = (new Date(r.date_of_birth)).getFullYear();
-                if(!isNaN(by)){
-                    const age = thisYear - by;
-                    if(age <= 30) ageCounts['≤30']++;
-                    else if(age <=40) ageCounts['31-40']++;
-                    else if(age <=50) ageCounts['41-50']++;
-                    else if(age <=60) ageCounts['51-60']++;
-                    else ageCounts['>60']++;
-                }
-            }
+        const thisYear = (new Date()).getFullYear();
+        filteredData.forEach(r => {
+            if(!r.date_of_birth) return;
+            const by = parseDate(r.date_of_birth);
+            if(!by) return;
+            const age = thisYear - by.getFullYear();
+            if(age <= 30) ageCounts['≤30']++;
+            else if(age <=40) ageCounts['31-40']++;
+            else if(age <=50) ageCounts['41-50']++;
+            else if(age <=60) ageCounts['51-60']++;
+            else ageCounts['>60']++;
         });
-        ageBar.updateOptions({ xaxis: { categories: buckets } });
-        ageBar.updateSeries([{ data: buckets.map(b => ageCounts[b]) }]);
+        const bucketsArr = ['≤30','31-40','41-50','51-60','>60'];
+        ageBar.updateOptions({ xaxis: { categories: bucketsArr } }, false, true);
+        ageBar.updateSeries([{ data: bucketsArr.map(b => ageCounts[b]) }]);
+    }
 
-        // 6) Cadre pie
-        const cadreCounts = countBy(records, r => r.cadre || '');
-        cadrePie.updateOptions({ labels: Object.keys(cadreCounts) });
-        cadrePie.updateSeries(Object.values(cadreCounts));
+    function updateCadrePie(){
+        const cadreCounts = countBy(filteredData, r => r.cadre || '');
+        cadrePie.updateOptions({ labels: Object.keys(cadreCounts) || [] });
+        cadrePie.updateSeries(Object.values(cadreCounts) || []);
+    }
 
-        // 7) Gender bar
-        const genderCounts = countBy(records, r => r.gender || '');
+    function updateGenderBar(){
+        const genderCounts = countBy(filteredData, r => r.gender || '');
         const genderCats = Object.keys(genderCounts);
         genderBar.updateOptions({ xaxis: { categories: genderCats } });
         genderBar.updateSeries([{ data: genderCats.map(k => genderCounts[k]) }]);
-
-        // 8) Table
-        const tbody = document.querySelector('tbody.table-border-bottom-0');
-        tbody.innerHTML = '';
-        records.forEach((r, index) => {
-    const name =
-        (r.name && r.name.trim()) ||
-        (r.user && r.user.name && r.user.name.trim()) ||
-        r.staff_number ||
-        'Unknown';
-
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>${index + 1}</td> <!-- Sr. No. -->
-                <td>${r.meeting_name || '-'}</td>
-                <td>${r.country || '-'}</td>
-                <td>${r.from_date && r.to_date ? `${r.from_date} - ${r.to_date}` : '-'}</td>
-                <td>${name}</td>
-                    <!-- <td>${r.purpose || '-'}</td> -->
-                    <!-- <td>${r.department || '-'}</td> -->
-                    <!-- <td>${(r.level || r.equivalent_rank) || '-'}</td> -->
-            `;
-
-            tbody.appendChild(tr);
-        });
-
-
-        // 9) Map
-        refreshMap(records);
     }
 
-    // ---------- Main filter logic ----------
+    function updateTable(){
+        const tbody = document.querySelector('tbody.table-border-bottom-0');
+        tbody.innerHTML = '';
+        filteredData.forEach((r, idx) => {
+            const name = (r.name && r.name.trim()) || (r.user && r.user.name && r.user.name.trim()) || r.staff_number || 'Unknown';
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${idx + 1}</td>
+                <td>${r.meeting_name || '-'}</td>
+                <td>${r.country || '-'}</td>
+                <td>${r.from_date && r.to_date ? `${r.from_date} - ${r.to_date}` : (r.from_date || r.to_date || '-')}</td>
+                <td>${name}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    function refreshAll(){
+        updateMonthChart();
+        updateMeetingsTreemap();
+        updateITUChart();
+        updateOfficerLevels();
+        updateAgeProfile();
+        updateCadrePie();
+        updateGenderBar();
+        refreshMap(filteredData);
+        updateTable();
+    }
+
+    // ---------- Main filter logic (overlap logic Option C) ----------
     function applyFilters(){
-        const selMonth = normalizeString(filterMonthEl.value);
         const selPurpose = normalizeString(filterMeetingEl.value);
         const selCountry = normalizeString(filterCountryEl.value);
         const selCadre = normalizeString(filterCadreEl.value);
@@ -1179,39 +848,33 @@ document.addEventListener('DOMContentLoaded', function() {
         const sector = selectedSectorFilter ? normalizeString(selectedSectorFilter) : null;
         const ageBucket = activeAgeBucket || null;
 
+        // parse selected start and end dates (HTML date inputs produce YYYY-MM-DD)
+        const sd = startDateEl.value ? parseDate(startDateEl.value) : null;
+        const ed = endDateEl.value ? parseDate(endDateEl.value) : null;
+        // For inclusive behavior, set ed time to end of day if present
+        const endInclusive = ed ? new Date(ed.getFullYear(), ed.getMonth(), ed.getDate(), 23, 59, 59, 999) : null;
+
         filteredData = rawData.filter(r => {
-            // month
-            if(selMonth){
-                const m = monthFromDate(r.from_date || r.created_at) || '';
-                if(m !== selMonth) return false;
-            }
-            // purpose / meeting
             if(selPurpose){
-                if(normalizeString(r.purpose || '') !== selPurpose) return false;
+                if(normalizeString(r.purpose || r.meeting_name || '') !== selPurpose) return false;
             }
-            // country
             if(selCountry){
                 if(normalizeString(r.country || '') !== selCountry) return false;
             }
-            // cadre
             if(selCadre){
                 if(normalizeString(r.cadre || '') !== selCadre) return false;
             }
-            // gender
             if(selGender){
                 if(normalizeString(r.gender || '') !== selGender) return false;
             }
-            // officer name
             if(selOfficer){
                 const name = normalizeString(r.name || (r.user && r.user.name) || '');
                 if(name !== selOfficer) return false;
             }
-            // level (from levels treemap click)
             if(lvl){
                 const lv = normalizeString(r.level || r.equivalent_rank || '');
                 if(lv !== lvl) return false;
             }
-            // sector (from ITU slice click)
             if(sector){
                 const s = normalizeString(r.sector || '');
                 if(s !== sector) return false;
@@ -1219,25 +882,30 @@ document.addEventListener('DOMContentLoaded', function() {
             // age bucket (from age bar click)
             if(ageBucket){
                 if(!r.date_of_birth) return false;
-                const by = (new Date(r.date_of_birth)).getFullYear();
-                if(isNaN(by)) return false;
-                const age = (new Date()).getFullYear() - by;
+                const by = parseDate(r.date_of_birth);
+                if(!by) return false;
+                const age = (new Date()).getFullYear() - by.getFullYear();
                 if(ageBucket === '≤30' && age > 30) return false;
                 if(ageBucket === '31-40' && (age < 31 || age > 40)) return false;
                 if(ageBucket === '41-50' && (age < 41 || age > 50)) return false;
                 if(ageBucket === '51-60' && (age < 51 || age > 60)) return false;
                 if(ageBucket === '>60' && age <= 60) return false;
             }
+
+            // Overlap date logic: record.from_date <= selected_end AND record.to_date >= selected_start
+            // If no start and no end => always include
+            const OK = overlapsRange(r, sd, endInclusive);
+            if(!OK) return false;
+
             return true;
         });
 
-        updateAll(filteredData);
+        refreshAll();
     }
 
-    // ---------- Hook up selects ----------
-    [filterMonthEl, filterMeetingEl, filterCountryEl, filterCadreEl, filterGenderEl, officerFilterEl].forEach(el => {
+    // ---------- Hook up select change events ----------
+    [filterMeetingEl, filterCountryEl, filterCadreEl, filterGenderEl, officerFilterEl].forEach(el => {
         el.addEventListener('change', () => {
-            // optional UX: when user uses selects, clear chart-click filters
             selectedLevelFilter = null;
             selectedSectorFilter = null;
             activeAgeBucket = null;
@@ -1245,22 +913,176 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Clear button
+    // date inputs
+    startDateEl.addEventListener('change', () => { selectedLevelFilter = null; selectedSectorFilter = null; activeAgeBucket = null; applyFilters(); });
+    endDateEl.addEventListener('change', () => { selectedLevelFilter = null; selectedSectorFilter = null; activeAgeBucket = null; applyFilters(); });
+
+    // Clear button resets selects and date inputs
     clearFiltersBtn.addEventListener('click', () => {
-        filterMonthEl.value = '';
-        filterMeetingEl.value = '';
-        filterCountryEl.value = '';
-        filterCadreEl.value = '';
-        filterGenderEl.value = '';
-        officerFilterEl.value = '';
+        $('#officerFilter').val(null).trigger('change');
+        $('#filterMeeting').val(null).trigger('change');
+        $('#filterCountry').val(null).trigger('change');
+        $('#filterCadre').val(null).trigger('change');
+        $('#filterGender').val(null).trigger('change');
+
+        startDateEl.value = '';
+        endDateEl.value = '';
+
         selectedLevelFilter = null;
         selectedSectorFilter = null;
         activeAgeBucket = null;
-        applyFilters();
+
+        filteredData = rawData.slice();
+        refreshAll();
+    });
+
+    // ---------- Chart click handlers that set filters ----------
+    // monthChart click: sets startDate & endDate to month range OR filters by month label
+    monthChart.updateOptions({
+        chart: {
+            events: {
+                dataPointSelection: function(event, chartContext, config){
+                    const idx = config.dataPointIndex;
+                    if(typeof idx !== 'undefined'){
+                        const label = chartContext.w.config.xaxis.categories[idx];
+                        if(label){
+                            // label is like "January 2025" -> set from 1st to last day of that month
+                            const parts = label.split(' ');
+                            const mon = monthNamesFull.indexOf(parts[0]);
+                            const yr = parseInt(parts[1],10);
+                            if(!isNaN(mon) && !isNaN(yr)){
+                                const s = new Date(yr, mon, 1);
+                                const e = new Date(yr, mon + 1, 0);
+                                // format to yyyy-mm-dd
+                                const pad = n => n < 10 ? '0'+n : n;
+                                startDateEl.value = `${s.getFullYear()}-${pad(s.getMonth()+1)}-${pad(s.getDate())}`;
+                                endDateEl.value = `${e.getFullYear()}-${pad(e.getMonth()+1)}-${pad(e.getDate())}`;
+                                // trigger apply
+                                applyFilters();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    meetingsTreemap.updateOptions({
+        chart: {
+            events: {
+                dataPointSelection: function(event, chartContext, config){
+                    const idx = config.dataPointIndex;
+                    if(typeof idx !== 'undefined'){
+                        const dataPoint = chartContext.w.config.series[0].data[idx];
+                        const label = dataPoint?.x || chartContext.w.globals.labels[idx];
+                        if(label){
+                            $('#filterMeeting').val(label).trigger('change');
+                            selectedLevelFilter = null; selectedSectorFilter = null; activeAgeBucket = null;
+                            applyFilters();
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    ituPie.updateOptions({
+        chart: {
+            events: {
+                dataPointSelection: function(event, chartContext, config){
+                    const idx = config.dataPointIndex;
+                    if(typeof idx !== 'undefined'){
+                        const label = chartContext.w.config.labels[idx];
+                        if(label){
+                            selectedSectorFilter = label;
+                            // clear selects that would conflict
+                            $('#filterMeeting').val(null).trigger('change');
+                            $('#startDate').val('');
+                            $('#endDate').val('');
+                            applyFilters();
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    levelsTreemap.updateOptions({
+        chart: {
+            events: {
+                dataPointSelection: function(event, chartContext, config){
+                    const idx = config.dataPointIndex;
+                    if(typeof idx !== 'undefined'){
+                        const label = chartContext.w.config.series[0].data[idx]?.x || chartContext.w.globals.labels[idx];
+                        if(label){
+                            selectedLevelFilter = label;
+                            selectedSectorFilter = null; activeAgeBucket = null;
+                            applyFilters();
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    ageBar.updateOptions({
+        chart: {
+            events: {
+                dataPointSelection: function(event, chartContext, config){
+                    const idx = config.dataPointIndex;
+                    if(typeof idx !== 'undefined'){
+                        const bucket = chartContext.w.config.xaxis.categories[idx];
+                        if(bucket){
+                            activeAgeBucket = bucket;
+                            selectedLevelFilter = null; selectedSectorFilter = null;
+                            applyFilters();
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    cadrePie.updateOptions({
+        chart: {
+            events: {
+                dataPointSelection: function(event, chartContext, config){
+                    const idx = config.dataPointIndex;
+                    if(typeof idx !== 'undefined'){
+                        const label = chartContext.w.config.labels[idx];
+                        if(label){
+                            $('#filterCadre').val(label).trigger('change');
+                            selectedLevelFilter = null; selectedSectorFilter = null; activeAgeBucket = null;
+                            applyFilters();
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    genderBar.updateOptions({
+        chart: {
+            events: {
+                dataPointSelection: function(event, chartContext, config){
+                    const idx = config.dataPointIndex;
+                    if(typeof idx !== 'undefined'){
+                        const g = chartContext.w.config.xaxis.categories[idx];
+                        if(g){
+                            $('#filterGender').val(g).trigger('change');
+                            selectedLevelFilter = null; selectedSectorFilter = null; activeAgeBucket = null;
+                            applyFilters();
+                        }
+                    }
+                }
+            }
+        }
     });
 
     // ---------- Initial render ----------
-    applyFilters(); // this will call updateAll for full data
-});
+    // default filteredData is rawData; run the first render
+    refreshAll();
+
+}); // DOMContentLoaded
 </script>
 @endpush

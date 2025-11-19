@@ -78,7 +78,7 @@ class HomeController extends Controller
     public function vacancies(Request $request)
     {
         try {
-            $orms = Vacancy::all(); // fetch all records
+            $orms = Orm::where('type', 4)->get();
         } catch (\Exception $e) {
             $orms = collect([]);
         }

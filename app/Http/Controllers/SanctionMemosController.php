@@ -10,6 +10,9 @@ use App\Models\User;
 use App\Models\Profile;
 use App\Models\ITUSector;
 use Illuminate\Support\Facades\Auth;
+use PhpOffice\PhpWord\TemplateProcessor;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use DB;
 use App\Models\Country; 
 
@@ -38,48 +41,41 @@ class SanctionMemosController extends Controller
         return view('sanctionmemo.index', compact('reports'));
     } 
 public function generate($id)
+
 {
-    
-    // 1️⃣ Get the QRP form
     $qrp = QrpForm::findOrFail($id);
 
+
     $alreadyExists = TourReport::where('tour_id', $qrp->meeting_id)->exists();
+    // if ($alreadyExists) {
+    //     return back()->with('error', 'Sanction memo already generated for this tour.');
+    // }
 
-    if ($alreadyExists) {
-        return redirect()->back()->with('error', 'Sanction memo for this tour is already generated.');
-    }
-    // 2️⃣ Get related officers
     $officers = QrpOfficer::where('qrp_id', $qrp->id)->get();
-
-    // 3️⃣ Iterate through officers and map full data
+    $officerdd = QrpOfficer::where('qrp_id', $qrp->id)->first();
     $records = [];
 
     foreach ($officers as $officer) {
-        // Find matching profile (based on staff_no)
+
         $profile = Profile::where('staff_no', $officer->staff_no)->first();
+        if (!$profile) continue;
 
-        if (!$profile) {
-            continue; // skip if no profile found
-        }
-
-        // Find associated user
         $user = User::find($profile->user_id);
 
-        // Extract first country and city from JSON (assuming $qrp->country is JSON array)
+        // Decode meeting country/city info
         $firstLocation = null;
         if (!empty($qrp->country)) {
             $locations = json_decode($qrp->country, true);
-            if (is_array($locations) && count($locations) > 0) {
-                $firstLocation = $locations[0];
-            }
+            $firstLocation = $locations[0] ?? null;
         }
-        $countryname = Country::find($firstLocation['country']);
-        $itusector = ITUSector::find($qrp->itu_sector);
 
-        // Build data array
+        $countryname = Country::find($firstLocation['country'] ?? null);
+        $itusector   = ITUSector::find($qrp->itu_sector);
+
+        // Build data
         $data = [
             'tour_id'        => $qrp->meeting_id,
-            'user_id'        => $user ? $user->id : null,
+            'user_id'        => $user->id ?? null,
             'purpose'        => "Multilateral",
             'staff_number'   => $officer->staff_no,
             'meeting_name'   => $qrp->meeting_name,
@@ -103,17 +99,80 @@ public function generate($id)
             'sector'         => $itusector->name ?? null,
         ];
 
-        // 4️⃣ You can either store or collect the record
-        // Example: Save to your `sanction_memos` table
+        // ======================================
+        //  🔥  Create Word Document
+        // ======================================
+        // dd(file_exists(storage_path('app/templates/sanction_template.docx')));
+
+        $templatePath = storage_path('app/templates/sanction_template.docx');
+        $template = new TemplateProcessor($templatePath);
+
+        // Basic replacements
+        $template->setValue('meeting_name', $data['meeting_name']);
+        $template->setValue('city', $data['city']);
+        $template->setValue('officername', $officerdd->officername);
+        $template->setValue('designation', $officerdd->officername);
+        $template->setValue('country', $data['country']);
+        $template->setValue('from_date', $data['from_date']);
+        $template->setValue('to_date', $data['to_date']);
+        $template->setValue('sanction_date', now()->format('d F Y'));
+        $template->setValue('finance_diary_number', '__________');
+
+
+        // OFFICERS ARRAY
+        //         $officersData = [];
+        //         $sno = 1;
+
+        //         foreach ($officers as $officer) {
+
+        //             $profile = Profile::where('staff_no', $officer->staff_no)->first();
+        //             if (!$profile) continue;
+
+        //            $officersData[] = [
+        //     'sno'         => $sno++,
+        //     'name'        => $profile->officer_name,
+        //     'designation' => $profile->designation,
+        //     'rank'        => $profile->rank . ', ' . $profile->level_in_pay_matrix, // ✔ matches officers#rank
+        //     'duration'    => $data['from_date'] . ' to ' . $data['to_date'],
+        // ];
+        //         }
+        // // dd($template->getVariables());
+        //         // Clone rows in the template
+        //         $template->cloneRowAndSetValues('officersaa', $officersData);
+
+
+
+        // Add more placeholders from template as needed...
+
+        // ======================================
+        //  🔥 Save Output Document
+        // ======================================
+        $fileName = 'sanction_' . Str::slug($qrp->meeting_name) . '_' . time() . '.docx';
+        $outputPath = public_path('sanctions/' . $fileName);
+
+        // Make directory if not exists
+        if (!is_dir(public_path('sanctions'))) {
+            mkdir(public_path('sanctions'), 0777, true);
+        }
+
+        $template->saveAs($outputPath);
+
+        // Add file path into DB field
+        $data['sanction_memo_doc'] = 'sanctions/' . $fileName;
+
+        // Save final
         TourReport::create($data);
 
-        // Or store temporarily in array
+        $qrp->sanction_memo_doc = 'sanctions/' . $fileName;
+
+        $qrp->save();
+
         $records[] = $data;
     }
 
-    // 5️⃣ Return success or view
-  
-        return redirect()->route('tourTracker.index')->with('success', 'Slider created successfully');
+    return redirect()->route('tourTracker.index')
+        ->with('success', 'Sanction memo(s) generated successfully.');
 }
+
 
 }
