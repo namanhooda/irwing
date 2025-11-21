@@ -1,11 +1,22 @@
 <div style="width: 100%; height: 8px; background: linear-gradient(to right, #FF9933 0%, #FF9933 33%, #FFFFFF 33%, #FFFFFF 66%, #138808 66%, #138808 100%); box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: block;"></div>
 
 <header class="header government-header">
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'hi,en',
+                layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
+            }, 'google_translate_element');
+        }
+    </script>
+
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <style>
         /* Government Header Styles - Exact Match to Reference */
         .government-header {
             font-family: 'Arial', 'Helvetica', sans-serif;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         /* Top Utility Bar */
@@ -149,11 +160,11 @@
             font-weight: 600;
             transition: all 0.3s ease;
             white-space: nowrap;
-            border-right: 1px solid rgba(255,255,255,0.2);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .nav-item:first-child .nav-link {
-            border-left: 1px solid rgba(255,255,255,0.2);
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .nav-link i {
@@ -163,7 +174,7 @@
 
         .nav-link:hover,
         .nav-item.active .nav-link {
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
             color: white;
         }
 
@@ -173,7 +184,7 @@
             left: 0;
             background: #4a90e2;
             min-width: 250px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
             opacity: 0;
             visibility: hidden;
             transform: translateY(-10px);
@@ -236,7 +247,7 @@
             left: 100%;
             background: #4a90e2;
             min-width: 250px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
             opacity: 0;
             visibility: hidden;
             transform: translateX(-10px);
@@ -245,11 +256,12 @@
         }
 
         /* ===== FIX APPLIED HERE ===== */
-        .nav-sub-item:hover > .nav-sub-dropdown {
+        .nav-sub-item:hover>.nav-sub-dropdown {
             opacity: 1;
             visibility: visible;
             transform: translateX(0);
         }
+
         /* ============================ */
 
         .nav-sub-dropdown a {
@@ -259,7 +271,7 @@
             text-decoration: none;
             font-size: 13px;
             font-weight: 500;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
         }
 
@@ -268,7 +280,7 @@
         }
 
         .nav-sub-dropdown a:hover {
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
             color: white;
             padding-left: 24px;
         }
@@ -320,7 +332,7 @@
                 left: 0;
                 right: 0;
                 background: #4a90e2;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             }
 
             .nav-menu.active {
@@ -330,7 +342,7 @@
             .nav-link {
                 padding: 12px 20px;
                 border-right: none;
-                border-bottom: 1px solid rgba(255,255,255,0.1);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
                 justify-content: flex-start;
             }
 
@@ -344,18 +356,18 @@
                 visibility: visible;
                 transform: none;
                 box-shadow: none;
-                background: rgba(255,255,255,0.1);
+                background: rgba(255, 255, 255, 0.1);
                 margin: 0;
             }
 
             .nav-dropdown a {
                 color: white;
-                border-bottom: 1px solid rgba(255,255,255,0.1);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
                 padding-left: 40px;
             }
 
             .nav-dropdown a:hover {
-                background: rgba(255,255,255,0.1);
+                background: rgba(255, 255, 255, 0.1);
                 color: white;
                 padding-left: 48px;
             }
@@ -367,12 +379,12 @@
 
             .nav-sub-link {
                 color: white;
-                border-bottom: 1px solid rgba(255,255,255,0.1);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
                 padding-left: 40px;
             }
 
             .nav-sub-link:hover {
-                background: rgba(255,255,255,0.1);
+                background: rgba(255, 255, 255, 0.1);
                 color: white;
                 padding-left: 48px;
             }
@@ -383,18 +395,18 @@
                 visibility: visible;
                 transform: none;
                 box-shadow: none;
-                background: rgba(255,255,255,0.1);
+                background: rgba(255, 255, 255, 0.1);
                 margin: 0;
             }
 
             .nav-sub-dropdown a {
                 color: white;
-                border-bottom: 1px solid rgba(255,255,255,0.1);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
                 padding-left: 60px;
             }
 
             .nav-sub-dropdown a:hover {
-                background: rgba(255,255,255,0.1);
+                background: rgba(255, 255, 255, 0.1);
                 color: white;
                 padding-left: 68px;
             }
@@ -443,53 +455,56 @@
             }
         }
     </style>
-@php 
+    @php
 
-        $settings = App\Models\SiteSetting::first();
-@endphp
+    $settings = App\Models\SiteSetting::first();
+    @endphp
 
     <div class="header-top">
         <div class="container">
             <div class="utility-left">
                 <a href="#"><i class="bi bi-search"></i></a>
                 @if($settings && $settings->contact_phone)
-                    <a href="tel:{{ $settings->contact_phone }}"><i class="bi bi-telephone"></i></a>
+                <a href="tel:{{ $settings->contact_phone }}"><i class="bi bi-telephone"></i></a>
                 @endif
 
                 <!-- Email link -->
                 @if($settings && $settings->contact_email)
-                    <a href="mailto:{{ $settings->contact_email }}"><i class="bi bi-envelope"></i></a>
+                <a href="mailto:{{ $settings->contact_email }}"><i class="bi bi-envelope"></i></a>
                 @endif
             </div>
             <div class="utility-right"><!-- Language dropdown example -->
-<li class="nav-item dropdown">
-    <a class=" dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="    /* color: #007bff !important;">
-        {{ __('messages.language') }}
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="langDropdown">
-        <li>
-            <a class="dropdown-item @if(app()->getLocale() == 'en') active @endif"
-               href="{{ route('change.language', ['locale' => 'en']) }}">
-               English
-            </a>
-        </li>
-        <li>
-            <a class="dropdown-item @if(app()->getLocale() == 'hi') active @endif"
-               href="{{ route('change.language', ['locale' => 'hi']) }}">
-               हिन्दी
-            </a>
-        </li>
-    </ul>
-</li>
+                <li class="nav-item dropdown">
+                    <a class=" dropdown-toggle" href="#" id="langDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="    /* color: #007bff !important;">
+                        {{ __('messages.language') }}
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="langDropdown">
+                        <li>
+                            <div id="google_translate_element"></div>
+                        </li>
+                        <!-- <li>
+                            <a class="dropdown-item @if(app()->getLocale() == 'en') active @endif"
+                                href="{{ route('change.language', ['locale' => 'en']) }}">
+                                English
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item @if(app()->getLocale() == 'hi') active @endif"
+                                href="{{ route('change.language', ['locale' => 'hi']) }}">
+                                हिन्दी
+                            </a>
+                        </li> -->
+                    </ul>
+                </li>
 
                 @guest
-                    <a href="{{ route('login') }}">Login</a>
+                <a href="{{ route('login') }}">Login</a>
                 @else
-                    <a href="{{ route('dashboard') }}">Dashboard</a>
-                    <form method="POST" action="{{ route('logout') }}" class="d-inline">
-                        @csrf
-                        <button type="submit">Logout</button>
-                    </form>
+                <a href="{{ route('dashboard') }}">Dashboard</a>
+                <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                    @csrf
+                    <button type="submit">Logout</button>
+                </form>
                 @endguest
             </div>
         </div>
@@ -500,7 +515,7 @@
             <div class="govt-left">
                 <a href="{{url('/')}}">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg"
-                         alt="Government of India Emblem" class="govt-emblem">
+                        alt="Government of India Emblem" class="govt-emblem">
                 </a>
                 <div class="govt-title">
                     <h1>भारत सरकार GOVERNMENT OF INDIA</h1>
@@ -510,11 +525,11 @@
             </div>
             <div class="header-logos d-none d-md-flex">
                 <img src="{{asset('images/azadi.png')}}"
-                     alt="Azadi Ka Amrit Mahotsav">
+                    alt="Azadi Ka Amrit Mahotsav">
                 <img src="{{asset('images/swach.png')}}"
-                     alt="Swachh Bharat Mission">
+                    alt="Swachh Bharat Mission">
                 <img src="{{asset('images/WhatsApp Image 2025-09-13 at 17.48.33.jpeg')}}"
-                     alt="Department Logo">
+                    alt="Department Logo">
             </div>
         </div>
     </div>
@@ -644,46 +659,46 @@
                         <div class="nav-dropdown">
                             @foreach($internationalForm as $form)
                             <a href="#">{{$form->title}}</a>
-                            @endforeach
-                            <a href="#">Broadband Policy</a>
-                            <a href="#">Spectrum Policy</a>
-                            <a href="#">Digital India</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            Telecom & Spectrum Licensing <i class="bi bi-chevron-down"></i>
-                        </a>
-                        <div class="nav-dropdown">
-                            <a href="#">Licensing Framework</a>
-                            <a href="#">Spectrum Allocation</a>
-                            <a href="#">License Applications</a>
-                            <a href="#">Compliance</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            Investment Promotion <i class="bi bi-chevron-down"></i>
-                        </a>
-                        <div class="nav-dropdown">
-                            <a href="#">FDI Policy</a>
-                            <a href="#">Investment Opportunities</a>
-                            <a href="#">Ease of Doing Business</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            Telecom Reforms <i class="bi bi-chevron-down"></i>
-                        </a>
-                        <div class="nav-dropdown">
-                            <a href="#">Reform Initiatives</a>
-                            <a href="#">Policy Updates</a>
-                            <a href="#">Consultation Papers</a>
-                        </div>
-                    </li> --}}
-                </ul>
-            </nav>
+                    @endforeach
+                    <a href="#">Broadband Policy</a>
+                    <a href="#">Spectrum Policy</a>
+                    <a href="#">Digital India</a>
         </div>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                Telecom & Spectrum Licensing <i class="bi bi-chevron-down"></i>
+            </a>
+            <div class="nav-dropdown">
+                <a href="#">Licensing Framework</a>
+                <a href="#">Spectrum Allocation</a>
+                <a href="#">License Applications</a>
+                <a href="#">Compliance</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                Investment Promotion <i class="bi bi-chevron-down"></i>
+            </a>
+            <div class="nav-dropdown">
+                <a href="#">FDI Policy</a>
+                <a href="#">Investment Opportunities</a>
+                <a href="#">Ease of Doing Business</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                Telecom Reforms <i class="bi bi-chevron-down"></i>
+            </a>
+            <div class="nav-dropdown">
+                <a href="#">Reform Initiatives</a>
+                <a href="#">Policy Updates</a>
+                <a href="#">Consultation Papers</a>
+            </div>
+        </li> --}}
+        </ul>
+        </nav>
+    </div>
     </div>
 
     <script>
