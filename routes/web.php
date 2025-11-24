@@ -136,7 +136,15 @@ Route::post('/personal-performa/update-status/{id}', [\App\Http\Controllers\Pers
             ->name('presentation.index');
         Route::get('/presentation/create', [App\Http\Controllers\PresentationController::class, 'create'])
             ->name('presentation.create');
+        Route::post('/presentation/store', [App\Http\Controllers\PresentationController::class, 'store'])
+            ->name('presentations.store');
 
+
+        Route::get('/officer-database', [App\Http\Controllers\Admin\OfficersDatabaseController::class, 'index'])
+            ->name('officersdatabase.index');
+        Route::get('/officer-database/{staff_no}', [App\Http\Controllers\Admin\OfficersDatabaseController::class, 'view'])
+            ->name('officersdatabase.view');
+            
 
         Route::get('/tour-reports', [TourReportController::class, 'index'])
             ->name('tour-reports.index');
@@ -144,6 +152,8 @@ Route::post('/personal-performa/update-status/{id}', [\App\Http\Controllers\Pers
         // Show form to create a new tour report
         Route::get('/tour-reports/create', [TourReportController::class, 'create'])
             ->name('tour-reports.create');
+        Route::get('/tour-reports/show/{id}', [TourReportController::class, 'show'])
+            ->name('tour-reports.show');
 
         // Store the submitted tour report
         Route::post('/tour-reports', [TourReportController::class, 'store'])
@@ -200,15 +210,16 @@ Route::post('/personal-performa/update-status/{id}', [\App\Http\Controllers\Pers
         Route::resource('engagements', App\Http\Controllers\EngagementController::class);
 
         Route::resource('ambitions', App\Http\Controllers\AmbitionController::class);
-
-
-
         Route::resource('countries', CountryController::class);
-        Route::resource('site_settings', App\Http\Controllers\Admin\SiteSettingController::class);
-        Route::resource('agencies', AgencyController::class);
+
+            Route::resource('site_settings', App\Http\Controllers\Admin\SiteSettingController::class);
+            Route::resource('agencies', AgencyController::class);
             Route::resource('faqs', App\Http\Controllers\Admin\FaqController::class);
-        Route::resource('designations', App\Http\Controllers\DesignationController::class);
+            Route::resource('designations', App\Http\Controllers\DesignationController::class);
         Route::prefix('admin')->name('admin.')->group(function () {
+
+            Route::resource('embassies', \App\Http\Controllers\Admin\EmbassyController::class);
+
             Route::resource('units', \App\Http\Controllers\Backend\UnitController::class);
             Route::resource('unit-offices', App\Http\Controllers\Admin\UnitOfficeController::class);
             Route::resource('divisions', App\Http\Controllers\Admin\DivisionController::class);
@@ -229,8 +240,10 @@ Route::post('/personal-performa/update-status/{id}', [\App\Http\Controllers\Pers
             Route::resource('itu-sectors', App\Http\Controllers\Admin\ITUSectorController::class);
             Route::resource('itu-sector-groups', App\Http\Controllers\Admin\ITUSectorGroupController::class);
             Route::resource('circulars', App\Http\Controllers\Admin\CircularController::class);
-    Route::post('circulars/update-order', [App\Http\Controllers\Admin\CircularController::class, 'updateOrder'])->name('circulars.updateOrder');
+            Route::post('circulars/update-order', [App\Http\Controllers\Admin\CircularController::class, 'updateOrder'])->name('circulars.updateOrder');
             Route::resource('ir_roles', App\Http\Controllers\Admin\IrRoleController::class);
+
+            Route::resource('itu_focal_points', App\Http\Controllers\Admin\ItuFocalPointController::class);
         });
 
 

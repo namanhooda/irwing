@@ -48,8 +48,8 @@ class TourTrackerController extends Controller
 
     // ✅ Check if all are approved
     $allApproved = collect($allowed)->every(function ($field) use ($qrp) {
-        return strtolower($qrp->{$field}) === 'approved';
-    });
+    return in_array(strtolower($qrp->{$field}), ['approved', 'not applicable']);
+});
 
     if ($allApproved) {
         return response()->json([

@@ -1,17 +1,26 @@
-@extends('layouts.app')
+@extends('layoutsBackend.app')
 
 @section('content')
 <div class="container">
     <h2>Create Presentation</h2>
     <form action="{{ route('presentations.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="mb-3">
-            <label for="tour_id" class="form-label">Tour ID</label>
-            <input type="text" class="form-control" id="tour_id" name="tour_id" value="{{ old('tour_id') }}">
-        </div>
+        
+            <div class="col-md-6 mb-3">
+                <label>Tour ID</label>
+                <select name="tour_id" id="meeting_id" class="form-select" required>
+                    <option value="" disabled {{ request('meeting_id') ? '' : 'selected' }}>Select Meeting</option>
+                    @foreach($qrps as $qrp)
+                        <option value="{{ $qrp->id }}" {{ request('meeting_id') == $qrp->id ? 'selected' : '' }}>
+                            {{ $qrp->meeting_name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
         <div class="mb-3">
             <label for="staff_number" class="form-label">Staff Number</label>
-            <input type="text" class="form-control" id="staff_number" name="staff_number" value="{{ old('staff_number') }}">
+            <input type="text" class="form-control" id="staff_number" name="staff_number" value="{{ $profile->staff_no }}">
         </div>
         <div class="mb-3">
             <label for="brief" class="form-label">Brief</label>

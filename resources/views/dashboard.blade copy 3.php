@@ -36,9 +36,9 @@
         }
     </style>
 
-@php
-    $activeRole = session('active_role') ?? auth()->user()->getRoleNames()->first();
-@endphp
+    @php
+        $activeRole = session('active_role') ?? auth()->user()->getRoleNames()->first();
+    @endphp
 
     @if($activeRole == 'admin' || $activeRole == 'Officer' || $activeRole == 'Higher Authority')
 <div class="container-xxl flex-grow-1 container-p-y">
@@ -50,239 +50,49 @@
     </div>
 
     {{-- FILTER ROW --}}
-    @if($activeRole == 'admin' || $activeRole == 'Higher Authority')
     <div class="d-flex flex-wrap gap-2 mb-3 filter-row align-items-end">
        <!-- Officer dropdown - Replace previous officer block with this -->
         
-        <div class="mb-2" id="officerFilterWrapper" style="position:relative; min-width:170px;">
-            <label class="form-label small mb-1">Officer</label>
+    @if($activeRole == 'admin' || $activeRole == 'Higher Authority')
+<div class="mb-2" id="officerFilterWrapper" style="position:relative; min-width:170px;">
+    <label class="form-label small mb-1">Officer</label>
 
-            <!-- Hidden original select (keeps same id for existing code) -->
-            <select id="officerFilter" style="display:none;">
-                <option value="">All officers</option>
-                @if(isset($officers))
-                    @foreach($officers as $officer)
-                        @if(!empty($officer))
-                            <option value="{{ $officer }}">{{ $officer }}</option>
-                        @endif
-                    @endforeach
+    <!-- Hidden original select (keeps same id for existing code) -->
+    <select id="officerFilter" style="display:none;">
+        <option value="">All officers</option>
+        @if(isset($officers))
+            @foreach($officers as $officer)
+                @if(!empty($officer))
+                    <option value="{{ $officer }}">{{ $officer }}</option>
                 @endif
-            </select>
+            @endforeach
+        @endif
+    </select>
 
-            <!-- Visible custom dropdown (looks like select) -->
-            <div class="custom-select" tabindex="0"
-                style="border:1px solid #ced4da;border-radius:.375rem;padding:.45rem .6rem;display:flex;align-items:center;justify-content:space-between;cursor:pointer;background:#fff;">
-                <span id="officerSelectedText" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">All officers</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" style="opacity:.7">
-                    <path d="M7 10l5 5 5-5z" fill="currentColor"/>
-                </svg>
-            </div>
-
-            <!-- Dropdown panel -->
-            <div id="officerPanel" aria-hidden="true"
-                style="position:absolute;z-index:2200;left:0;right:0;margin-top:.35rem;border:1px solid #e6e9ee;border-radius:.375rem;background:#fff;box-shadow:0 8px 20px rgba(2,6,23,.08);max-height:280px;overflow:hidden;display:none;">
-                <!-- internal search box inside the dropdown (appears like part of select) -->
-                <div style="padding:.4rem;">
-                    <input id="officerInlineSearch" type="text" placeholder="Search officer..." autocomplete="off"
-                        style="width:100%;padding:.45rem .5rem;border:1px solid #e6e9ee;border-radius:.35rem;"/>
-                </div>
-                <div id="officerList" role="listbox" tabindex="-1" style="max-height:210px;overflow:auto;padding:.25rem;">
-                    <!-- options will be rendered here -->
-                </div>
-            </div>
-        </div>
-
-        <div class="mb-2">
-            <label class="form-label small mb-1">From</label>
-            <input type="date" id="startDate" class="form-control" />
-        </div>
-
-        <div class="mb-2">
-            <label class="form-label small mb-1">To</label>
-            <input type="date" id="endDate" class="form-control" />
-        </div>
-
-        <div class="mb-2">
-            <label class="form-label small mb-1">Purpose</label>
-            <select id="filterMeeting" class="form-select filter-select">
-                <option value="">All Purposes</option>
-            </select>
-        </div>
-
-        <div class="mb-2">
-            <label class="form-label small mb-1">Country</label>
-            <select id="filterCountry" class="form-select filter-select">
-                <option value="">All Countries</option>
-            </select>
-        </div>
-
-        <div class="mb-2">
-            <label class="form-label small mb-1">Cadre</label>
-            <select id="filterCadre" class="form-select filter-select">
-                <option value="">All Cadres</option>
-            </select>
-        </div>
-
-        <div class="mb-2">
-            <label class="form-label small mb-1">Gender</label>
-            <select id="filterGender" class="form-select filter-select">
-                <option value="">All Genders</option>
-            </select>
-        </div>
-
-        <div class="mb-2 ms-auto">
-            <button id="clearFilters" class="btn btn-outline-secondary">Clear</button>
-        </div>
-    </div>
-    @endif
-
-    {{-- Charts / Layout (same structure as yours) --}}
-    <div class="row g-4 mb-4">
-        <div class="col-lg-7 col-12">
-            <div class="card h-100">
-                <div class="card-header"><h5 class="card-title mb-0">Month wise visits</h5></div>
-                <div class="card-body">
-                    <div id="monthWiseVisitsChart"></div>
-                    <div class="text-muted mt-2 mb-3" style="font-size: 0.9rem; text-align: right;">Date range applied</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-lg-5 col-12">
-            <div class="card h-100">
-                <div class="card-header"><h5 class="card-title mb-0">Types of meetings</h5></div>
-                <div class="card-body"><div id="meetingsTreemapChart"></div></div>
-            </div>
-        </div>
+    <!-- Visible custom dropdown (looks like select) -->
+    <div class="custom-select" tabindex="0"
+         style="border:1px solid #ced4da;border-radius:.375rem;padding:.45rem .6rem;display:flex;align-items:center;justify-content:space-between;cursor:pointer;background:#fff;">
+        <span id="officerSelectedText" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">All officers</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" style="opacity:.7">
+            <path d="M7 10l5 5 5-5z" fill="currentColor"/>
+        </svg>
     </div>
 
-    <div class="row g-4 mb-4">
-        <div class="col-lg-8 col-12">
-            <div class="card h-100">
-                <div class="card-header"><h5 class="card-title mb-0">Country and city wise visits (map)</h5></div>
-                <div class="card-body"><div id="visitsMap" style="height: 450px;"></div></div>
-            </div>
+    <!-- Dropdown panel -->
+    <div id="officerPanel" aria-hidden="true"
+         style="position:absolute;z-index:2200;left:0;right:0;margin-top:.35rem;border:1px solid #e6e9ee;border-radius:.375rem;background:#fff;box-shadow:0 8px 20px rgba(2,6,23,.08);max-height:280px;overflow:hidden;display:none;">
+        <!-- internal search box inside the dropdown (appears like part of select) -->
+        <div style="padding:.4rem;">
+            <input id="officerInlineSearch" type="text" placeholder="Search officer..." autocomplete="off"
+                   style="width:100%;padding:.45rem .5rem;border:1px solid #e6e9ee;border-radius:.35rem;"/>
         </div>
-
-        <div class="col-lg-4 col-12">
-            <div class="card h-100">
-                <div class="card-header"><h5 class="card-title mb-0">ITU sectors (only for ITU related visits)</h5></div>
-                <div class="card-body d-flex justify-content-center align-items-center"><div id="ituSectorsPieChart"></div></div>
-            </div>
+        <div id="officerList" role="listbox" tabindex="-1" style="max-height:210px;overflow:auto;padding:.25rem;">
+            <!-- options will be rendered here -->
         </div>
     </div>
-
-    <div class="row g-4 mb-4">
-        <div class="col-md-6 col-12">
-            <div class="card h-100">
-                <div class="card-header"><h5 class="card-title mb-0">Levels of officers</h5></div>
-                <div class="card-body"><div id="officerLevelsTreemap"></div></div>
-            </div>
-        </div>
-
-        <div class="col-md-6 col-12">
-            <div class="card h-100">
-                <div class="card-header"><h5 class="card-title mb-0">Age profile</h5></div>
-                <div class="card-body"><div id="ageProfileBarChart"></div></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row g-4 mb-4">
-        <div class="col-md-4 col-12">
-            <div class="card h-100">
-                <div class="card-header"><h5 class="card-title mb-0">Cadre of officers</h5></div>
-                <div class="card-body d-flex justify-content-center align-items-center"><div id="cadrePieChart"></div></div>
-            </div>
-        </div>
-
-        <div class="col-md-8 col-12">
-            <div class="card h-100">
-                <div class="card-header"><h5 class="card-title mb-0">Gender</h5></div>
-                <div class="card-body"><div id="genderBarChart"></div></div>
-            </div>
-        </div>
-    </div>
-
-    {{-- Officer Details Table --}}
-    <div class="row g-4 mb-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header"><h5 class="card-title">Officer details</h5></div>
-                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
-                    <table class="table table-hover">
-                        <thead class="sticky-top bg-white">
-                            <tr>
-                                <th style="width: 6%;">S.No.</th>
-                                <th style="width: 28%;">Meeting name</th>
-                                <th style="width: 16%;">Country</th>
-                                <th style="width: 20%;">Dates</th>
-                                <th style="width: 30%;">Name of the Officer</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-border-bottom-0"></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-</div> {{-- container end --}}
-    @endif
-
-
-
-    @if($activeRole == 'nodal')
-    <div class="container-xxl flex-grow-1 container-p-y">
-        <div class="row g-4 mb-2"><div class="col-12"><h3 class="mb-0">Nodal Dashboard</h3></div></div>
-        
-        <div class="row g-4">
-
-            <!-- Total Submitted -->
-            <div class="col-md-3 col-sm-6">
-                <div class="card text-center shadow-sm p-3">
-                    <h5>Total Submitted Qrps</h5>
-                    <h2 class="mt-2 fw-bold">{{ $totalQrps }}</h2>
-                </div>
-            </div>
-
-            <!-- Pending -->
-            <div class="col-md-3 col-sm-6">
-                <div class="card text-center shadow-sm p-3">
-                    <h5>Pending Qrps</h5>
-                    <h2 class="mt-2 fw-bold text-warning">{{ $pendingQrps }}</h2>
-                </div>
-            </div>
-
-            <!-- Approved -->
-            <div class="col-md-3 col-sm-6">
-                <div class="card text-center shadow-sm p-3">
-                    <h5>Approved Qrps</h5>
-                    <h2 class="mt-2 fw-bold text-success">{{ $approvedQrps }}</h2>
-                </div>
-            </div>
-
-            <!-- Rejected -->
-            <div class="col-md-3 col-sm-6">
-                <div class="card text-center shadow-sm p-3">
-                    <h5>Rejected Qrps</h5>
-                    <h2 class="mt-2 fw-bold text-danger">{{ $rejectedQrps }}</h2>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    @endif
-@endsection
-
-@push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-
+</div>
+@endif
 <script>
-
 document.addEventListener('DOMContentLoaded', function () {
     // Elements
     const realSelect = document.getElementById('officerFilter'); // hidden real select (kept for existing code)
@@ -518,8 +328,201 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+</script>
+
+
+    @if($activeRole == 'admin' || $activeRole == 'Higher Authority')
+        <div class="mb-2">
+            <label class="form-label small mb-1">From</label>
+            <input type="date" id="startDate" class="form-control" />
+        </div>
+
+        <div class="mb-2">
+            <label class="form-label small mb-1">To</label>
+            <input type="date" id="endDate" class="form-control" />
+        </div>
+
+        <div class="mb-2">
+            <label class="form-label small mb-1">Purpose</label>
+            <select id="filterMeeting" class="form-select filter-select">
+                <option value="">All Purposes</option>
+            </select>
+        </div>
+
+        <div class="mb-2">
+            <label class="form-label small mb-1">Country</label>
+            <select id="filterCountry" class="form-select filter-select">
+                <option value="">All Countries</option>
+            </select>
+        </div>
+
+        <div class="mb-2">
+            <label class="form-label small mb-1">Cadre</label>
+            <select id="filterCadre" class="form-select filter-select">
+                <option value="">All Cadres</option>
+            </select>
+        </div>
+
+        <div class="mb-2">
+            <label class="form-label small mb-1">Gender</label>
+            <select id="filterGender" class="form-select filter-select">
+                <option value="">All Genders</option>
+            </select>
+        </div>
+
+        <div class="mb-2 ms-auto">
+            <button id="clearFilters" class="btn btn-outline-secondary">Clear</button>
+        </div>
+        @endif
+    </div>
+
+    {{-- Charts / Layout (same structure as yours) --}}
+    <div class="row g-4 mb-4">
+        <div class="col-lg-7 col-12">
+            <div class="card h-100">
+                <div class="card-header"><h5 class="card-title mb-0">Month wise visits</h5></div>
+                <div class="card-body">
+                    <div id="monthWiseVisitsChart"></div>
+                    <div class="text-muted mt-2 mb-3" style="font-size: 0.9rem; text-align: right;">Date range applied</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5 col-12">
+            <div class="card h-100">
+                <div class="card-header"><h5 class="card-title mb-0">Types of meetings</h5></div>
+                <div class="card-body"><div id="meetingsTreemapChart"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-lg-8 col-12">
+            <div class="card h-100">
+                <div class="card-header"><h5 class="card-title mb-0">Country and city wise visits (map)</h5></div>
+                <div class="card-body"><div id="visitsMap" style="height: 450px;"></div></div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-12">
+            <div class="card h-100">
+                <div class="card-header"><h5 class="card-title mb-0">ITU sectors (only for ITU related visits)</h5></div>
+                <div class="card-body d-flex justify-content-center align-items-center"><div id="ituSectorsPieChart"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-6 col-12">
+            <div class="card h-100">
+                <div class="card-header"><h5 class="card-title mb-0">Levels of officers</h5></div>
+                <div class="card-body"><div id="officerLevelsTreemap"></div></div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-12">
+            <div class="card h-100">
+                <div class="card-header"><h5 class="card-title mb-0">Age profile</h5></div>
+                <div class="card-body"><div id="ageProfileBarChart"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-4 col-12">
+            <div class="card h-100">
+                <div class="card-header"><h5 class="card-title mb-0">Cadre of officers</h5></div>
+                <div class="card-body d-flex justify-content-center align-items-center"><div id="cadrePieChart"></div></div>
+            </div>
+        </div>
+
+        <div class="col-md-8 col-12">
+            <div class="card h-100">
+                <div class="card-header"><h5 class="card-title mb-0">Gender</h5></div>
+                <div class="card-body"><div id="genderBarChart"></div></div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Officer Details Table --}}
+    <div class="row g-4 mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header"><h5 class="card-title">Officer details</h5></div>
+                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+                    <table class="table table-hover">
+                        <thead class="sticky-top bg-white">
+                            <tr>
+                                <th style="width: 6%;">S.No.</th>
+                                <th style="width: 28%;">Meeting name</th>
+                                <th style="width: 16%;">Country</th>
+                                <th style="width: 20%;">Dates</th>
+                                <th style="width: 30%;">Name of the Officer</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-border-bottom-0"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div> {{-- container end --}}
+    @endif
+
+
+
+    @if($activeRole == 'nodal')
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="row g-4 mb-2"><div class="col-12"><h3 class="mb-0">Nodal Dashboard</h3></div></div>
+        
+        <div class="row g-4">
+
+            <!-- Total Submitted -->
+            <div class="col-md-3 col-sm-6">
+                <div class="card text-center shadow-sm p-3">
+                    <h5>Total Submitted Qrps</h5>
+                    <h2 class="mt-2 fw-bold">{{ $totalQrps }}</h2>
+                </div>
+            </div>
+
+            <!-- Pending -->
+            <div class="col-md-3 col-sm-6">
+                <div class="card text-center shadow-sm p-3">
+                    <h5>Pending Qrps</h5>
+                    <h2 class="mt-2 fw-bold text-warning">{{ $pendingQrps }}</h2>
+                </div>
+            </div>
+
+            <!-- Approved -->
+            <div class="col-md-3 col-sm-6">
+                <div class="card text-center shadow-sm p-3">
+                    <h5>Approved Qrps</h5>
+                    <h2 class="mt-2 fw-bold text-success">{{ $approvedQrps }}</h2>
+                </div>
+            </div>
+
+            <!-- Rejected -->
+            <div class="col-md-3 col-sm-6">
+                <div class="card text-center shadow-sm p-3">
+                    <h5>Rejected Qrps</h5>
+                    <h2 class="mt-2 fw-bold text-danger">{{ $rejectedQrps }}</h2>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    @endif
+@endsection
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
+<script>
 document.addEventListener('DOMContentLoaded', function() {
-    
     // ---------- Raw data ----------
     let rawData = @json($tourReport ?? []);
     if(!Array.isArray(rawData)) rawData = [];

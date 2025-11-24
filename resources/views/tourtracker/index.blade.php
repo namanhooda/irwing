@@ -97,7 +97,7 @@
                                         }
                                     }
                                     $countryStr = implode(', ', $CountryNames);
-                                    $options = ['Not Applied', 'Applied', 'Approved', 'Rejected'];
+                                    $options = ['Not Applied', 'Applied', 'Approved', 'Rejected','Not Applicable'];
                                 @endphp
 
                                 <td>{{ $countryStr ?? 'N/A' }}</td>
@@ -116,14 +116,28 @@
 {{-- ✅ Check if all approvals are "Approved" --}}
 @php
     $fields = ['adminidtrative_appr', 'financial_appr', 'poltical_clear', 'scos_appr', 'vigl_clear', 'pmo_appr', 'fcra_clear', 'sanction_vetting'];
-    $allApproved = collect($fields)->every(fn($f) => $qrp->$f === 'Approved');
+   
+    $allApproved = collect($fields)->every(function($f) use ($qrp) {
+        return in_array($qrp->$f, ['Approved', 'Not Applicable']);
+    });
 @endphp
 
 <td>
     @if($allApproved)
-        <a href="{{ route('sanction-memo.generate', $qrp->id) }}" class="btn btn-primary btn-sm">
-            Generate Sanction Memo
-        </a>
+    @if(!empty($qrp->sanction_memo_doc))
+    {{-- Download existing memo --}}
+    <a href="{{ asset($qrp->sanction_memo_doc) }}" 
+       class="btn btn-success btn-sm" 
+       download>
+        Download Sanction Memo
+    </a>
+@else
+    {{-- Generate new memo --}}
+    <a href="{{ route('sanction-memo.generate', $qrp->id) }}" 
+       class="btn btn-primary btn-sm">
+        Generate Sanction Memo
+    </a>
+@endif
     @endif
 </td>
 

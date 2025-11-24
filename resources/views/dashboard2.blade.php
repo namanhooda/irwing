@@ -88,7 +88,7 @@
     $activeRole = session('active_role') ?? auth()->user()->getRoleNames()->first();
 @endphp
 
-@if($activeRole == 'admin')
+@if($activeRole == 'admin' || $activeRole == 'Higher Authority')
 <div class="container-xxl flex-grow-1 container-p-y">
 
     {{-- Header --}}

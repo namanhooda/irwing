@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\TourReport;
+use App\Models\SanctionMemo;
 use App\Models\QrpForm;
 use App\Models\QrpOfficer;
 use App\Models\User;
@@ -20,33 +20,56 @@ class SanctionMemosController extends Controller
 {
     //
 
-    public function index()
-    {
-        $user = Auth::user();
-        $profile = Profile::where('user_id', $user->id)->first();
+public function index(Request $request)
+{
+    $user = Auth::user();
+    $profile = Profile::where('user_id', $user->id)->first();
 
-        $activeRole = session('active_role') ?? auth()->user()->getRoleNames()->first();
+    $activeRole = session('active_role') ?? auth()->user()->getRoleNames()->first();
 
-        if ($activeRole == 'admin') {
-            // Admin sees all reports
-            $reports = TourReport::with('user')->latest()->get();
-        } else {
-            // Non-admin users see only their own reports
-            $reports = TourReport::with('user')
-                ->where('staff_number', $profile->staff_no)
-                ->latest()
-                ->get();
-        }
+    $query = SanctionMemo::with('user');
 
-        return view('sanctionmemo.index', compact('reports'));
-    } 
+    if ($activeRole !== 'admin') {
+        $query->where('staff_number', $profile->staff_no);
+    }
+
+    // 🔥 Apply Filters
+    if ($request->meeting_name) {
+        $query->where('meeting_name', 'LIKE', '%' . $request->meeting_name . '%');
+    }
+
+    if ($request->staff_number) {
+        $query->where('staff_number', $request->staff_number);
+    }
+
+    if ($request->country) {
+        $query->where('country', 'LIKE', '%' . $request->country . '%');
+    }
+
+    if ($request->from_date) {
+        $query->whereDate('from_date', '>=', $request->from_date);
+    }
+
+    if ($request->to_date) {
+        $query->whereDate('to_date', '<=', $request->to_date);
+    }
+
+    $reports = $query->latest()->get();
+
+    // Group by meeting name
+    $reports = $reports->groupBy('meeting_name');
+
+    return view('sanctionmemo.index', compact('reports'));
+}
+
+
 public function generate($id)
 
 {
     $qrp = QrpForm::findOrFail($id);
 
 
-    $alreadyExists = TourReport::where('tour_id', $qrp->meeting_id)->exists();
+    $alreadyExists = SanctionMemo::where('tour_id', $qrp->meeting_id)->exists();
     // if ($alreadyExists) {
     //     return back()->with('error', 'Sanction memo already generated for this tour.');
     // }
@@ -161,7 +184,7 @@ public function generate($id)
         $data['sanction_memo_doc'] = 'sanctions/' . $fileName;
 
         // Save final
-        TourReport::create($data);
+        SanctionMemo::create($data);
 
         $qrp->sanction_memo_doc = 'sanctions/' . $fileName;
 
@@ -169,9 +192,15 @@ public function generate($id)
 
         $records[] = $data;
     }
+    $fileUrl = asset('sanctions/' . $fileName);
 
-    return redirect()->route('tourTracker.index')
-        ->with('success', 'Sanction memo(s) generated successfully.');
+return view('sanctions.download_and_redirect', [
+    'fileUrl' => $fileUrl,
+    'redirectUrl' => route('tourTracker.index'),
+]);
+
+    // return redirect()->route('tourTracker.index')
+    //     ->with('success', 'Sanction memo(s) generated successfully.');
 }
 
 

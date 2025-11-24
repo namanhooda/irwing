@@ -1,9 +1,17 @@
-@extends('layouts.app')
+@extends('layoutsBackend.app')
+
 
 @section('content')
 <div class="container">
     <h2>Presentations</h2>
+
+    @php
+        $activeRole = session('active_role') ?? auth()->user()->getRoleNames()->first();
+    @endphp
+
+    @if($activeRole == 'Officer')
     <a href="{{ route('presentation.create') }}" class="btn btn-success mb-3">Add New</a>
+    @endif
 
     <table class="table table-bordered">
         <thead>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\TourReport;
 use Illuminate\Http\Request;
 use App\Models\QrpForm;
+use App\Models\TourQuestionAnswer;
+use App\Models\TourQuestion;
 use App\Models\Profile;
 use Illuminate\Support\Facades\Auth;
 use DB;
@@ -19,6 +21,7 @@ class TourReportController extends Controller
     {
         $user = Auth::user();
         $profile = Profile::where('user_id', $user->id)->first();
+
 
         $activeRole = session('active_role') ?? auth()->user()->getRoleNames()->first();
 
@@ -48,29 +51,30 @@ class TourReportController extends Controller
     public function create()
     {
         //
-$userId = Auth::id();
-$profileId = \App\Models\Profile::where('user_id', $userId)->value('id');
+        $userId = Auth::id();
+        $profileId = \App\Models\Profile::where('user_id', $userId)->value('id');
 
-$qrps = QrpForm::with(['agencyy', 'officers'])
-    ->whereHas('officers', function ($query) use ($profileId) {
-        $query->where('profile_id', $profileId);
-    })
-    ->whereNotExists(function ($query) use ($userId) {
-        $query->select(DB::raw(1))
-            ->from('tour_reports')
-            ->whereRaw('tour_reports.tour_id = qrp_forms.id')
-            ->whereRaw('tour_reports.user_id = ?', [$userId]);
-    })
-    ->orderByRaw("
-        CASE 
-            WHEN nodal_status = 'Saved' OR nodal_status IS NULL THEN 0 
-            ELSE 1 
-        END
-    ")
-    ->get();
+        $qrps = QrpForm::with(['agencyy', 'officers'])
+            ->whereHas('officers', function ($query) use ($profileId) {
+                $query->where('profile_id', $profileId);
+            })
+            ->whereNotExists(function ($query) use ($userId) {
+                $query->select(DB::raw(1))
+                    ->from('tour_reports')
+                    ->whereRaw('tour_reports.tour_id = qrp_forms.id')
+                    ->whereRaw('tour_reports.user_id = ?', [$userId]);
+            })
+            ->orderByRaw("
+                CASE 
+                    WHEN nodal_status = 'Saved' OR nodal_status IS NULL THEN 0 
+                    ELSE 1 
+                END
+            ")
+            ->get();
 
         $user = Auth::user();
         $profile = \App\Models\Profile::where('user_id', $userId)->first();
+        $questions = TourQuestion::get();
 
         // Fetch additional data from other related tables if needed
         $autoData = [
@@ -90,7 +94,7 @@ $qrps = QrpForm::with(['agencyy', 'officers'])
             'to_date' => $user->to_date ?? null,
         ];
 
-        return view('tour_reports.create', compact('autoData','qrps'));
+        return view('tour_reports.create', compact('autoData','qrps','questions'));
     }
 
     /**
@@ -115,7 +119,7 @@ public function store(Request $request)
         'tour_id' => $request->tour_id,
         'user_id' => $user->id,
 
-        'staff_number' => $request->staff_number,
+        'staff_number' => $request->staff_no,
         'meeting_name' => $request->meeting_name,
         'purpose' => $request->purpose,
         'service' => $request->service,
@@ -139,7 +143,15 @@ public function store(Request $request)
         $data['tour_report_pdf'] = $request->file('tour_report_pdf')->store('tour_reports', 'public');
     }
 
-    TourReport::create($data);
+    $tourReport = TourReport::create($data);if ($request->has('answers')) {
+    foreach ($request->answers as $questionId => $answer) {
+        \App\Models\TourQuestionAnswer::create([
+            'tour_id' => $tourReport->id,
+            'question_id' => $questionId,
+            'answer' => $answer,
+        ]);
+    }
+}
 
     return redirect()->route('tour-reports.index')->with('success', 'Tour Report submitted successfully.');
 }
@@ -148,9 +160,16 @@ public function store(Request $request)
     /**
      * Display the specified resource.
      */
-    public function show(TourReport $tourReport)
+    public function show(TourReport $tourReport, $id)
     {
-        //
+        // Load all answers related to this tour report
+
+        $tourReport = TourReport::find($id);
+        $answers = \App\Models\TourQuestionAnswer::with('question')
+                    ->where('tour_id', $id)
+                    ->get();
+
+        return view('tour_reports.show', compact('tourReport', 'answers'));
     }
 
     /**

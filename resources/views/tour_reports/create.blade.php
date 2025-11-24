@@ -11,72 +11,72 @@
 
         <div class="row">
             <div class="col-md-6 mb-3">
-    <label>Tour ID</label>
-    <select name="tour_id" id="meeting_id" class="form-select" required>
-        <option value="" disabled {{ request('meeting_id') ? '' : 'selected' }}>Select Meeting</option>
-        @foreach($qrps as $qrp)
-            <option value="{{ $qrp->id }}" {{ request('meeting_id') == $qrp->id ? 'selected' : '' }}>
-                {{ $qrp->meeting_name }}
-            </option>
-        @endforeach
-    </select>
-</div>
+                <label>Tour ID</label>
+                <select name="tour_id" id="meeting_id" class="form-select" required>
+                    <option value="" disabled {{ request('meeting_id') ? '' : 'selected' }}>Select Meeting</option>
+                    @foreach($qrps as $qrp)
+                        <option value="{{ $qrp->id }}" {{ request('meeting_id') == $qrp->id ? 'selected' : '' }}>
+                            {{ $qrp->meeting_name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
 
 
             <div class="col-md-6 mb-3">
                 <label>Staff Number</label>
-                <input type="text" class="form-control" value="{{ $autoData['staff_number'] }}" readonly>
+                <input type="text" name="staff_no" class="form-control" value="{{ $autoData['staff_number'] }}" readonly>
             </div>
 
             <div class="col-md-6 mb-3">
                 <label>Meeting Name</label>
-                <input type="text" id="meeting_name" class="form-control" value="{{ $autoData['meeting_name'] ?? '' }}" readonly>
+                <input type="text" id="meeting_name" name="meeting_name" class="form-control" value="{{ $autoData['meeting_name'] ?? '' }}" readonly>
             </div>
 
             <div class="col-md-6 mb-3">
                 <label>Purpose</label>
-                <input type="text" id="purpose" class="form-control" value="{{ $autoData['purpose'] ?? '' }}" readonly>
+                <input type="text" id="purpose" name="purpose" class="form-control" value="{{ $autoData['purpose'] ?? '' }}" >
             </div>
 
 
             <div class="col-md-6 mb-3">
                 <label>Name & Designation</label>
-                <input type="text" class="form-control" value="{{ $autoData['name_designation'] }}" readonly>
+                <input type="text" class="form-control" name="designation" value="{{ $autoData['name_designation'] }}" readonly>
             </div>
 
             <div class="col-md-6 mb-3">
                 <label>Mobile No.</label>
-                <input type="text" class="form-control" value="{{ $autoData['mobile_no'] }}" readonly>
+                <input type="text" class="form-control" name="mobile_no" value="{{ $autoData['mobile_no'] }}" readonly>
             </div>
 
             <div class="col-md-6 mb-3">
                 <label>Email</label>
-                <input type="text" class="form-control" value="{{ $autoData['email'] }}" readonly>
+                <input type="text" class="form-control" name="email" value="{{ $autoData['email'] }}" readonly>
             </div>
-<div class="col-md-6 mb-3">
-    <label>Country</label>
-    <input type="text" id="country" class="form-control" value="{{ $autoData['country'] ?? '' }}" readonly>
-</div>
+            <div class="col-md-6 mb-3">
+                <label>Country</label>
+                <input type="text" id="country" class="form-control" name="country" value="{{ $autoData['country'] ?? '' }}" readonly>
+            </div>
 
-<div class="col-md-6 mb-3">
-    <label>City</label>
-    <input type="text" id="city" class="form-control" value="{{ $autoData['city'] ?? '' }}" readonly>
-</div>
+            <div class="col-md-6 mb-3">
+                <label>City</label>
+                <input type="text" id="city" class="form-control" name="city" value="{{ $autoData['city'] ?? '' }}" readonly>
+            </div>
 
-            
-<div class="col-md-6 mb-3">
-    <label>From</label>
-    <input type="date" id="from_date" class="form-control" value="{{ $autoData['from_date'] ?? '' }}" readonly>
-</div>
+                        
+            <div class="col-md-6 mb-3">
+                <label>From</label>
+                <input type="date" id="from_date" class="form-control" name="from_date" value="{{ $autoData['from_date'] ?? '' }}" readonly>
+            </div>
 
-<div class="col-md-6 mb-3">
-    <label>To</label>
-    <input type="date" id="to_date" class="form-control" value="{{ $autoData['to_date'] ?? '' }}" readonly>
-</div>
+            <div class="col-md-6 mb-3">
+                <label>To</label>
+                <input type="date" id="to_date" class="form-control" name="to_date" value="{{ $autoData['to_date'] ?? '' }}" readonly>
+            </div>
 
             <div class="col-md-12 mb-3">
                 <label>Key Contributions</label>
-                <textarea name="key_contributions" class="form-control" rows="3" required></textarea>
+                <textarea name="key_contributions"  class="form-control" rows="3" required></textarea>
             </div>
 
             <div class="col-md-12 mb-3">
@@ -87,6 +87,21 @@
             <div class="col-md-6 mb-3">
                 <label>Upload Tour Report (PDF)</label>
                 <input type="file" name="tour_report_pdf" class="form-control" accept="application/pdf">
+            </div>
+
+            <div class="col-md-12 mb-3">
+                <h5>Additional Questions</h5>
+
+                @foreach ($questions as $question)
+                    <div class="mb-3">
+                        <label class="form-label">{{ $question->name }}</label>
+                        <textarea 
+                            name="answers[{{ $question->id }}]" 
+                            class="form-control" 
+                            rows="2"
+                            required></textarea>
+                    </div>
+                @endforeach
             </div>
 
             <div class="col-md-12 mb-3">

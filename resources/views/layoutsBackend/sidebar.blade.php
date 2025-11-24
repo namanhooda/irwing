@@ -38,11 +38,11 @@
     @php
     $activeRole = session('active_role') ?? auth()->user()->getRoleNames()->first();
     @endphp
-    @if($activeRole == 'admin')
+    @if($activeRole == 'admin' || $activeRole == 'Higher Authority')
         <li class="menu-item ">
             <a href="{{route('dashboard2')}}" class="menu-link">
                 <i class="menu-icon icon-base ti tabler-layout-dashboard"></i>
-                <div data-i18n="Dashboard 2">Dashboard 2</div>
+                <div data-i18n="Dashboard 2">Contributions Dashboard </div>
             </a>
         </li>
         @endif
@@ -175,9 +175,8 @@
                 </li>
                 @endroleCan
 
-
                 @roleCan('repository.presentations.view')
-                <li class="menu-item"><a href="#" class="menu-link">
+                <li class="menu-item"><a href="{{route('presentation.index')}}" class="menu-link">
                         <div>Presentations</div>
                     </a></li>
                 @endroleCan
@@ -189,19 +188,19 @@
                 @endroleCan
 
                 @roleCan('repository.officer_database.view')
-                <li class="menu-item"><a href="#" class="menu-link">
+                <li class="menu-item"><a href="{{route('officersdatabase.index')}}" class="menu-link">
                         <div>Officer Database</div>
                     </a></li>
                 @endroleCan
 
                 @roleCan('repository.itu_focal_points.view')
-                <li class="menu-item"><a href="#" class="menu-link">
+                <li class="menu-item"><a href="{{route('admin.itu_focal_points.index')}}" class="menu-link">
                         <div>ITU Focal points</div>
                     </a></li>
                 @endroleCan
 
                 @roleCan('repository.indian_mission_contact.view')
-                <li class="menu-item"><a href="#" class="menu-link">
+                <li class="menu-item"><a href="{{route('admin.embassies.index')}}" class="menu-link">
                         <div>Indian Mission contact</div>
                     </a></li>
                 @endroleCan

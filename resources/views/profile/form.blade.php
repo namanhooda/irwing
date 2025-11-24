@@ -25,18 +25,18 @@
 
                             <!-- Designation -->
                             <!-- Designation -->
-<div class="col-md-6">
-    <label for="designation" class="form-label">Designation</label>
-    <select class="form-select" id="designation" name="designation">
-        <option value="">Select Designation</option>
-        @foreach ($designations as $designation)
-            <option value="{{ $designation->name }}" 
-                {{ old('designation', $checkprofile->designation ?? '') == $designation->name ? 'selected' : '' }}>
-                {{ $designation->name }}
-            </option>
-        @endforeach
-    </select>
-</div>
+                            <div class="col-md-6">
+                                <label for="designation" class="form-label">Designation</label>
+                                <select class="form-select" id="designation" name="designation">
+                                    <option value="">Select Designation</option>
+                                    @foreach ($designations as $designation)
+                                    <option value="{{ $designation->name }}"
+                                        {{ old('designation', $checkprofile->designation ?? '') == $designation->name ? 'selected' : '' }}>
+                                        {{ $designation->name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
 
 
                             <!-- Year of Allotment -->
@@ -48,17 +48,20 @@
 
                             <!-- Date of Entry in Service (Dropdown - Last 50 years) -->
                             <div class="col-md-6">
-                                <label for="date_of_entry_in_service" class="form-label">Date of Entry in Service (Year)</label>
-                                <select class="form-select" id="date_of_entry_in_service" name="date_of_entry_in_service">
+                                <label for="date_of_entry_in_service" class="form-label">Date of Entry in Service
+                                    (Year)</label>
+                                <select class="form-select" id="date_of_entry_in_service"
+                                    name="date_of_entry_in_service">
                                     <option value="">Select Year</option>
                                     @php
-                                        $currentYear = date('Y');
-                                        $startYear = $currentYear - 50;
+                                    $currentYear = date('Y');
+                                    $startYear = $currentYear - 50;
                                     @endphp
                                     @for ($year = $currentYear; $year >= $startYear; $year--)
-                                        <option value="{{ $year }}" {{ old('date_of_entry_in_service', $checkprofile->date_of_entry_in_service) == $year ? 'selected' : '' }}>
-                                            {{ $year }}
-                                        </option>
+                                    <option value="{{ $year }}"
+                                        {{ old('date_of_entry_in_service', $checkprofile->date_of_entry_in_service) == $year ? 'selected' : '' }}>
+                                        {{ $year }}
+                                    </option>
                                     @endfor
                                 </select>
                             </div>
@@ -72,21 +75,21 @@
 
                             <!-- Title -->
                             <!-- Title -->
-<div class="col-md-6">
-    <label for="title" class="form-label">Title</label>
-    <select class="form-select" id="title" name="title">
-        <option value="">Select Title</option>
-        @php
-            $titles = ['Mr.', 'Mrs.', 'Ms.', 'Dr.', 'Prof.'];
-        @endphp
-        @foreach ($titles as $title)
-            <option value="{{ $title }}" 
-                {{ old('title', $checkprofile->title ?? '') == $title ? 'selected' : '' }}>
-                {{ $title }}
-            </option>
-        @endforeach
-    </select>
-</div>
+                            <div class="col-md-6">
+                                <label for="title" class="form-label">Title</label>
+                                <select class="form-select" id="title" name="title">
+                                    <option value="">Select Title</option>
+                                    @php
+                                    $titles = ['Mr.', 'Mrs.', 'Ms.', 'Dr.', 'Prof.'];
+                                    @endphp
+                                    @foreach ($titles as $title)
+                                    <option value="{{ $title }}"
+                                        {{ old('title', $checkprofile->title ?? '') == $title ? 'selected' : '' }}>
+                                        {{ $title }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
 
 
                             <!-- Officer Name -->
@@ -98,21 +101,21 @@
 
                             <!-- Gender -->
                             <!-- Gender -->
-<div class="col-md-6">
-    <label for="gender" class="form-label">Gender</label>
-    <select class="form-select" id="gender" name="gender">
-        <option value="">Select Gender</option>
-        @php
-            $genders = ['Male', 'Female', 'Other'];
-        @endphp
-        @foreach ($genders as $gender)
-            <option value="{{ $gender }}" 
-                {{ old('gender', $checkprofile->gender ?? '') == $gender ? 'selected' : '' }}>
-                {{ $gender }}
-            </option>
-        @endforeach
-    </select>
-</div>
+                            <div class="col-md-6">
+                                <label for="gender" class="form-label">Gender</label>
+                                <select class="form-select" id="gender" name="gender">
+                                    <option value="">Select Gender</option>
+                                    @php
+                                    $genders = ['Male', 'Female', 'Other'];
+                                    @endphp
+                                    @foreach ($genders as $gender)
+                                    <option value="{{ $gender }}"
+                                        {{ old('gender', $checkprofile->gender ?? '') == $gender ? 'selected' : '' }}>
+                                        {{ $gender }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
 
 
                             <!-- Present Posting -->
@@ -132,7 +135,8 @@
                             <!-- Date of Joining Office -->
                             <div class="col-md-6">
                                 <label for="date_of_joining_office" class="form-label">Date of Joining Office</label>
-                                <input type="date" class="form-control" id="date_of_joining_office" name="date_of_joining_office"
+                                <input type="date" class="form-control" id="date_of_joining_office"
+                                    name="date_of_joining_office"
                                     value="{{ old('date_of_joining_office', $checkprofile->date_of_joining_office ?? '') }}">
                             </div>
 
@@ -160,11 +164,7 @@
                             <!-- Date of Birth -->
                             <div class="col-md-6">
                                 <label for="date_of_birth" class="form-label">Date of Birth</label>
-                                <input  readonly 
-                                    type="date" 
-                                    class="form-control" 
-                                    id="date_of_birth" 
-                                    name="date_of_birth"
+                                <input readonly type="date" class="form-control" id="date_of_birth" name="date_of_birth"
                                     value="{{ old('date_of_birth', isset($checkprofile->date_of_birth) ? \Carbon\Carbon::parse($checkprofile->date_of_birth)->format('Y-m-d') : '') }}">
                             </div>
 
@@ -185,8 +185,10 @@
 
                             <!-- Educational Qualifications -->
                             <div class="col-md-6">
-                                <label for="educational_qualifications" class="form-label">Educational Qualifications</label>
-                                <input type="text" class="form-control" id="educational_qualifications" name="educational_qualifications"
+                                <label for="educational_qualifications" class="form-label">Educational
+                                    Qualifications</label>
+                                <input type="text" class="form-control" id="educational_qualifications"
+                                    name="educational_qualifications"
                                     value="{{ old('educational_qualifications', $checkprofile->educational_qualifications ?? '') }}">
                             </div>
 
@@ -199,8 +201,10 @@
 
                             <!-- Date of Entry in Present Grade -->
                             <div class="col-md-6">
-                                <label for="date_of_entry_in_present_grade" class="form-label">Date of Entry in Present Grade</label>
-                                <input type="date" class="form-control" id="date_of_entry_in_present_grade" name="date_of_entry_in_present_grade"
+                                <label for="date_of_entry_in_present_grade" class="form-label">Date of Entry in Present
+                                    Grade</label>
+                                <input type="date" class="form-control" id="date_of_entry_in_present_grade"
+                                    name="date_of_entry_in_present_grade"
                                     value="{{ old('date_of_entry_in_present_grade', $checkprofile->date_of_entry_in_present_grade ?? '') }}">
                             </div>
 
@@ -221,7 +225,8 @@
                             <!-- Level in Pay Matrix -->
                             <div class="col-md-6">
                                 <label for="level_in_pay_matrix" class="form-label">Level in Pay Matrix</label>
-                                <input type="text" class="form-control" id="level_in_pay_matrix" name="level_in_pay_matrix"
+                                <input type="text" class="form-control" id="level_in_pay_matrix"
+                                    name="level_in_pay_matrix"
                                     value="{{ old('level_in_pay_matrix', $checkprofile->level_in_pay_matrix ?? '') }}">
                             </div>
 

@@ -27,7 +27,7 @@ class ProfileController extends Controller
     public function profileForm(Request $request)
     {
         $checkprofile = Profile::where('user_id', Auth::user()->id)->first();
-    $designations = Designation::orderBy('name')->get();
+        $designations = Designation::orderBy('name')->get();
         $profile = $checkprofile;
         return view('profile.form', compact('checkprofile', 'designations'));
     }

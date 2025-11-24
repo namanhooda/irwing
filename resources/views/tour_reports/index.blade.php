@@ -68,14 +68,8 @@
                                 <td>{{ $qrp->key_contributions ?? 'N/A' }}</td>
                                 <td>{{ $qrp->followup_actions ?? 'N/A' }}</td>
                                 <td>
-                                    <!-- @if(is_null($qrp->nodal_status) || $qrp->nodal_status === 'Saved')
-                                        <a href="{{ route('qrp.edit', $qrp->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                        <form action="{{ route('qrp.destroy', $qrp->id) }}" method="POST" class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</button>
-                                        </form>
-                                    @endif -->
+                                        <a href="{{ route('tour-reports.show', $qrp->id) }}" class="btn btn-warning btn-sm">View Details</a>
+                                        
                                 </td>
                             </tr>
                         @empty

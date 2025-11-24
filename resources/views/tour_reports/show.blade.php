@@ -1,178 +1,74 @@
 @extends('layoutsBackend.app')
+
 @section('content')
-
-
 <div class="container-xxl flex-grow-1 container-p-y">
+
     <div class="card">
+        <h4 class="card-header">Tour Report Details</h4>
 
-        @roleCan('generation.qrp.view')
-        <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="mb-4">QRP Form Details @if(is_null($form->status) || $form->status === 'Pending')
-                <span class="badge bg-info">Pending</span>
-                @elseif($form->status === 'Approved')
-                <span class="badge bg-success">Approved</span>
-                @elseif($form->status === 'Rejected')
-                <span class="badge bg-danger">Rejected</span>
-                @endif</h4>
+        <div class="card-body">
 
+            <h5 class="mb-3">Basic Information</h5>
 
-
-            <table class="table table-striped table-bordered">
+            <table class="table table-bordered">
                 <tr>
-                    <th>Agency</th>
-                    <td>{{ $form->agencyy->name ?? $form->agency_other ?? 'N/A' }}</td>
+                    <th>Tour ID</th>
+                    <td>{{ $tourReport->tour_id }}</td>
                 </tr>
-                @if($form->itu_sector)
-                <tr>
-                    <th>Sector</th>
-                    <td>{{ $form->ituSector->name ?? 'N/A' }}</td>
-                </tr>
-                @endif
-                @if($form->sector_group)
-                <tr>
-                    <th>Sector</th>
-                    <td>{{ $form->sectorGroup->name ?? 'N/A' }}</td>
-                </tr>
-                @endif
-                @if($form->agency_other)
-                <tr>
-                    <th>Sector</th>
-                    <td>{{ $form->agency_other}}</td>
-                </tr>
-                @endif
                 <tr>
                     <th>Meeting Name</th>
-                    <td>{{ $form->meeting_name }}</td>
+                    <td>{{ $tourReport->meeting_name }}</td>
                 </tr>
                 <tr>
-                    <th>Duration</th>
-                    <td>{{ $form->meeting_from }} to {{ $form->meeting_to }}</td>
-                </tr>
-                @php
-                $locations = json_decode($form->country, true);
-
-                @endphp
-
-                <tr>
-                    <th>Locations</th>
-                    <td>
-                        @if(!empty($locations))
-                        @foreach($locations as $location)
-                        @php
-                        $countri = App\Models\Country::find($location['country']);
-                        @endphp
-                        <div class="border p-2 mb-2">
-                            <strong>Country:</strong>
-                            {{ $countri->name ?? 'Unknown' }} <br>
-                            <strong>City:</strong>
-                            {{ $location['city'] }}
-                        </div>
-                        @endforeach
-                        @else
-                        <em>No locations provided</em>
-                        @endif
-                    </td>
-                </tr>
-
-
-
-                <tr>
-                    <th>Country</th>
-                    <td>{{ $form->countryy->name ?? 'N/A' }}</td>
+                    <th>Purpose</th>
+                    <td>{{ $tourReport->purpose }}</td>
                 </tr>
                 <tr>
-                    <th>City</th>
-                    <td>{{ $form->city }}</td>
+                    <th>From Date</th>
+                    <td>{{ $tourReport->from_date }}</td>
                 </tr>
                 <tr>
-                    <th>Status</th>
-                    <td>
-                        @if(is_null($form->nodal_status) || $form->nodal_status === 'Saved')
-                        <span class="badge bg-info">Saved</span>
-                        @elseif($form->nodal_status === 'Submitted')
-                        <span class="badge bg-success">Submitted</span>
-                        @endif
-                    </td>
+                    <th>To Date</th>
+                    <td>{{ $tourReport->to_date }}</td>
                 </tr>
                 <tr>
-                    <th>Officers</th>
-                    <td>
-                        @foreach($form->officers as $officer)
-                        <div class="border p-2 mb-2">
-                            <strong>{{ $officer->officer_name }}</strong>
-                            @php
-                            $designation = App\Models\Designation::find($officer->designation);
-                            $units = App\Models\Unit::find($officer->unit);
-                            $officename = App\Models\UnitOffice::find($officer->unit_office);
-                            $division = App\Models\Division::find($officer->division);
-                            @endphp
-                            ({{ $designation->name ?? 'N/A' }})<br>
-                            Unit: {{ $units->name ?? 'N/A' }} <br>
-                            Office: {{ $officename->name ?? 'N/A' }} <br>
-                            Division: {{ $division->name ?? 'N/A' }}<br>
-                            Email: {{ $officer->email ?? 'N/A' }}, Contact: {{ $officer->contact ?? 'N/A' }}<br>
-                            Duration: {{ $officer->meeting_from }} to {{ $officer->meeting_to }}<br>
-
-                            {{-- Officer Locations --}}
-                            <table class="table table-bordered mt-2">
-                                <tr>
-                                    <th>Locations</th>
-                                    <td>
-                                        @php
-                                        // Assuming 'countries' column is JSON in officers table
-                                        $locationsoff = json_decode($officer->country ?? '[]', true);
-                                        @endphp
-
-                                        @if(!empty($locationsoff))
-                                        @foreach($locationsoff as $location)
-                                        @php
-                                        $countrii = App\Models\Country::find($location['country']);
-                                        @endphp
-                                        <div class="border p-2 mb-2">
-                                            <strong>Country:</strong> {{ $countrii->name ?? 'Unknown' }} <br>
-                                            <strong>City:</strong> {{ $location['city'] ?? 'N/A' }}
-                                        </div>
-                                        @endforeach
-                                        @else
-                                        <em>No locations provided</em>
-                                        @endif
-                                    </td>
-                                </tr>
-                            </table>
-
-                            Justification: {{ $officer->justification ?? 'N/A' }}<br>
-                            Expected: {{ $officer->expected_outcome ?? 'N/A' }}<br>
-                        </div>
-                        @endforeach
-                    </td>
+                    <th>Staff Number</th>
+                    <td>{{ $tourReport->staff_number }}</td>
                 </tr>
-
+                <tr>
+                    <th>Name & Designation</th>
+                    <td>{{ $tourReport->name_designation }}</td>
                 </tr>
             </table>
-            <h5>Update Status</h5>
 
 
+            <h5 class="mt-4">Key Contributions</h5>
+            <p>{{ $tourReport->key_contributions }}</p>
 
-            <form action="{{ route('forms.updateStatus', $form->id) }}" method="POST">
-                @csrf
-                @method('PUT')
+            <h5 class="mt-4">Follow-up Action Points</h5>
+            <p>{{ $tourReport->follow_up_action_points }}</p>
 
-                <label>Status</label>
-                <select name="status" class="form-control">
-                    <option value="Pending" {{ $form->status == 'Pending' ? 'selected' : '' }}>Pending</option>
-                    <option value="Approved" {{ $form->status == 'Approved' ? 'selected' : '' }}>Approved</option>
-                    <option value="Rejected" {{ $form->status == 'Rejected' ? 'selected' : '' }}>Rejected</option>
-                </select>
-
-                <button type="submit" class="btn btn-primary mt-2">Update</button>
-            </form>
+            @if ($tourReport->tour_report_pdf)
+            <h5 class="mt-4">Uploaded Report</h5>
+            <a href="{{ asset('storage/' . $tourReport->tour_report_pdf) }}" 
+               target="_blank" class="btn btn-sm btn-primary">
+                View PDF
+            </a>
+            @endif
 
 
-            <!-- <a href="{{ route('qrp.download', $form->id) }}" class="btn btn-success">Download Excel</a> -->
+            <h4 class="mt-5">Questionnaire & Answers</h4>
+
+            @foreach ($answers as $item)
+                <div class="mb-3">
+                    <strong>Q: {{ $item->question->name }}</strong>
+                    <p>A: {{ $item->answer }}</p>
+                    <hr>
+                </div>
+            @endforeach
+
         </div>
-        @endroleCan
-        <!-- Offcanvas to add new user -->
-
     </div>
+
 </div>
 @endsection
