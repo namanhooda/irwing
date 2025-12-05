@@ -89,6 +89,17 @@
                             @endforeach
                         </select>
                     </div>
+                    <div id="sector-group-container" class="mb-3" >
+                        <label class="form-label">Purpose</label>
+                        <select name="purpose" id="" class="form-control">
+                            <option value="">Select Purpose </option>
+                            <option value="Bilateral" >Bilateral</option>
+                            <option value="Multilateral" >Multilateral</option>
+                            <option value="High level visit" >High level visit</option>
+                            <option value="ITU Meeting" >ITU Meeting</option>
+                            <option value="Technical Meeting" >Technical Meeting</option>
+                        </select>
+                    </div>
 
                     <div id="agency-other-container" class="mb-3" style="display:none;">
                         <input type="text" name="agency_other" class="form-control" placeholder="Specify if Other">
@@ -534,11 +545,11 @@ $(document).ready(function() {
             const unitId = $(this).val();
             const officeSelect = block.find('.unit-office-select');
             const divisionSelect = block.find('.division-select');
-            const designationSelect = block.find('.designation-select');
+            // const designationSelect = block.find('.designation-select');
 
             officeSelect.html('<option value="">Loading...</option>');
             divisionSelect.html('<option value="">-- Select Division --</option>');
-            designationSelect.html('<option value="">-- Select Designation --</option>');
+            // designationSelect.html('<option value="">-- Select Designation --</option>');
 
             if (unitId) {
                 $.get("{{ route('api.unit.offices') }}", {
@@ -561,7 +572,7 @@ $(document).ready(function() {
             const designationSelect = block.find('.designation-select');
 
             divisionSelect.html('<option value="">Loading...</option>');
-            designationSelect.html('<option value="">-- Select Designation --</option>');
+            // designationSelect.html('<option value="">-- Select Designation --</option>');
 
             if (officeId) {
                 $.get("{{ route('api.unitoffice.divisions') }}", {
@@ -581,23 +592,23 @@ $(document).ready(function() {
         // Division → Designations
         block.find('.division-select').on('change', function () {
             const divisionId = $(this).val();
-            const designationSelect = block.find('.designation-select');
+            // const designationSelect = block.find('.designation-select');
 
-            designationSelect.html('<option value="">Loading...</option>');
+            // designationSelect.html('<option value="">Loading...</option>');
 
-            if (divisionId) {
-                $.get("{{ route('api.division.designations') }}", {
-                    division_id: divisionId
-                }, function (data) {
-                    designationSelect.html('<option value="">-- Select Designation --</option>');
-                    data.forEach(item => {
-                        designationSelect.append(
-                            `<option value="${item.id}">${item.name}</option>`);
-                    });
-                });
-            } else {
-                designationSelect.html('<option value="">-- Select Designation --</option>');
-            }
+            // if (divisionId) {
+            //     $.get("{{ route('api.division.designations') }}", {
+            //         division_id: divisionId
+            //     }, function (data) {
+            //         designationSelect.html('<option value="">-- Select Designation --</option>');
+            //         data.forEach(item => {
+            //             designationSelect.append(
+            //                 `<option value="${item.id}">${item.name}</option>`);
+            //         });
+            //     });
+            // } else {
+            //     designationSelect.html('<option value="">-- Select Designation --</option>');
+            // }
         });
     }
 

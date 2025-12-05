@@ -206,7 +206,7 @@
                 @endroleCan
 
                 @roleCan('repository.country_mission_master_sheet.view')
-                <li class="menu-item"><a href="#" class="menu-link">
+                <li class="menu-item"><a href="{{route('admin.missions.index')}}" class="menu-link">
                         <div>Country's Mission Master sheet</div>
                     </a></li>
                 @endroleCan
@@ -234,37 +234,37 @@
             </a>
             <ul class="menu-sub">
                 @roleCan('engagement.bilateral_tracker.view')
-                <li class="menu-item"><a href="#" class="menu-link">
+                <li class="menu-item"><a href="{{route('admin.bilateral-engagement.index')}}" class="menu-link">
                         <div>Bilateral Engagement Tracker</div>
                     </a></li>
                 @endroleCan
 
                 @roleCan('engagement.multilateral_tracker.view')
-                <li class="menu-item"><a href="#" class="menu-link">
+                <li class="menu-item"><a href="{{route('admin.multilateral-engagement.index')}}" class="menu-link">
                         <div>Multilateral Engagement Tracker</div>
                     </a></li>
                 @endroleCan
 
                 @roleCan('engagement.mou_foreign_countries.view')
-                <li class="menu-item"><a href="#" class="menu-link">
+                <li class="menu-item"><a href="{{route('admin.mou.index')}}" class="menu-link">
                         <div>MoU with foreign Countries</div>
                     </a></li>
                 @endroleCan
 
                 @roleCan('engagement.country_profile.view')
-                <li class="menu-item"><a href="#" class="menu-link">
+                <li class="menu-item"><a href="{{route('admin.country_profiles.index')}}" class="menu-link">
                         <div>Country Profile</div>
                     </a></li>
                 @endroleCan
 
                 @roleCan('engagement.itu_council_tracker.view')
-                <li class="menu-item"><a href="#" class="menu-link">
+                <li class="menu-item"><a href="{{route('admin.multilateral-engagement.index')}}" class="menu-link">
                         <div>ITU Council 2026 Nodal Point Tracker</div>
                     </a></li>
                 @endroleCan
 
                 @roleCan('engagement.itu_council_emails.view')
-                <li class="menu-item"><a href="#" class="menu-link">
+                <li class="menu-item"><a href="{{route('admin.multilateral-engagement.index')}}" class="menu-link">
                         <div>ITU Council 2026 Email to Nodal Points</div>
                     </a></li>
                 @endroleCan
@@ -290,25 +290,25 @@
             </a>
             <ul class="menu-sub">
                 @roleCan('reports.yearwise_foreign_visits.view')
-                <li class="menu-item"><a href="#" class="menu-link">
+                <li class="menu-item"><a href="{{route('foreign.visits.index')}}" class="menu-link">
                         <div>Year-Wise Foreign Visits</div>
                     </a></li>
                 @endroleCan
 
                 @roleCan('reports.officer_participation.view')
-                <li class="menu-item"><a href="#" class="menu-link">
+                <li class="menu-item"><a href="{{route('officer-wise.index')}}" class="menu-link">
                         <div>Officer level participation</div>
                     </a></li>
                 @endroleCan
 
                 @roleCan('reports.bilateral_summary.view')
-                <li class="menu-item"><a href="#" class="menu-link">
+                <li class="menu-item"><a href="{{route('admin.bilateral-engagement.report.index')}}" class="menu-link">
                         <div>Bilateral Engagement Summary</div>
                     </a></li>
                 @endroleCan
 
                 @roleCan('reports.multilateral_summary.view')
-                <li class="menu-item"><a href="#" class="menu-link">
+                <li class="menu-item"><a href="{{route('admin.multilateralEngagement.report.index')}}" class="menu-link">
                         <div>Multilateral Engagement Summary</div>
                     </a></li>
                 @endroleCan

@@ -13,17 +13,18 @@
 
                     <!-- Select Meeting -->
                     <div class="mb-3">
-    <label for="meeting_id" class="form-label">Select Meeting</label>
-    <select name="meeting_id" id="meeting_id" class="form-select" required>
-        <option value="" disabled {{ request('meeting_id') ? '' : 'selected' }}>Select Meeting</option>
-        
-        @foreach($qrps as $qrp)
-            <option value="{{ $qrp->id }}" {{ request('meeting_id') == $qrp->id ? 'selected' : '' }}>
-                {{ $qrp->meeting_name }}
-            </option>
-        @endforeach
-    </select>
-</div>
+                        <label for="meeting_id" class="form-label">Select Meeting</label>
+                        <select name="meeting_id" id="meeting_id" class="form-select" required onchange="fetchMeetingData()">
+    <option value="" disabled {{ request('meeting_id') ? '' : 'selected' }}>Select Meeting</option>
+    
+    @foreach($qrps as $qrp)
+        <option value="{{ $qrp->id }}" {{ request('meeting_id') == $qrp->id ? 'selected' : '' }}>
+            {{ $qrp->meeting_name }}
+        </option>
+    @endforeach
+</select>
+
+                    </div>
 
 
                     <!-- Title -->
@@ -95,29 +96,39 @@
 
                     <!-- Foreign Visits -->
                     <!-- Foreign Visits -->
-                    <h5 class="mt-4 mb-3">Foreign Visits (Last 3 + Current Year)</h5>
-                    @for ($i = 1; $i <= 4; $i++) <div class="border p-3 mb-3 rounded"
-                        style="background-color: #f8f9fa;">
-                        <label for="visits[{{ $i }}][meeting]" class="mt-2">Meeting Name</label>
-                        <input type="text" name="visits[{{ $i }}][meeting]" id="visits[{{ $i }}][meeting]"
-                            class="form-control">
+<h5 class="mt-4 mb-3">Foreign Visits (Last 3 + Current Year)</h5>
 
-                        <label for="visits[{{ $i }}][from]" class="mt-2">From</label>
-                        <input type="date" name="visits[{{ $i }}][from]" id="visits[{{ $i }}][from]"
-                            class="form-control">
+@php
+    // take only max 4 records
+    $visibleTours = $tours->take(4);
+@endphp
 
-                        <label for="visits[{{ $i }}][to]" class="mt-2">To</label>
-                        <input type="date" name="visits[{{ $i }}][to]" id="visits[{{ $i }}][to]" class="form-control">
+@foreach ($visibleTours as $i => $tour)
+    <div class="border p-3 mb-3 rounded" style="background-color: #f8f9fa;">
 
-                        <label for="visits[{{ $i }}][country]" class="mt-2">Country</label>
-                        <input type="text" name="visits[{{ $i }}][country]" id="visits[{{ $i }}][country]"
-                            class="form-control">
+        <label class="mt-2">Meeting Name</label>
+        <input type="text" name="visits[{{ $i }}][meeting]" class="form-control"
+            value="{{ $tour->meeting_name }}">
 
-                        <label for="visits[{{ $i }}][city]" class="mt-2">City</label>
-                        <input type="text" name="visits[{{ $i }}][city]" id="visits[{{ $i }}][city]"
-                            class="form-control">
-            </div>
-            @endfor
+        <label class="mt-2">From</label>
+        <input type="date" name="visits[{{ $i }}][from]" class="form-control"
+            value="{{ $tour->from_date }}">
+
+        <label class="mt-2">To</label>
+        <input type="date" name="visits[{{ $i }}][to]" class="form-control"
+            value="{{ $tour->to_date }}">
+
+        <label class="mt-2">Country</label>
+        <input type="text" name="visits[{{ $i }}][country]" class="form-control"
+            value="{{ $tour->country }}">
+
+        <label class="mt-2">City</label>
+        <input type="text" name="visits[{{ $i }}][city]" class="form-control"
+            value="{{ $tour->city }}">
+    </div>
+@endforeach
+
+
 
 
             <!-- Annual Property Return -->
@@ -178,22 +189,35 @@
 
             <div class="mb-3">
                 <label for="event_name" class="form-label">Name of the Event</label>
-                <input type="text" name="event_name" id="event_name" class="form-control" required>
+                <input type="text" name="event_name" id="event_name" value="{{$Qrpdata->qrpForm->meeting_name ?? ''}}" class="form-control" required>
             </div>
+                @php
+                    // Step 1: Decode JSON
+                    $countriesArray = json_decode($Qrpdata->country ?? '[]', true);
+
+                    // Step 2: Extract IDs
+                    $countryIds = collect($countriesArray)->pluck('country')->toArray();
+
+                    // Step 3: Fetch names from DB
+                    $countryNames = App\Models\Country::whereIn('id', $countryIds)->pluck('name')->toArray();
+
+                    // Step 4: Convert to comma separated
+                    $countryList = implode(', ', $countryNames);
+                @endphp
 
             <div class="mb-3">
                 <label for="event_location" class="form-label">Location</label>
-                <input type="text" name="event_location" id="event_location" class="form-control" required>
+                <input type="text" name="event_location" id="event_location" value="{{ $countryList ?? '' }}" class="form-control" required>
             </div>
 
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="event_start_date" class="form-label">Date From</label>
-                    <input type="date" name="event_start_date" id="event_start_date" class="form-control" required>
+                    <input type="date" name="event_start_date" id="event_start_date" value="{{$Qrpdata->meeting_from ?? ''}}" class="form-control" required>
                 </div>
                 <div class="col-md-6">
                     <label for="event_end_date" class="form-label">Date To</label>
-                    <input type="date" name="event_end_date" id="event_end_date" class="form-control" required>
+                    <input type="date" name="event_end_date" id="event_end_date" value="{{$Qrpdata->meeting_to ?? ''}}" class="form-control" required>
                 </div>
             </div>
 
@@ -204,13 +228,13 @@
 
             <div class="mb-3">
                 <label for="justification" class="form-label">Justification</label>
-                <textarea name="justification" id="justification" class="form-control"></textarea>
+                <textarea name="justification" id="justification" class="form-control">{{$Qrpdata->justification ?? ''}}</textarea>
                 <input type="file" name="justification_file" class="form-control mt-2">
             </div>
 
             <div class="mb-3">
                 <label for="expected_outcomes" class="form-label">Expected Outcomes</label>
-                <textarea name="expected_outcomes" id="expected_outcomes" class="form-control"></textarea>
+                <textarea name="expected_outcomes" id="expected_outcomes" class="form-control">{{$Qrpdata->expected_outcome ?? ''}}</textarea>
             </div>
 
             <!-- ITU Meeting -->
@@ -323,4 +347,26 @@
     CKEDITOR.replace('editor');
 
 </script>
+<script>
+function fetchMeetingData() {
+    let meetingId = document.getElementById("meeting_id").value;
+
+    if (!meetingId) return;
+
+    fetch(`/get-meeting-data/${meetingId}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) return;
+
+            document.getElementById("event_name").value        = data.event_name;
+            document.getElementById("event_location").value    = data.event_location;
+            document.getElementById("event_start_date").value  = data.event_start_date;
+            document.getElementById("event_end_date").value    = data.event_end_date;
+            document.getElementById("justification").value     = data.justification;
+            document.getElementById("expected_outcomes").value = data.expected_outcomes;
+        })
+        .catch(error => console.error('Error:', error));
+}
+</script>
+
 @endsection

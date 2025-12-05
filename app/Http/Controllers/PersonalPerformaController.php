@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\QrpForm;
+use App\Models\QrpOfficer;
 use App\Models\PersonalPerforma;
 use Illuminate\Http\Request;
+use App\Models\SanctionMemo;
+use App\Models\Country;
 use App\Models\Profile;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PersonalPerformaExport;
@@ -27,27 +30,62 @@ class PersonalPerformaController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
         $checkprofile = Profile::where('user_id', Auth::id())->first();
+        $tours = SanctionMemo::where('staff_number', $checkprofile->staff_no)->get();
 
         
-$userId = Auth::id(); // safer and cleaner
+        $userId = Auth::id(); // safer and cleaner
 
-$qrps = QrpForm::with(['agencyy', 'officers'])
-    ->whereHas('officers', function ($query) use ($checkprofile) {
-        $query->where('profile_id', $checkprofile->id);
-    })
-    ->whereNotExists(function ($query) use ($userId) {
-        $query->select(DB::raw(1))
-            ->from('personal_performas')
-            ->whereRaw('personal_performas.meeting_id = qrp_forms.id')
-            ->whereRaw('personal_performas.user_id = ?', [$userId]);
-    })
-    ->orderByRaw("CASE WHEN nodal_status = 'Saved' OR nodal_status IS NULL THEN 0 ELSE 1 END")
-    ->get();
-        return view('personalperforma.create', compact('qrps','checkprofile'));
+        if($request->meeting_id){
+            $Qrpdata = QrpOfficer::where('staff_no', $checkprofile->staff_no)->where('qrp_id', $request->meeting_id)->first();
+        }else{
+            $Qrpdata = null;
+        }
+        $qrps = QrpForm::with(['agencyy', 'officers'])
+            ->whereHas('officers', function ($query) use ($checkprofile) {
+                $query->where('profile_id', $checkprofile->id);
+            })
+            ->whereNotExists(function ($query) use ($userId) {
+                $query->select(DB::raw(1))
+                    ->from('personal_performas')
+                    ->whereRaw('personal_performas.meeting_id = qrp_forms.id')
+                    ->whereRaw('personal_performas.user_id = ?', [$userId]);
+            })
+            ->orderByRaw("CASE WHEN nodal_status = 'Saved' OR nodal_status IS NULL THEN 0 ELSE 1 END")
+            ->get();
+        return view('personalperforma.create', compact('qrps','checkprofile','tours','Qrpdata'));
     }
+    public function getMeetingData($id)
+{
+    $userId = Auth::id();
+    $profile = Profile::where('user_id', $userId)->first();
+
+    $Qrpdata = QrpOfficer::where('staff_no', $profile->staff_no)
+                         ->where('qrp_id', $id)
+                         ->first();
+
+    if (!$Qrpdata) {
+        return response()->json(['error' => 'No data found'], 404);
+    }
+
+    // Decode country JSON
+    $countriesArray = json_decode($Qrpdata->country ?? '[]', true);
+    $countryIds = collect($countriesArray)->pluck('country')->toArray();
+    $countryNames = Country::whereIn('id', $countryIds)->pluck('name')->toArray();
+    $countryList = implode(', ', $countryNames);
+
+    return response()->json([
+        'event_name'        => $Qrpdata->qrpForm->meeting_name ?? '',
+        'event_location'    => $countryList,
+        'event_start_date'  => $Qrpdata->meeting_from,
+        'event_end_date'    => $Qrpdata->meeting_to,
+        'justification'     => $Qrpdata->justification,
+        'expected_outcomes' => $Qrpdata->expected_outcome,
+    ]);
+}
+
 
     /**
      * Store a newly created resource in storage.
@@ -98,10 +136,10 @@ public function store(Request $request)
 
 
         'event_name'      => $request->event_name,
-'event_location'  => $request->event_location,
-'event_date_from' => $request->event_start_date,
-'event_date_to'   => $request->event_end_date,
-'event_brief'     => $request->event_brief,
+        'event_location'  => $request->event_location,
+        'event_date_from' => $request->event_start_date,
+        'event_date_to'   => $request->event_end_date,
+        'event_brief'     => $request->event_brief,
 
         'justification' => $request->justification,
         'expected_outcomes' => $request->expected_outcomes,

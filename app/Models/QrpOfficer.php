@@ -17,7 +17,7 @@ class QrpOfficer extends Model
 
     public function qrp(): BelongsTo
     {
-        return $this->belongsTo(Qrp::class);
+        return $this->belongsTo(QrpForm::class , 'id','qrp_id');
     }public function qrpForm()
 {
     return $this->belongsTo(QrpForm::class, 'qrp_id');

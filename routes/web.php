@@ -144,7 +144,8 @@ Route::post('/personal-performa/update-status/{id}', [\App\Http\Controllers\Pers
             ->name('officersdatabase.index');
         Route::get('/officer-database/{staff_no}', [App\Http\Controllers\Admin\OfficersDatabaseController::class, 'view'])
             ->name('officersdatabase.view');
-            
+            Route::get('/get-meeting-data/{id}', [App\Http\Controllers\PersonalPerformaController::class, 'getMeetingData']);
+
 
         Route::get('/tour-reports', [TourReportController::class, 'index'])
             ->name('tour-reports.index');
@@ -216,7 +217,66 @@ Route::post('/personal-performa/update-status/{id}', [\App\Http\Controllers\Pers
             Route::resource('agencies', AgencyController::class);
             Route::resource('faqs', App\Http\Controllers\Admin\FaqController::class);
             Route::resource('designations', App\Http\Controllers\DesignationController::class);
+            Route::prefix('admin/missions')->name('admin.missions.')->group(function() {
+                Route::get('/', [App\Http\Controllers\Admin\CountryMissionMastersheetController::class, 'index'])->name('index');
+                Route::get('/create', [App\Http\Controllers\Admin\CountryMissionMastersheetController::class, 'create'])->name('create');
+                Route::post('/store', [App\Http\Controllers\Admin\CountryMissionMastersheetController::class, 'store'])->name('store');
+                Route::get('/edit/{id}', [App\Http\Controllers\Admin\CountryMissionMastersheetController::class, 'edit'])->name('edit');
+                Route::post('/update/{id}', [App\Http\Controllers\Admin\CountryMissionMastersheetController::class, 'update'])->name('update');
+                Route::delete('/delete/{id}', [App\Http\Controllers\Admin\CountryMissionMastersheetController::class, 'destroy'])->name('delete');
+
+                // Excel Export
+                Route::get('/export', [App\Http\Controllers\Admin\CountryMissionMastersheetController::class, 'exportExcel'])->name('export');
+            });
+            Route::prefix('admin/bilateral-engagement')->name('admin.bilateral-engagement.')->group(function () {
+
+                Route::get('/', [App\Http\Controllers\Admin\BilateralEngagementController::class, 'index'])->name('index');
+                Route::get('/create', [App\Http\Controllers\Admin\BilateralEngagementController::class, 'create'])->name('create');
+                Route::post('/store', [App\Http\Controllers\Admin\BilateralEngagementController::class, 'store'])->name('store');
+
+                Route::get('/edit/{id}', [App\Http\Controllers\Admin\BilateralEngagementController::class, 'edit'])->name('edit');
+                Route::post('/update/{id}', [App\Http\Controllers\Admin\BilateralEngagementController::class, 'update'])->name('update');
+
+                Route::delete('/delete/{id}', [App\Http\Controllers\Admin\BilateralEngagementController::class, 'destroy'])->name('delete');
+
+
+                Route::get('report', [App\Http\Controllers\Admin\BilateralEngagementReportController::class, 'index'])->name('report.index');
+
+                Route::get('export', 
+                    [App\Http\Controllers\Admin\BilateralEngagementReportController::class, 'exportExcel']
+                )->name('export');
+            });
+
+
+Route::get('admin/foreign-visits', [App\Http\Controllers\ForeignVisitReportController::class, 'index'])->name('foreign.visits.index');
+Route::get('admin/foreign-visits/export', [App\Http\Controllers\ForeignVisitReportController::class, 'export'])->name('foreign.visits.export');
+
+Route::get('reports/officer-wise', [App\Http\Controllers\OfficerWiseParticipationReportController::class, 'index'])
+    ->name('officer-wise.index');
+
+Route::get('reports/officer-wise/export', [App\Http\Controllers\OfficerWiseParticipationReportController::class, 'export'])
+    ->name('officer-wise.export');
+
         Route::prefix('admin')->name('admin.')->group(function () {
+
+            Route::get('multilateral-engagement/report', [App\Http\Controllers\AdminMultilateralEngagementReportController::class, 'index'])
+                ->name('multilateralEngagement.report.index');
+            Route::get('multilateral-engagement/export', 
+                [App\Http\Controllers\Admin\MultilateralEngagementController::class, 'exportExcel']
+            )->name('multilateral.export');
+
+            Route::resource('multilateral-engagement', 
+                App\Http\Controllers\Admin\MultilateralEngagementController::class
+            );
+
+            Route::get('mou/export', 
+                [App\Http\Controllers\Admin\MouController::class, 'exportExcel']
+            )->name('mou.export');
+
+            Route::resource('mou', App\Http\Controllers\Admin\MouController::class);
+
+            Route::resource('country_profiles', App\Http\Controllers\Admin\CountryProfileController::class);
+
 
             Route::resource('embassies', \App\Http\Controllers\Admin\EmbassyController::class);
 
